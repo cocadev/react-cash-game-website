@@ -23,9 +23,18 @@ class Menus extends Component {
 		hideMenu: func,
 		menuName: string,
 		menuVisibility: bool,
-		nextMenuScreen: func,
 		nextMenu: string,
+		nextMenuScreen: func,
 		userData: object
+	}
+
+	state = {
+		screenWidth: screen.width,
+		lastWidthValue: ""
+	}
+
+	componentDidMount() {
+		window.addEventListener("resize", this.updateDimensions);
 	}
 
 	onCloseMenuClick = () => {
@@ -35,25 +44,51 @@ class Menus extends Component {
 	getClass = () => {
 		const { menuName } = this.props;
 
-		if (menuName === "profile" && screen.width > 756) {
+		if (menuName === "profile" && this.state.screenWidth > 756) {
 			return "fade-left";
 		}
 
 		return "fade";
 	}
 
-	getMenuWidth = () => {
-		const { menuName } = this.props;
-
-		if (menuName === "profile" && screen.width > 756) {
-			return "320px";
+	setLastWidthValue = (argument) => {
+		if (this.state.lastWidthValue !== argument) {
+			this.setState({
+				lastWidthValue: argument
+			});
 		}
+	}
 
-		return "100%";
+	getMenuWidth = () => {
+		const { menuName, menuVisibility } = this.props;
+
+		if (menuVisibility) {
+			if (menuName === "profile" && this.state.screenWidth > 756) {
+				this.setLastWidthValue("320px");
+
+				return "320px";
+			}
+
+			this.setLastWidthValue("100%");
+
+			return "100%";
+		}
+		return this.state.lastWidthValue;
 	}
 
 	getBackground = () => {
 		return ProfileBackground;
+	}
+
+	updateDimensions = () => {
+		console.log("chage Dimensions");
+		this.setState({
+			screenWidth: screen.width
+		});
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.updateDimensions);
 	}
 
 
@@ -61,10 +96,11 @@ class Menus extends Component {
 		const { menuVisibility, menuName } = this.props;
 		const menuSettings = {
 			classes: this.getClass(),
-			width: this.getMenuWidth(),
 			background: this.getBackground(),
 			position: menuName === "notification" && "absolute"
 		};
+
+		const width = this.getMenuWidth();
 
 		return (
 			<MobileMenu
@@ -75,6 +111,7 @@ class Menus extends Component {
 				menuSettings={menuSettings}
 				showMenu={this.props.showMenu}
 				hideMenu={this.props.hideMenu}
+				width={width}
 			>
 				{ menuName === "main" &&
 					<MainMenu {...this.props} />

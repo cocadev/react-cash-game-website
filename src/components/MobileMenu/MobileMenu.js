@@ -24,7 +24,7 @@ export default class MobileMenu extends React.Component {
 
 	state = {
 		onExitingAnimation: false,
-		menuSettings: {}
+		menuSettings: {},
 	}
 
 	componentDidMount() {
@@ -59,15 +59,14 @@ export default class MobileMenu extends React.Component {
 	 * Shows menu if button was clicked
 	 */
 	render() {
-		const { isMobileMenuOpen } = this.props;
+		const { isMobileMenuOpen, width } = this.props;
 
-		const { onExitingAnimation, menuSettings } = this.state;
+		const { onExitingAnimation, menuSettings, } = this.state;
 
 		const showMenuClasses = classnames({
 			[classes.mobileMenu]: true,
 			[classes.mobileMenuHide]: !onExitingAnimation
 		});
-
 
 		return (
 			<div
@@ -91,7 +90,7 @@ export default class MobileMenu extends React.Component {
 					<div
 						className={classes.mobileMenuWrapper}
 						style={{
-							width: menuSettings.width,
+							width,
 							backgroundImage: `url(${menuSettings.background})`,
 							backgroundSize: "cover",
 							position: menuSettings.position,

@@ -11,9 +11,8 @@ import { ToastContainer } from 'react-toastify';
 import ReactGA from 'react-ga';
 
 import { LoaderContainer } from "./components/Loader/Loader";
-import HomePage from "./containers/HomePage/HomePage";
-import LoginPage from "./containers/LoginPage/LoginPage";
-import PrivacyPolicyPage from "./containers/PrivacyPolicyPage/PrivacyPolicyPage";
+
+import { HomePageLoad, PrivacyPolicyPageLoad, LoginPageLoad } from "./App.loader";
 
 import PrivateRoute from "./components/PrivateRouter/PrivateRouter";
 
@@ -32,7 +31,6 @@ import customToastify from "./helpers/customToastify";
 Sentry.init({ dsn: 'https://87ee4c9092a1425c990ad3cd9d5fb349@sentry.io/1314519' });
 //googleAnalytics
 ReactGA.initialize("UA-125939911-1");
-
 
 class App extends Component {
 	static propTypes = {
@@ -98,7 +96,7 @@ class App extends Component {
 						path={routes.homePage}
 						state={this.props.user}
 						to={routes.login}
-						component={HomePage}
+						component={HomePageLoad}
 					/>
 
 					<PrivateRoute
@@ -106,13 +104,13 @@ class App extends Component {
 						path={routes.login}
 						state={!this.props.user}
 						to={routes.homePage}
-						component={LoginPage}
+						component={LoginPageLoad}
 					/>
 
 					<Route
 						exact
 						path={routes.privacyPage}
-						component={PrivacyPolicyPage}
+						component={PrivacyPolicyPageLoad}
 					/>
 
 					<Route

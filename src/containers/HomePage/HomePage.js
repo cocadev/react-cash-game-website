@@ -11,11 +11,12 @@ import Button from '@material-ui/core/Button';
 import GiftBtn from '@material-ui/icons/CardGiftcard';
 
 import Tabs from "../../components/Tabs/Tabs";
-import Friend from "../../containers/tabs/Friend/Friend";
+//import Friend from "../../containers/tabs/Friend/Friend";
 import Sale from "../../containers/tabs/Sale/Sale";
 import VideSDKWrapper from "../../components/VideSDKWrapper/VideSDKWrapper";
 
 import { loader } from "../../components/Loader/Loader";
+import { FriendPageLoad } from "./HomePage.loader";
 import UserWidget from "../../components/UserWidget/UserWidget";
 import CutCorners from "../../components/CutCorners/CutCorners";
 import LootBox from "../../components/LootBox/LootBox";
@@ -41,7 +42,6 @@ import history from "../../modules/history";
 import classes from "./HomePage.less";
 
 import 'odometer/themes/odometer-theme-car.css';
-
 
 class HomePage extends Component {
 	constructor(props) {
@@ -266,7 +266,7 @@ class HomePage extends Component {
 									<div className={classes.homePageTabMinHeight}>
 										<h1>Winners</h1>
 									</div>
-									<Friend />
+									<FriendPageLoad />
 									<div className={classes.homePageTabMinHeight}>
 										<h1>Loot</h1>
 									</div>
