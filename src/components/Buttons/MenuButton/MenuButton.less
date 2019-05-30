@@ -1,10 +1,10 @@
 .menu-button {
     position: fixed;
     bottom: 0;
-    left: 2px;
+    left: 8px;
     right: 0;
-    z-index: 99;
-    top: 5px;
+    z-index: 9999;
+    top: 15px;
     display: none;
     width: 30px;
     height: 30px;
@@ -43,10 +43,12 @@
 
         &:before {
             transform: rotate(45deg);
+            background-color: red;
         }
 
         &:after {
             transform: rotate(-45deg);
+            background-color: red;
             top: 0;
         }
     }

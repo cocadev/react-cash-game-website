@@ -1,10 +1,10 @@
 .user-widget {
     display: flex;
-    position: fixed;
+    position: absolute;
     align-items: center;
     left: 16px;
     cursor: pointer;
-    z-index: 999;
+    z-index: 9;
 
     &__image-wrapper {
         background-color: #341E05;
@@ -14,7 +14,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        z-index: 9999;
+        z-index: 9;
     }
 
     &__image-container {
@@ -95,6 +95,7 @@
     &__addBlur {
          span {
             filter: blur(0.7px);
+             transition: 3s;
          }
     }
 }

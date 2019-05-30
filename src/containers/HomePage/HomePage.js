@@ -19,6 +19,8 @@ import { loader } from "../../components/Loader/Loader";
 import UserWidget from "../../components/UserWidget/UserWidget";
 import CutCorners from "../../components/CutCorners/CutCorners";
 import LootBox from "../../components/LootBox/LootBox";
+
+import MobileMenu from "../../components/MobileMenu/MobileMenu";
 import LogoutButton from "../../components/Buttons/LogoutButton/LogoutButton";
 import MenuButton from "../../components/Buttons/MenuButton/MenuButton";
 
@@ -49,6 +51,7 @@ class HomePage extends Component {
 		lootBoxVisibility: true,
 		videoPlayStatus: false,
 		googleVideoErrorStatus: true,
+		isMobileMenuOpen: false
 	};
 
 	componentDidMount() {
@@ -123,6 +126,20 @@ class HomePage extends Component {
 			videoPlayStatus: false
 		});
 	}
+	/**
+	 * handleMenuClick (works only on mobile)
+	 */
+	onMobileMenuClick = () => {
+		this.setState({
+			isMobileMenuOpen: !this.state.isMobileMenuOpen
+		});
+	}
+
+	omMobileMenuClose = () => {
+		this.setState({
+			isMobileMenuOpen: false
+		});
+	}
 
 	googleVideoErrorStatusChange = (status) => {
 		this.setState({
@@ -133,20 +150,37 @@ class HomePage extends Component {
 	render() {
 		const { theme, offers, userData } = this.props;
 
-		const { tabIndexValue, lootBoxVisibility, videoPlayStatus, googleVideoErrorStatus } = this.state;
+		const {
+			tabIndexValue,
+			lootBoxVisibility,
+			videoPlayStatus,
+			googleVideoErrorStatus,
+			isMobileMenuOpen
+		} = this.state;
 
 		const labels = [{ name: "Sale" }, { name: "Winners" }, { name: "Friends" },  { name: "Loot" }];
 
 		return (
 			<div className={classes.homePage}>
-				<UserWidget
-					lootBoxShow={this.lootBoxShow}
-					imgSrc={userData.picture}
-					coins={userData.FUN_balance}
-					name={userData.screen_name}
-				/>
+
+				<MenuButton isMobileMenuOpen={this.state.isMobileMenuOpen} onMobileMenuClick={this.onMobileMenuClick} />
+
+				<div className={classes.homePageTopElementWrapper}>
+					<UserWidget
+						lootBoxShow={this.lootBoxShow}
+						imgSrc={userData.picture}
+						coins={userData.FUN_balance}
+						name={userData.screen_name}
+					/>
+				</div>
+
 				<LootBox lootBoxVisibility={lootBoxVisibility}  />
-				<MenuButton />
+
+				<MobileMenu
+					handleItemMenuClick={this.handleChange}
+					closeMenu={this.omMobileMenuClose}
+					isMobileMenuOpen={isMobileMenuOpen}
+				/>
 
 				{ tabIndexValue !== false &&
 					<div className={classes.homePageOpenLootCenterBtnWrapper}>
@@ -173,6 +207,7 @@ class HomePage extends Component {
 					<div className={classes.homePageTabContentWrapper}>
 						{ tabIndexValue !== false &&
 							<SwipeableViews
+								disabled
 								slideClassName={classes.homePageOverFlowHidden}
 								axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
 								index={tabIndexValue}

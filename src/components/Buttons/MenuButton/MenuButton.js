@@ -1,6 +1,6 @@
 import React from 'react';
+import { func, bool } from "prop-types";
 import classnames from "classnames";
-// import MenuIcon from '@material-ui/icons/Menu';
 
 import classes from "./MenuButton.less";
 
@@ -8,24 +8,23 @@ import classes from "./MenuButton.less";
  * Renders menu button (works on mobile)
  */
 class MenuButton extends React.Component {
-	state = {
-		isButtonClicked: false
+	static propTypes = {
+		isMobileMenuOpen: bool,
+		onMobileMenuClick: func
 	}
 	/**
 	 * Shows menu if button was clicked
 	 */
 	onButtonClick = () => {
-		this.setState({
-			isButtonClicked: !this.state.isButtonClicked
-		});
+		this.props.onMobileMenuClick();
 	}
 
 	render() {
-		const { isButtonClicked } = this.state;
+		const { isMobileMenuOpen } = this.props;
 
 		const menuClasses = classnames({
 			[classes.menuButton]: true,
-			[classes.menuButtonActive]: isButtonClicked
+			[classes.menuButtonActive]: isMobileMenuOpen
 		});
 
 		return (

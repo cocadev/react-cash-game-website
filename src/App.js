@@ -33,9 +33,7 @@ Sentry.init({ dsn: 'https://87ee4c9092a1425c990ad3cd9d5fb349@sentry.io/1314519' 
 //googleAnalytics
 ReactGA.initialize("UA-125939911-1");
 
-/**
- * App
- */
+
 class App extends Component {
 	static propTypes = {
 		getUserDataSaga: func,
@@ -75,10 +73,6 @@ class App extends Component {
 		});
 	}
 
-	/**
-	 * If blabla
-	 * @returns {*}
-	 */
 	notFoundRedirect = () => {
 		customToastify("Oops not found", "error");
 
@@ -91,7 +85,6 @@ class App extends Component {
 	fetchCurrentPage = () => {
 		const { pathname, hash } = this.props.history.location;
 		ReactGA.pageview(`${pathname}${hash}`);
-		console.log(`${pathname}${hash}`);
 	}
 
 	render() {
@@ -138,5 +131,9 @@ function mapStateToProps({ auth }) {
 		userData: auth.userData
 	};
 }
-
+/**
+ * This is MyClass.
+ * @reactProps {!number} prop1 - this is prop1
+ * @reactProps {string} prop2 - this is prop2
+ */
 export default withRouter(connect(mapStateToProps, { ...authActions, ...friendActions })(App));

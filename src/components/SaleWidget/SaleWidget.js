@@ -73,6 +73,7 @@ class SaleWidget extends React.Component {
 		return (
 			<div className={classes.saleWidget}>
 				<Tabs
+					className={classes.saleWidgetTab}
 					value={value}
 					fullWidth
 					onChange={this.handleChange}

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { func, string, object, bool } from "prop-types";
 
-import { loader } from "../../components/Loader/Loader";
-
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { loader } from "../../components/Loader/Loader";
 
 import ScrollDialog from "../../components/ScrollDialog/ScrollDialog";
 import ConfirmName from "../../components/ConfirmName/ConfirmName";
@@ -68,18 +67,19 @@ class LoginPage extends Component {
 
 		return (
 			<div className={classes.loginPage}>
+				<div className={classes.loginPageButtonWrapper}>
+					<div className={`btn white darken-4 col s10 m4 ${classes.loginPageLoginBtn} ${classes.loginPageGoogleBtn}`}>
+						<a onClick={this.loginBtnClick} href={`${api.urls.auth.googleLogin}${document.location.host}`}>
+							<div className={`left ${classes.loginPageGoogleIcon}`}>
+								<img width="20px" alt="Google &quot;G&quot; Logo" src={googleIcon} />
+							</div>
+							Sign in with Google
+						</a>
+					</div>
 
-				<div className={`btn white darken-4 col s10 m4 ${classes.loginPageLoginBtn} ${classes.loginPageGoogleBtn}`}>
-					<a onClick={this.loginBtnClick} href={`${api.urls.auth.googleLogin}${document.location.host}`}>
-						<div className={`left ${classes.loginPageGoogleIcon}`}>
-							<img width="20px" alt="Google &quot;G&quot; Logo" src={googleIcon} />
-						</div>
-						Sign in with Google
-					</a>
-				</div>
-
-				<div className={`social-wrap a ${classes.loginPageLoginBtn}`}>
-					<a onClick={this.loginBtnClick} id="facebook" href={`${api.urls.auth.faceBookLogin}${document.location.host}`}>Sign in with Facebook</a>
+					<div className={`social-wrap a ${classes.loginPageFaceBookBtn}`}>
+						<a onClick={this.loginBtnClick} id="facebook" href={`${api.urls.auth.faceBookLogin}${document.location.host}`}>Sign in with Facebook</a>
+					</div>
 				</div>
 
 				<ScrollDialog

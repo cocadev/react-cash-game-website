@@ -89,12 +89,13 @@ class ScrollDialog extends React.Component {
 			<div className={classes.scrollDialog}>
 				<Dialog
 					open={open}
+					classes={{ paperScrollPaper: classes.scrollDialogDialogWrapper }}
 					onClose={handleClose}
 					scroll="paper"
 					aria-labelledby="scroll-dialog-title"
 				>
 					<DialogTitle id="scroll-dialog-title">Agreement</DialogTitle>
-					<DialogContent>
+					<DialogContent className={classes.scrollDialogContent}>
 						<div className={classes.scrollDialogDialog}>
 							<h1 className="center"><b className="green">Island Treasure Co.</b></h1>
 							<h3><b>Island Treasure Co Terms of Use, including Official Rules for Island Treasure Co Sweepstakes &amp; Instant Win</b></h3>
