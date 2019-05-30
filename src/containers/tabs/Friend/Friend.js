@@ -18,7 +18,7 @@ import customToastify from "../../../helpers/customToastify";
 import * as authActions from "../../../modules/auth/auth.actions";
 import * as friendActions from "../../../modules/friend/friend.actions";
 import { cutCorners } from "../../../helpers/cutCorners";
-import animationTween from "../../../hoc/animation";
+import withAnimation from "../../../hoc/animation";
 
 const styles = () => ({
 	root: {
@@ -87,27 +87,18 @@ class Friend extends React.Component {
 	componentDidMount(){
 		const dots = [
 			{ y: 100, width: 10, x: 0 },
-			{ y: 80, width: 100, x: 0 },
+			{ y: 80, width: 100, x: 0},
 			{ y: 0, width: 100, x: 0 }
 		];
 
 		const time = 600;
 
-		const update = [
-			({ y, width, x }) => {
-				this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
-				this.onLoadAnimation.current.style.width = `${width}%`;
-			},
-			({ y, width, x }) => {
-				this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
-				this.onLoadAnimation.current.style.width = `${width}%`;
-			}
-		];
+		const update = ({ y, width, x}) => {
+			this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
+			this.onLoadAnimation.current.style.width = `${width}%`;
+		};
 
-		this.onLoadAnimation.current.style.transform = `translateY(100%) translateX(100%)`;
-		this.onLoadAnimation.current.hidden = false;
-
-		this.props.onMountedAnimationRef(this.onLoadAnimation, dots, time, update);
+		this.props.setAnimationElement(this.onLoadAnimation, dots, time, update);
 	}
 
 	onLinkBtnClick = () => {
@@ -283,5 +274,5 @@ function mapStateToProps({ auth, friend }) {
 	};
 }
 
-export default animationTween(connect(mapStateToProps, { ...authActions, ...friendActions })((withStyles(styles,  { withTheme: true })(Friend))));
+export default withAnimation(connect(mapStateToProps, { ...authActions, ...friendActions })((withStyles(styles,  { withTheme: true })(Friend))));
 

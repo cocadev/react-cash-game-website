@@ -10,7 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import * as saleActions from "../../../modules/sale/sale.actions";
 
 import SaleWidget from "../../../components/SaleWidget/SaleWidget";
-import animationTween from "../../../hoc/animation";
+import withAnimation from "../../../hoc/animation";
 
 const styles = () => ({
 	root: {
@@ -46,27 +46,18 @@ class Sale extends React.Component {
 	componentDidMount(){
 		const dots = [
 			{ y: 100, width: 10, x: 0 },
-			{ y: 80, width: 100, x: 0 },
+			{ y: 80, width: 100, x: 0},
 			{ y: 0, width: 100, x: 0 }
 		];
 
 		const time = 600;
 
-		const update = [
-			({ y, width, x }) => {
-				this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
-				this.onLoadAnimation.current.style.width = `${width}%`;
-			},
-			({ y, width, x }) => {
-				this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
-				this.onLoadAnimation.current.style.width = `${width}%`;
-			}
-		];
+		const update = ({ y, width, x}) => {
+			this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
+			this.onLoadAnimation.current.style.width = `${width}%`;
+		};
 
-		this.onLoadAnimation.current.style.transform = `translateY(100%) translateX(100%)`;
-		this.onLoadAnimation.current.hidden = false;
-
-		this.props.onMountedAnimationRef(this.onLoadAnimation, dots, time, update);
+		this.props.setAnimationElement(this.onLoadAnimation, dots, time, update);
 	}
 
 	handleModalClose = () => {
@@ -117,5 +108,5 @@ class Sale extends React.Component {
 	}
 }
 
-export default animationTween(connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Sale))));
+export default withAnimation(connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Sale))));
 

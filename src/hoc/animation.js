@@ -1,13 +1,13 @@
-import React from 'react';
+import React from "react";
 import customTween from "../helpers/cutstomTween";
 
-function animationTween(Component) {
+function withAnimation(ComponentWithAnimation) {
 	class Animation extends React.Component {
 		state = {
 			isAnimated: "",
 		}
 
-		onMountedAnimationRef = (element, dots, time, update) => {
+		setAnimationElement = (element, dots, time, update) => {
 			this.setState({
 				isAnimated: element.current
 			});
@@ -15,14 +15,15 @@ function animationTween(Component) {
 			customTween(
 				dots,
 				time,
-				update
+				update,
+				element.current
 			);
 		}
 
 		render() {
 			return (
-				<Component
-					onMountedAnimationRef={this.onMountedAnimationRef}
+				<ComponentWithAnimation
+					setAnimationElement={this.setAnimationElement}
 					{...this.props}
 				/>);
 		}
@@ -31,4 +32,4 @@ function animationTween(Component) {
 	return Animation;
 }
 
-export default animationTween;
+export default withAnimation;
