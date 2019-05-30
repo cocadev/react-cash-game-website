@@ -11,7 +11,7 @@ export default class ReactOdometer extends PureComponent {
 		format: PropTypes.string,
 		selector: PropTypes.string,
 		theme: PropTypes.string,
-		value: PropTypes.number.isRequired
+		value: PropTypes.number
 	};
 
 	state = {

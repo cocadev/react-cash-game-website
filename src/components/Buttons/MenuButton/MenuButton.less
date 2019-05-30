@@ -12,6 +12,7 @@
     box-sizing: border-box;
     transition: 0.5s;
     -webkit-backface-visibility: hidden;
+    cursor: pointer;
 
     &:before {
         content: "";
@@ -38,19 +39,26 @@
     }
 
     &_active {
-        display: block;
+        display: flex;
         border: 0;
         z-index: 99999;
-        left: calc(100% - 40px);
+        background-color: rgba(0, 0, 0, 0.25);
+        width: 62px;
+        height: 61px;
+        justify-content: center;
+        align-items: center;
+        left: unset;
+        right: 0;
+        top: 0;
 
         &:before {
             transform: rotate(45deg);
-            background-color: red;
+            background-color: #d5cdb0;
         }
 
         &:after {
             transform: rotate(-45deg);
-            background-color: red;
+            background-color: #d5cdb0;
             top: 0;
         }
     }

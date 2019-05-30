@@ -1,0 +1,116 @@
+.profile-menu-item-content {
+    //height: 66px;
+    height: calc((100vh - 460px) / 6);
+    max-height: 66px;
+    border: 1px solid #BEA040;
+    display: flex;
+    align-items: center;
+
+    &__icon {
+        width: 18px;
+        height: 20px;
+        margin: 0 18px;
+    }
+
+    &__new-wrapper {
+        background-color:  #ac1d1b;
+        width: 34px;
+        height: 17px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 37px;
+        margin-left: 10px;
+    }
+
+    &__new-text {
+        color:  #fbf261;
+        margin: 0;
+        font-size: 9px;
+        font-weight: 400;
+        line-height: 65px;
+        text-align: left;
+        text-transform: uppercase;
+    }
+
+    &__text {
+        margin: 0;
+        text-transform: uppercase;
+        font-size: 17px;
+        font-weight: 500;
+        text-align: left;
+
+    }
+
+    &__switch {
+        display: inline-block;
+        width: 52px;
+        height: 27px;
+        border-radius: 34px;
+        position: absolute;
+        right: 20px;
+
+        input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+
+            &:checked + span:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+        }
+    }
+
+    &__slider {
+        user-select: none;
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color:  #8f6a02;
+        -webkit-transition: .4s;
+        transition: .4s;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        &:before {
+            position: absolute;
+            content: "";
+            border-radius: 50%;
+            background-color:  #f9c327;
+            width: 19px;
+            height: 19px;
+            left: 4px;
+            bottom: 4px;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        p {
+            margin:0;
+            color:  #ffffff;
+            font-size: 9px;
+            text-align: left;
+            text-transform: uppercase;
+        }
+
+        p:first-child {
+            margin-left: 4px;
+        }
+
+        p:last-child {
+            margin-right: 2px;
+        }
+    }
+
+    &__round {
+        border-radius: 34px;
+    }
+}
+
+@import "./ProfileMenuItem.mobile.less";

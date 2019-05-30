@@ -51,7 +51,7 @@ class Menus extends Component {
 		const { menuVisibility, menuName } = this.props;
 		const menuSettings = {
 			classes: this.setClass(),
-			width: this.setMenuWidth()
+			width: this.setMenuWidth(),
 		};
 
 		return (

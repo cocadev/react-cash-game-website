@@ -286,8 +286,6 @@ class HomePage extends Component {
 						showAddBlockNotification={tabIndex === 2}
 						googleVideoErrorStatus={googleVideoErrorStatus}
 					/>
-
-					<LogoutButton logout={this.props.logoutStorePending} />
 				</div>
 			</div>
 		);

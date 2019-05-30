@@ -3,6 +3,12 @@
 
 @media screen and (max-width: @mobile-width) {
     .menu-button {
-        display: block;
+        display: flex;
+
+        &_active {
+            width: 73px;
+            height: 73px;
+            z-index: 99999999;
+        }
     }
 }
