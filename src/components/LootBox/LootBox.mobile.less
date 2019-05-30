@@ -4,6 +4,182 @@
 @media screen and (max-width: @mobile-width) {
     .loot-box {
         //margin: 95px 0 0 0;
-        min-height: calc(100vh - 49px);
+        min-height: calc(100vh - 85px);
+
+        &__open-lootBox {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-top: -10px;
+            padding: 0;
+
+            &__text {
+                font-weight: 400;
+                margin: 8px;
+            }
+        }
+
+        &__image {
+            width: calc(100vh - 415px);
+        }
+
+        &__counter-wrapper {
+            padding-top: 5px;
+            flex-direction: column;
+
+            &:before {
+                display: none;
+            }
+
+            &:after {
+                display: none;
+            }
+
+            p {
+                font-size: 21px;
+                font-weight: 500;
+                line-height: 27px;
+                text-align: center;
+
+                &:first-child {
+                    &:before {
+                        position: absolute;
+                        width: 28px;
+                        height: 31px;
+                        left:-35px;
+                        content: "";
+                        background-image: url("../../images/textEffects/leftStrings.png");
+                    }
+                }
+
+                &:last-child {
+                    &:after {
+                        position: absolute;
+                        width: 27px;
+                        height: 25px;
+                        right:-35px;
+                        top: 0;
+                        content: "";
+                        background-image: url("../../images/textEffects/rightStrings.png");
+                    }
+                }
+            }
+        }
+
+        &__odometer-style {
+            color: #ffffff !important;
+            font-size: 46.92px !important;
+            font-weight: 700 !important;
+            line-height: 28.997px !important;
+            background-color: #600d0b !important;
+            border-radius: 0 !important;
+            padding: 2px !important;
+            margin: 5px 10px !important;
+        }
+    }
+}
+
+.loot-box {
+    @media screen and (max-width: 374px) {
+        &__open-lootBox {
+            margin-top: -18px;
+
+            &__button {
+                width: 259px;
+                height: 50px;
+            }
+        }
+
+        &__odometer-style {
+            line-height: 17.997px !important;
+        }
+    }
+
+    @media screen and (max-width: 340px) {
+        &__open-lootBox {
+            &__button {
+                width: 230px;
+                height: 40px;
+            }
+        }
+
+
+        &__counter-wrapper {
+            line-height: 21px;
+            p {
+                font-size: 21px;
+                font-weight: 500;
+                line-height: 27px;
+                text-align: center;
+
+                &:first-child {
+                    &:before {
+                        position: absolute;
+                        width: 18px;
+                        height: 20px;
+                        background-repeat: no-repeat;
+                        left: -23px;
+                        content: "";
+                        background-size: contain;
+                        background-image: url("../../images/textEffects/leftStrings.png");
+                    }
+                }
+
+                &:last-child {
+                    &:after {
+                        position: absolute;
+                        width: 18px;
+                        height: 20px;
+                        background-repeat: no-repeat;
+                        right: -23px;
+                        background-size: contain;
+                        top: 0;
+                        content: "";
+                        background-image: url("../../images/textEffects/rightStrings.png");
+                    }
+                }
+            }
+        }
+    }
+
+    @media screen and (max-height: 840px ) and (max-width:750px) {
+        &__image {
+            width: 364px;
+        }
+    }
+    //@media screen and (max-height: 800px ) {
+    //    &__image {
+    //        width: 410px;
+    //    }
+    //}
+
+    @media screen and (max-height: 770px ) and (max-width:750px) {
+        &__image {
+            width: 350px;
+        }
+    }
+
+    @media screen and (max-height: 750px) and (max-width:750px) {
+        &__image {
+            width: 320px;
+        }
+    }
+
+    @media screen and (max-height: 720px ) and (max-width:750px) {
+        &__image {
+            width: 310px;
+        }
+    }
+
+    @media screen and (max-height: 670px) and (max-width:750px) {
+        &__image {
+            width: 290px;
+        }
+    }
+
+    @media screen and (max-height: 570px) and (max-width:750px) {
+        &__image {
+            width: 243px;
+        }
     }
 }

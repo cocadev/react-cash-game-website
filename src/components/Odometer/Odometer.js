@@ -6,7 +6,7 @@ export default class ReactOdometer extends PureComponent {
 	static propTypes = {
 		animation: PropTypes.bool,
 		auto: PropTypes.bool,
-		classes: PropTypes.object,
+		classes: PropTypes.string,
 		duration: PropTypes.number,
 		format: PropTypes.string,
 		selector: PropTypes.string,

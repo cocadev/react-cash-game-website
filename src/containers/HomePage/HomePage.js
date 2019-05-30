@@ -93,9 +93,6 @@ class HomePage extends Component {
 				}
 			});
 		}
-
-
-
 		// this.props.fetchWinnersSaga();
 		loader.hide();
 	}
@@ -245,7 +242,7 @@ class HomePage extends Component {
 						customstyle={{ alignItems: "center" }}
 					/>
 
-					<LootBox lootBoxVisibility={lootBoxVisibility}  />
+					<LootBox lootBoxVisibility={lootBoxVisibility} funBalance={userData.FUN_balance}   />
 
 					{/*<button onClick={this.changeScrollTabHeight}>check</button>*/}
 

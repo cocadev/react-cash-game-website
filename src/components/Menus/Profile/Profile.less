@@ -1,6 +1,5 @@
 .profile {
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
     height: 100vh;
@@ -21,6 +20,211 @@
 
         span {
             font-size: 15px;
+        }
+    }
+
+    &__user-widget {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        right: 0;
+        cursor: pointer;
+        z-index: 999999;
+        //height: 304px;
+
+        &__element {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            cursor: pointer;
+            //z-index: 999999;
+            background: -webkit-linear-gradient(90deg, #ffd847 0%, #c99e00 100%);
+            background: -moz-linear-gradient(90deg, #ffd847 0%, #c99e00 100%);
+            background: -o-linear-gradient(90deg, #ffd847 0%, #c99e00 100%);
+            background: -ms-linear-gradient(90deg, #ffd847 0%, #c99e00 100%);
+            background: linear-gradient(0deg, #ffd847 0%, #c99e00 100%);
+            box-shadow: -3px 28px 65px 0px rgba(0, 0, 0, 0.2);
+
+            -webkit-clip-path: polygon(100% 0, 100% 100%, 50% 85%, 0 100%, 0 0);
+            clip-path: polygon(100% 0, 100% 100%, 50% 85%, 0 100%, 0 0);
+            width: 198px;
+            height: 364px;
+            padding-top: 35px;
+        }
+
+        &__image-wrapper {
+            border-radius: 50%;
+            background-color: #fbdf5a;
+            box-shadow: 0px -22px 120px 0px rgba(0, 0, 0, 0.18);
+            box-sizing: border-box;
+            width: 101px;
+            height: 101px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9;
+
+            &:before {
+                position: absolute;
+                top: 6px;
+                right: -4px;
+                width: 101px;
+                height: 101px;
+                background-size: cover;
+                content: "";
+                background: url("../../../images/icons/crownIconBig.png") 0 0 no-repeat;
+            }
+        }
+
+        &__notification {
+            left: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: #90740a;
+
+            &__counter {
+                border-radius: 50%;
+                border-style: solid;
+                border-width: 3px;
+                border-color: #dbb218;
+                background-color: #811205;
+                width: 15px;
+                height: 15px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                top: -9px;
+                right: -5px;
+
+                p {
+                    color: #fcffa6;
+                    font-size: 8px; /* Приближение из-за подстановки шрифтов */
+                    font-weight: 600;
+                    line-height: 35px; /* Приближение из-за подстановки шрифтов */
+                    text-align: left;
+                    color: #fcffa6;
+                    font-size: 8px; /* Приближение из-за подстановки шрифтов */
+                    font-weight: 600;
+                    line-height: 35px; /* Приближение из-за подстановки шрифтов */
+                    text-align: left;
+                    margin: 0;
+                }
+            }
+        }
+
+        &__avatar-and-notification-wrapper {
+            display: flex;
+            align-items: flex-end;
+        }
+
+        &__image {
+            width: 86px;
+            height: 86px;
+            border-radius: 100%;
+        }
+
+        &__ribbon-wrapper {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            top: 140px;
+
+            p {
+                color: #000000;
+                font-size: 17px;
+                font-weight: 700;
+                line-height: 20px;
+                text-align: center;
+                text-transform: uppercase;
+                margin: 0;
+                position: relative;
+
+                &:before {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: -14px;
+                    background-size: cover;
+                    content: "";
+                    border-left: 5px solid transparent;
+                    border-right: 5px solid transparent;
+                    border-top: 5px solid rgba(0, 0, 0, 0.5);
+                }
+            }
+        }
+
+        &__euro-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            top: 21px;
+
+            position: absolute;
+
+            img {
+                margin-right: 5px;
+            }
+        }
+
+        &__odometer-style {
+            //position: absolute !important;
+            //top: 19px !important;
+            //right: 0 !important;
+            //left: 0 !important;
+            //margin: 0  auto !important;
+            //width: 165px !important;
+            height: 26px !important;
+            //font-family: Arial ;
+            font-size: 14px !important; /* Приближение из-за подстановки шрифтов */
+            font-weight: 700 !important;
+            line-height: 39.997px !important; /* Приближение из-за подстановки шрифтов */
+            text-align: left;
+            background-color: #600d0b !important;
+            border-radius: 0 !important;
+            padding: 2px !important;
+            display: flex !important;
+            //margin: 0 10px !important;
+
+            :global {
+                .odometer-inside {
+                    display: flex !important;
+                    justify-content: center !important;
+                    width: 100% !important;
+                    .odometer-digit {
+                        border-style: solid !important;
+                        border-width: 1px !important;
+                        border-color: #510907 !important;
+                        box-sizing: border-box !important;
+                        background: -webkit-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+                        background: -moz-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+                        background: -o-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+                        background: -ms-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+                        background: linear-gradient(0deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+
+                        border-radius: 5px !important;
+
+                        //padding-top: 15px !important;
+                        //padding-bottom: 15px !important;
+                        margin: 0 3px !important;
+                    }
+                }
+
+                .odometer-ribbon {
+                    color: #fff !important;
+                }
+
+                .odometer-digit-inner {
+                    display: flex !important;
+                    align-items: center !important;
+                }
+            }
         }
     }
 }

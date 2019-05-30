@@ -80,7 +80,9 @@ module.exports = {
 		port: "443",
 		allowedHosts: [
 			'test.com'
-		]
+		],
+		// hot: false,
+		// inline: false,
 	},
 	plugins: [
 		new HtmlWebpackPlugin({

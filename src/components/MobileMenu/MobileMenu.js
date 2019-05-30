@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { bool, func } from "prop-types";
+import { bool, func, object } from "prop-types";
 
 import { CSSTransition } from 'react-transition-group';
 
@@ -14,16 +14,28 @@ export default class MobileMenu extends React.Component {
 	static propTypes = {
 		closeMenu: func,
 		handleItemMenuClick: func,
-		isMobileMenuOpen: bool
+		isMobileMenuOpen: bool,
+		menuSettings: object
 	}
 
 	state = {
-		onExitingAnimation: false
+		onExitingAnimation: false,
+		menuSettings: {}
 	}
 
-	/**
-	 * Handles click on menu items and after click collapse menu
-	 */
+	componentDidMount() {
+		this.setState({
+			menuSettings: this.props.menuSettings
+		});
+	}
+
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.menuSettings !== this.state.menuSettings && !this.state.onExitingAnimation) {
+			this.setState({
+				menuSettings: nextProps.menuSettings
+			});
+		}
+	}
 
 	/**
 	 * Shows menu if button was clicked
@@ -31,7 +43,7 @@ export default class MobileMenu extends React.Component {
 	render() {
 		const { isMobileMenuOpen } = this.props;
 
-		const { onExitingAnimation } = this.state;
+		const { onExitingAnimation, menuSettings } = this.state;
 
 		const showMenuClasses = classnames({
 			[classes.mobileMenu]: true,
@@ -43,7 +55,7 @@ export default class MobileMenu extends React.Component {
 				className={showMenuClasses}
 			>
 				<CSSTransition
-					in={isMobileMenuOpen} timeout={300} classNames={"fade"} onEnter={() => {
+					in={isMobileMenuOpen} timeout={300} classNames={menuSettings.classes} onEnter={() => {
 						this.setState({
 							onExitingAnimation: true
 						});
@@ -51,9 +63,17 @@ export default class MobileMenu extends React.Component {
 						this.setState({
 							onExitingAnimation: false
 						});
+
+						this.setState({
+							menuSettings: this.props.menuSettings
+						});
 					}}
 				>
-					<div className={classes.mobileMenuWrapper} onClick={this.handleItemClick} >
+					<div
+						className={classes.mobileMenuWrapper}
+						style={{ width: menuSettings.width }}
+						onClick={this.handleItemClick}
+					>
 						<MenuButton onClick={this.props.closeMenu} isMobileMenuOpen />
 						{ this.props.children }
 					</div>

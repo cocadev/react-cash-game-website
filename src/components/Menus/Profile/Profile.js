@@ -12,7 +12,12 @@ import Edit from '@material-ui/icons/Edit';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Switch from '@material-ui/core/Switch';
 
-import UserWidget from "../../../components/UserWidget/UserWidget";
+import BellIcon from "../../../images/icons/bell.png";
+import Ribbon from "../../../images/ribbon.png";
+import Odometer from "../../../components/Odometer/Odometer";
+import Euro from  "../../../images/icons/euro.png";
+
+// import UserWidget from "../../../components/UserWidget/UserWidget";
 
 import classes from "./Profile.less";
 
@@ -90,12 +95,34 @@ class Profile extends Component {
 				<div className={classes.profileContent}>
 					<div className={classes.profileUserWidgetContent}>
 						<div className={classes.profileUserWidgetWrapper}>
-							<UserWidget
-								imgSrc={userData.picture}
-								coins={userData.FUN_balance}
-								name={userData.screen_name}
-								profilePage
-							/>
+							<div className={classes.profileUserWidget}>
+								<div className={classes.profileUserWidgetElement}>
+									<div className={classes.profileUserWidgetAvatarAndNotificationWrapper}>
+										<div className={classes.profileUserWidgetNotification}>
+											<img src={BellIcon} alt="bell" />
+											<div className={classes.profileUserWidgetNotificationCounter}>
+												<p>4</p>
+											</div>
+										</div>
+										<div onClick={this.onAvatarClick} className={classes.profileUserWidgetImageWrapper}>
+											<img className={classes.profileUserWidgetImage} src={userData.picture} alt="" />
+										</div>
+									</div>
+								</div>
+								<div className={classes.profileUserWidgetRibbonWrapper }>
+									<img className={classes.profileUserWidgetRibbonImage} src={Ribbon} alt="Ribbon"/>
+									<div className={classes.profileUserWidgetEuroWrapper}>
+										<img src={Euro} alt="euro"/>
+										<Odometer
+											value={userData.FUN_balance}
+											format="(,ddd)"
+											classes={classes.profileUserWidgetOdometerStyle}
+										/>
+									</div>
+
+									<p>consec tetura</p>
+								</div>
+							</div>
 							<Button onClick={this.handleClickOpen}>
 								<Edit />
 							Change Username

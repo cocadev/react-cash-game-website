@@ -26,14 +26,39 @@ class Menus extends Component {
 		this.props.hideMenu();
 	}
 
+	setClass = () => {
+		const { menuName } = this.props;
+
+		if (menuName === "profile" && screen.width > 756) {
+			return "fade-left";
+		}
+
+		return "fade";
+	}
+
+	setMenuWidth = () => {
+		const { menuName } = this.props;
+
+		if (menuName === "profile" && screen.width > 756) {
+			return "320px";
+		}
+
+		return "100%";
+	}
+
 
 	render() {
 		const { menuVisibility, menuName } = this.props;
+		const menuSettings = {
+			classes: this.setClass(),
+			width: this.setMenuWidth()
+		};
 
 		return (
 			<MobileMenu
 				closeMenu={this.onCloseMenuClick}
 				isMobileMenuOpen={menuVisibility}
+				menuSettings={menuSettings}
 			>
 				{ menuName === "main" &&
 					<MainMenu {...this.props} />

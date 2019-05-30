@@ -1,10 +1,13 @@
 import React from 'react';
 import { string, func, number, bool } from "prop-types";
-import CountUp from 'react-countup';
-
 import classnames from "classnames";
+import BellIcon from "../../images/icons/bell.png";
+import Ribbon from "../../images/ribbon.png";
+import Odometer from "../../components/Odometer/Odometer";
+import Euro from  "../../images/icons/euro.png";
 
 import classes from "./UserWidget.less";
+
 
 class UserWidget extends React.Component {
 	static propTypes = {
@@ -64,9 +67,7 @@ class UserWidget extends React.Component {
 	}
 
 	render() {
-		const { imgSrc, name, profilePage } = this.props;
-
-		const { startCoins, endCoins, onProgress } = this.state;
+		const { imgSrc, coins, profilePage } = this.props;
 
 		const userWidgetClasses = classnames({
 			[classes.userWidget]: true,
@@ -76,35 +77,32 @@ class UserWidget extends React.Component {
 
 		return (
 			<div className={userWidgetClasses}>
-				<div onClick={this.onAvatarClick} className={classes.userWidgetImageWrapper}>
-					<div className={classes.userWidgetImageContainer}>
-						<img className={classes.userWidgetImage} src={imgSrc} alt="" />
+				<div className={classes.userWidgetContent}>
+					<div className={classes.userWidgetAvatarAndNotificationWrapper}>
+
+						<div className={classes.userWidgetNotification}>
+							<img src={BellIcon} alt="bell" />
+							<div className={classes.userWidgetNotificationCounter}>
+								<p>4</p>
+							</div>
+						</div>
+						<div onClick={this.onAvatarClick} className={classes.userWidgetImageWrapper}>
+							<img className={classes.userWidgetImage} src={imgSrc} alt="" />
+						</div>
 					</div>
 				</div>
-				<div onClick={this.onLootBoxShowClick}>
-					<div className={classes.userWidgetCoinWrapper}>
-						<div className={classes.userWidgetCoinContainer}>
-							<p className={onProgress ? `${classes.userWidgetAddBlur} ${classes.userWidgetCoin}` : classes.userWidgetCoin}>coins:
-								{ endCoins && (startCoins !== endCoins) ?
-									<CountUp
-										start={startCoins}
-										end={endCoins}
-										duration={5}
-										delay={1}
-										onStart={this.onStartHandle}
-										onEnd={this.onEndHandle}
-									/>
-									:
-									endCoins
-								}
-							</p>
-						</div>
+				<div className={classes.userWidgetRibbonWrapper }>
+					<img className={classes.userWidgetRibbonImage} src={Ribbon} alt="Ribbon"/>
+					<div className={classes.userWidgetEuroWrapper}>
+						<img src={Euro} alt="euro"/>
+						<Odometer
+							value={coins}
+							format="(,ddd)"
+							classes={classes.userWidgetOdometerStyle}
+						/>
 					</div>
-					<div className={classes.userWidgetNameWrapper}>
-						<div className={classes.userWidgetNameContainer}>
-							<p className={classes.userWidgetName}>{ name }</p>
-						</div>
-					</div>
+
+					<p>consec tetura</p>
 				</div>
 			</div>
 		);

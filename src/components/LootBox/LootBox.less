@@ -75,39 +75,39 @@
     }
 
     &__counter-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-top: 42px;
+        position: relative;
+
+        &:before {
+            position: absolute;
+            width: 28px;
+            height: 31px;
+            left:-35px;
+            content: "";
+            background-image: url("../../images/textEffects/leftStrings.png");
+        }
+
+        &:after {
+            position: absolute;
+            width: 27px;
+            height: 25px;
+            right:-35px;
+            content: "";
+            background-image: url("../../images/textEffects/rightStrings.png");
+        }
+
         p {
-            display: flex;
-            justify-content: center;
-            align-items: center;
             position: relative;
             color:  #ffffff;
             font-size: 35px;
             font-weight: 500;
             text-align: center;
             text-shadow: 0px 9px 8px rgba(0, 0, 0, 0.24);
-            padding-top: 42px;
             width: max-content;
             margin: 0 auto;
-
-            &:before {
-                position: absolute;
-                width: 28px;
-                height: 31px;
-                left:-35px;
-                top: 50%;
-                content: "";
-                background-image: url("../../images/textEffects/leftStrings.png");
-            }
-
-            &:after {
-                position: absolute;
-                width: 27px;
-                height: 25px;
-                top: 50%;
-                right:-35px;
-                content: "";
-                background-image: url("../../images/textEffects/rightStrings.png");
-            }
         }
     }
 
