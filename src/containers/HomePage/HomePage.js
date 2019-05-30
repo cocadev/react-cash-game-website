@@ -45,6 +45,9 @@ const styles = () => ({
 		cursor: "pointer",
 		zIndex: "2",
 		transform: "translate(-50%, -50%)"
+	},
+	overFlowHidden: {
+		overflow: "hidden !important"
 	}
 });
 
@@ -57,7 +60,7 @@ class HomePage extends Component {
 		getOffersSaga: func,
 		listFriendsSaga: func,
 		logoutStorePending: func,
-		soffers: array,
+		offers: array,
 		theme: object,
 		userData: object
 	}
@@ -163,6 +166,7 @@ class HomePage extends Component {
 					<div className={classes.tabContentWrapper}>
 						{ tabIndexValue !== false &&
 							<SwipeableViews
+								slideClassName={classes.overFlowHidden}
 								axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
 								index={tabIndexValue}
 								onChangeIndex={this.handleChangeIndex}
