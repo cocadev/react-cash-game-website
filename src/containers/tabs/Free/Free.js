@@ -26,6 +26,10 @@ class Free extends React.Component {
 		googleError: false,
 	}
 
+	componentDidMount() {
+		this.props.changeScrollTabHeight();
+	}
+
 	onPolifishBtnClick = (name) => () => {
 		if (name  === "Survey") {
 			Pollfish.showFullSurvey();

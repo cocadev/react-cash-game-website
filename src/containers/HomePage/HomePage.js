@@ -82,6 +82,10 @@ class HomePage extends Component {
 		loader.hide();
 	}
 
+	componentDidUpdate() {
+		this.changeScrollTabHeight();
+	}
+
 	handleChange = (event, value) => {
 		this.lootBoxHide();
 
@@ -146,6 +150,14 @@ class HomePage extends Component {
 			googleVideoErrorStatus: status
 		});
 	}
+	/**
+	* sets  new tab height change, need call when height will change
+	*/
+	changeScrollTabHeight = () => {
+		if (this.swipeableActions) {
+			this.swipeableActions.updateHeight();
+		}
+	}
 
 	render() {
 		const { theme, offers, userData } = this.props;
@@ -204,24 +216,38 @@ class HomePage extends Component {
 						className={classes.homePageTabCenter}
 						labels={labels}
 					/>
+
+					{/*<button onClick={this.changeScrollTabHeight}>check</button>*/}
+
 					<div className={classes.homePageTabContentWrapper}>
 						{ tabIndexValue !== false &&
-							<SwipeableViews
-								disabled
-								slideClassName={classes.homePageOverFlowHidden}
-								axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-								index={tabIndexValue}
-								onChangeIndex={this.handleChangeIndex}
-							>
-								<Sale
-									onVideoPlay={this.onVideoPlay}
-									googleVideoErrorStatus={googleVideoErrorStatus}
-									offers={offers}
-								/>
-								<h1>Winners</h1>
-								<Friend />
-								<h1>Loot</h1>
-							</SwipeableViews>
+							<>
+								<SwipeableViews
+									action={(actions) => {
+										this.swipeableActions = actions;
+									}}
+									animateHeight
+									disabled
+									slideClassName={classes.homePageOverFlowHidden}
+									axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+									index={tabIndexValue}
+									onChangeIndex={this.handleChangeIndex}
+								>
+									<Sale
+										changeScrollTabHeight={this.changeScrollTabHeight}
+										onVideoPlay={this.onVideoPlay}
+										googleVideoErrorStatus={googleVideoErrorStatus}
+										offers={offers}
+									/>
+									<div className={classes.homePageTabMinHeight}>
+										<h1>Winners</h1>
+									</div>
+									<Friend />
+									<div className={classes.homePageTabMinHeight}>
+										<h1>Loot</h1>
+									</div>
+								</SwipeableViews>
+							</>
 						}
 					</div>
 

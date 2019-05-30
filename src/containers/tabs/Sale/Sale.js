@@ -18,7 +18,8 @@ class Sale extends React.Component {
 	static propTypes = {
 		googleVideoErrorStatus: bool,
 		offers: array,
-		onVideoPlay: func
+		onVideoPlay: func,
+		changeScrollTabHeight: func
 	}
 
 	state = {
@@ -28,6 +29,11 @@ class Sale extends React.Component {
 
 	handlePayTabsClose = () => {
 		this.setState({ payTabsVisibility: false, selectedItem: false });
+
+		/**
+		 * changes the tab height
+		 */
+		this.props.changeScrollTabHeight();
 	}
 
 	handlePayTabsOpen = (index) => () => {
@@ -36,13 +42,17 @@ class Sale extends React.Component {
 		} else {
 			this.setState({ payTabsVisibility: true, selectedItem: index });
 		}
+
+		/**
+		 * changes the tab height
+		 */
+		this.props.changeScrollTabHeight();
 	}
 
 	renderSelectedItem = (offer, index) => {
 		const { selectedItem } = this.state;
 
 		const { name, description, price } = offer;
-
 		return (
 			<Fragment key={index}>
 				{ (!selectedItem && selectedItem !== 0) &&
@@ -80,6 +90,7 @@ class Sale extends React.Component {
 			offer.price === 0 ? freeProduct.push(offer) : saleProduct.push(offer);
 		});
 
+
 		return (
 			<Fragment>
 				<div className={classes.sale}>
@@ -96,13 +107,14 @@ class Sale extends React.Component {
 								return this.renderSelectedItem(offer, index);
 							})
 						}
+
 					</Grid>
 					{ payTabsVisibility ?
 						<SaleWidget onClose={this.handlePayTabsClose} />
 						:
 						<>
 							<h1 className={classes.saleTextCenter}>Free</h1>
-							<Free onVideoPlay={this.props.onVideoPlay} googleVideoErrorStatus={googleVideoErrorStatus} offers={freeProduct} />
+							<Free changeScrollTabHeight={this.props.changeScrollTabHeight} onVideoPlay={this.props.onVideoPlay} googleVideoErrorStatus={googleVideoErrorStatus} offers={freeProduct} />
 						</>
 					}
 				</div>
