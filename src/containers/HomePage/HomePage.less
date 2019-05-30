@@ -1,12 +1,21 @@
 .home-page {
     &__tab-wrapper {
-        margin: 0 5px;
+        margin: 0 0px;
     }
 
     &__tab-center {
         display: flex;
         justify-content: center;
-        margin-top: 20px;
+        margin: 0;
+        height: 94px;
+
+        span {
+            font-size: 17px;
+            font-weight: 600;
+            padding-top: 4px;
+            line-height: 27px;
+            text-align: center;
+        }
     }
 
     &__open-loot-center-btn-wrapper {
@@ -26,11 +35,21 @@
     &__top-element-wrapper {
         position: fixed;
         top: 0;
+        width: 100%;
         //background-color: #2d5073;
     }
 
     &__tab-min-height {
         min-height: calc(100vh - 165px);
+    }
+
+    &__logo {
+        position: absolute;
+        top: 14px;
+        left: 5%;
+        width: 178px;
+        height: 173px;
+        z-index: 999999;
     }
 }
 

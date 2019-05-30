@@ -24,6 +24,13 @@ import Menus from "../../containers/Menus/Menus";
 import LogoutButton from "../../components/Buttons/LogoutButton/LogoutButton";
 import MenuButton from "../../components/Buttons/MenuButton/MenuButton";
 
+import SaleIcon from "../../images/icons/shop.png";
+import WinnersIcon from "../../images/icons/dollar.png";
+import FriendsIcon from "../../images/icons/friends.png";
+import LootIcon from "../../images/icons/booxIcon.png";
+
+import Logo from "../../images/icons/lootBoxLogo.png";
+
 import * as friendActions from "../../modules/friend/friend.actions";
 import * as authActions from "../../modules/auth/auth.actions";
 import * as saleActions from "../../modules/sale/sale.actions";
@@ -33,6 +40,8 @@ import { cutCorners } from "../../helpers/cutCorners";
 import history from "../../modules/history";
 
 import classes from "./HomePage.less";
+
+import 'odometer/themes/odometer-theme-car.css';
 
 
 class HomePage extends Component {
@@ -55,12 +64,12 @@ class HomePage extends Component {
 		showMenu: func,
 		tabIndex: any,
 		theme: object,
-		userData: object
+		userData: object,
 	}
 
 	state = {
 		videoPlayStatus: false,
-		googleVideoErrorStatus: true
+		googleVideoErrorStatus: true,
 	};
 
 	componentDidMount() {
@@ -85,8 +94,9 @@ class HomePage extends Component {
 			});
 		}
 
-		// this.props.fetchWinnersSaga();
 
+
+		// this.props.fetchWinnersSaga();
 		loader.hide();
 	}
 
@@ -158,7 +168,6 @@ class HomePage extends Component {
 		this.props.showMenu("profile");
 	}
 
-
 	googleVideoErrorStatusChange = (status) => {
 		this.setState({
 			googleVideoErrorStatus: status
@@ -185,7 +194,12 @@ class HomePage extends Component {
 			googleVideoErrorStatus
 		} = this.state;
 
-		const labels = [{ name: "Sale" }, { name: "Winners" }, { name: "Friends" },  { name: "Loot" }];
+		const labels = [
+			{ name: "Sale", icon: SaleIcon, iconStyle: { color: "#d4ab0f", letterSpacing: "2px"  } },
+			{ name: "Winners", icon: WinnersIcon, iconStyle: { color: "#8ea218", letterSpacing: "2px" } },
+			{ name: "Friends", icon: FriendsIcon, iconStyle: { color: "#6aa3de", letterSpacing: "2px" } },
+			{ name: "Loot", icon: LootIcon, iconStyle: { color: "#dd1c4c", letterSpacing: "2px" } }
+		];
 
 		return (
 			<div className={classes.homePage}>
@@ -203,7 +217,7 @@ class HomePage extends Component {
 					/>
 				</div>
 
-				<LootBox lootBoxVisibility={lootBoxVisibility}  />
+				<img src={Logo} alt="logo" className={classes.homePageLogo} />
 
 				<Menus />
 
@@ -228,7 +242,10 @@ class HomePage extends Component {
 						onChange={this.handleChange}
 						className={classes.homePageTabCenter}
 						labels={labels}
+						customstyle={{ alignItems: "center" }}
 					/>
+
+					<LootBox lootBoxVisibility={lootBoxVisibility}  />
 
 					{/*<button onClick={this.changeScrollTabHeight}>check</button>*/}
 

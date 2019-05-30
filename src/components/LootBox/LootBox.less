@@ -1,23 +1,173 @@
 .loot-box {
-    position: absolute;
-    margin: 65px 0 0 0;
+    margin: 0 0 0 0;
     width: 100%;
-    min-height: calc(100vh - 112px);
-    animation: unset;
-    display: flex;
+    height: calc(100% - 94px);
+    position: fixed;
     justify-content: center;
-    align-items: center;
-    background-color: #fff;
     z-index: 999;
+    background-image: url("../../images/backgrounds/lootboxBackground.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 
     &__image-wrapper {
-        width: 80%;
-        height: 40%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        flex: 1 0 auto;
         text-align: center;
     }
 
     &__image {
-        width: 50%;
+        position: absolute;
+        width: calc(100vh - 150px);
+    }
+
+    &__open-lootBox {
+        display: flex;
+        justify-content: center;
+        padding-top: 20px;
+
+        &__text {
+            color:  #ffffff;
+            font-size: 22px;
+            font-weight: 600;
+            line-height: 27px;
+            text-align: center;
+            text-shadow: 0px 9px 8px rgba(0, 0, 0, 0.24);
+        }
+
+        &__button {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 283px;
+            height: 64px;
+            margin-left: 20px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            color:  #4c0a06;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 27px;
+            text-align: center;
+
+            background: -webkit-linear-gradient(90deg, #ffff6a 0%, #fabb45 100%);
+            background: -moz-linear-gradient(90deg, #ffff6a 0%, #fabb45 100%);
+            background: -o-linear-gradient(90deg, #ffff6a 0%, #fabb45 100%);
+            background: -ms-linear-gradient(90deg, #ffff6a 0%, #fabb45 100%);
+            background: linear-gradient(0deg, #ffff6a 0%, #fabb45 100%);
+            box-shadow: 0px 12px 32px 0px rgba(0, 0, 0, 0.28);
+
+            cursor: pointer;
+
+            &:before {
+                position: absolute;
+                top: -24px;
+                right: -25px;
+                width: 39px;
+                height: 37px;
+                content: "";
+                background-image: url("../../images/icons/crownIcon.png");
+            }
+        }
+    }
+
+    &__counter-wrapper {
+        p {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            color:  #ffffff;
+            font-size: 35px;
+            font-weight: 500;
+            text-align: center;
+            text-shadow: 0px 9px 8px rgba(0, 0, 0, 0.24);
+            padding-top: 42px;
+            width: max-content;
+            margin: 0 auto;
+
+            &:before {
+                position: absolute;
+                width: 28px;
+                height: 31px;
+                left:-35px;
+                top: 50%;
+                content: "";
+                background-image: url("../../images/textEffects/leftStrings.png");
+            }
+
+            &:after {
+                position: absolute;
+                width: 27px;
+                height: 25px;
+                top: 50%;
+                right:-35px;
+                content: "";
+                background-image: url("../../images/textEffects/rightStrings.png");
+            }
+        }
+    }
+
+    &__counter-image {
+        margin: 0 10px;
+    }
+
+    &__footer {
+        flex-shrink: 0;
+        -webkit-flex-shrink: 0;
+        padding-bottom: 10px;
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__odometer-style {
+        //font-family: Arial ;
+        color:  #ffffff !important;
+        font-size: 46.92px !important;
+        font-weight: 700 !important;
+        line-height: 39.997px !important;
+        background-color:  #600d0b !important;
+        border-radius: 0 !important;
+        padding: 5px !important;
+        margin: 0 10px !important;
+
+        :global {
+            .odometer-inside {
+                .odometer-digit {
+                    border-style: solid !important;
+                    border-width: 1px !important;
+                    border-color:  #510907 !important;
+                    box-sizing: border-box !important;
+                    background: -webkit-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+                    background: -moz-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+                    background: -o-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+                    background: -ms-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+                    background: linear-gradient(0deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+
+
+                    border-radius: 5px!important;
+
+                    padding-top: 15px !important;
+                    padding-bottom: 15px !important;
+                    margin: 0 3px !important;
+                }
+            }
+
+            .odometer-ribbon {
+                color: #fff !important;
+            }
+
+            .odometer-digit-inner {
+                display: flex !important;
+                align-items: center !important;
+            }
+        }
     }
 }
 

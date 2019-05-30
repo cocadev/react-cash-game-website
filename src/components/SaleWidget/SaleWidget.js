@@ -17,6 +17,7 @@ import classes from "./SaleWidget.less";
 
 class SaleWidget extends React.Component {
 	static propTypes = {
+		changeScrollTabHeight: func,
 		onClose: func,
 		theme: object
 	}
@@ -27,6 +28,10 @@ class SaleWidget extends React.Component {
 		errorShow: false
 	};
 
+	componentDidMount() {
+		this.props.changeScrollTabHeight();
+	}
+
 	mainTabChange = (value) => {
 		this.setState({
 			tabsValue: value
@@ -35,6 +40,7 @@ class SaleWidget extends React.Component {
 
 	handleChange = (event, value) => {
 		this.setState({ value });
+		this.props.changeScrollTabHeight();
 	};
 
 	handleChangeIndex = (index) => {

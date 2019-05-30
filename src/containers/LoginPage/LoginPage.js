@@ -59,7 +59,6 @@ class LoginPage extends Component {
 		loader.show();
 	}
 
-
 	render() {
 		const { confirmAge } = this.props;
 

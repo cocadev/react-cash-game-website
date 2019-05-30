@@ -1,7 +1,5 @@
 import React from 'react';
-import { bool, func, object } from "prop-types";
-
-import { withStyles } from '@material-ui/core/styles';
+import { bool, func } from "prop-types";
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';

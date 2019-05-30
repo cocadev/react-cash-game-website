@@ -1,14 +1,14 @@
 import React, { Fragment } from 'react';
 import { func, object, array, bool, any } from "prop-types";
 
-import Paper from '@material-ui/core/Paper';
 import TabsMaterial from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import classes from "./Tabs.less";
 
 
 class Tabs extends React.Component {
 	static propTypes = {
-		customStyle: object,
+		customstyle: object,
 		fullWidth: bool,
 		labels: array,
 		mainTabChange: func,
@@ -19,12 +19,13 @@ class Tabs extends React.Component {
 		fullWidth: false
 	}
 	render() {
-		const { labels, fullWidth, customStyle } = this.props;
+		const { labels, fullWidth, customstyle } = this.props;
 
 		return (
 			<Fragment>
 				<TabsMaterial
-					style={customStyle}
+					classes={{ flexContainer: classes.tab }}
+					style={customstyle}
 					fullWidth={fullWidth}
 					value={this.props.value}
 					indicatorColor="primary"
@@ -33,7 +34,20 @@ class Tabs extends React.Component {
 				>
 					{
 						labels.map((label) => {
-							return <Tab key={label.name} label={label.name} />;
+							return (
+								<Tab
+									className={classes.tabSingleTab}
+									key={label.name}
+									label={
+										<span
+											style={
+												label.iconStyle &&
+												label.iconStyle
+											}
+										>{ label.name }</span>}
+									icon={label.icon ? <img src={label.icon}  alt="" /> : false}
+								/>
+							);
 						})
 					}
 				</TabsMaterial>

@@ -1,0 +1,26 @@
+.tab {
+    height: 100% !important;
+    display: unset !important;
+    padding-top: 20px;
+
+    &__single-tab {
+        padding-top: 0 !important;
+
+        &:before {
+            content: "";
+            position: absolute;
+            width: 1px;
+            height: 49px;
+            background-color: rgba(0, 0, 0, 0.1);
+            top: 50%;
+            transform: translateY(-50%);
+            right: 0px;
+        }
+
+        &:last-child {
+            &:before {
+                display: none;
+            }
+        }
+    }
+}

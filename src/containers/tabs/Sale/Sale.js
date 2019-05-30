@@ -109,7 +109,7 @@ class Sale extends React.Component {
 
 					</Grid>
 					{ payTabsVisibility ?
-						<SaleWidget onClose={this.handlePayTabsClose} />
+						<SaleWidget changeScrollTabHeight={this.props.changeScrollTabHeight} onClose={this.handlePayTabsClose} />
 						:
 						<>
 							<h1 className={classes.saleTextCenter}>Free</h1>

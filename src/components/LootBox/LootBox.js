@@ -3,12 +3,20 @@ import { bool } from "prop-types";
 
 import customTween from "../../helpers/customTween";
 
+import GiftBoxImg from "../../images/giftBox.png";
+
+import Odometer from "../../components/Odometer/Odometer";
+
 import classes from "./LootBox.less";
 
 
 class LootBox extends React.Component {
 	static propTypes = {
 		lootBoxVisibility: bool
+	}
+
+	state = {
+		odometerValue: 0,
 	}
 
 	constructor(props) {
@@ -30,6 +38,10 @@ class LootBox extends React.Component {
 			element.style.width = `${width}%`;
 		};
 
+		this.setState({
+			odometerValue: 9000
+		});
+
 		customTween(dots, time, update, this.onLoadAnimation.current);
 	}
 
@@ -48,6 +60,10 @@ class LootBox extends React.Component {
 				element.style.transform = `translateY(${y}%) translateX(${x}%)`;
 				element.style.width = `${width}%`;
 			};
+
+			this.setState({
+				odometerValue: 9000
+			});
 
 			customTween(dots, time, update, this.onLoadAnimation.current);
 		} else if (prevProps.lootBoxVisibility  && !this.props.lootBoxVisibility) {
@@ -68,19 +84,48 @@ class LootBox extends React.Component {
 				}
 			};
 
+			this.setState({
+				odometerValue: 0
+			});
+
 			customTween(dots, time, update, this.onLoadAnimation.current);
 		}
 	}
 
 	render() {
+		const { odometerValue } = this.state;
+
 		return (
 			<div ref={this.onLoadAnimation} className={classes.lootBox}>
-				<div className={classes.lootBoxImageWrapper}>
-					<img
-						className={classes.lootBoxImage}
-						src="https://playlivenation.com/wp-content/uploads/2017/11/7e27c6e71a02f14e2207578c53f1ca35-ow-lootbox-winter-mobile.jpg"
-						alt="lootBox"
-					/>
+				<div className={classes.lootBoxContent}>
+					<div className={classes.lootBoxImageWrapper}>
+						<img
+							className={classes.lootBoxImage}
+							src={GiftBoxImg}
+							alt="lootBox"
+						/>
+					</div>
+
+					<div className={classes.lootBoxFooter}>
+						<div className={classes.lootBoxOpenLootBox}>
+							<p className={classes.lootBoxOpenLootBoxText}>1 Golden Lootbox</p>
+							<a className={classes.lootBoxOpenLootBoxButton}>
+								open Loot Box
+							</a>
+						</div>
+						<div className={classes.lootBoxCounterWrapper}>
+							<p>
+								You Have
+								{/*<img src={CounterExample} className={classes.lootBoxCounterImage} alt=""/>*/}
+								<Odometer
+									value={odometerValue}
+									format="(,ddd)"
+									classes={classes.lootBoxOdometerStyle}
+								/>
+								Loot Boxes
+							</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		);
