@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 
-import { func } from "prop-types";
+import { func, array } from "prop-types";
 
 import { connect } from "react-redux";
 import Tabs from "../../components/Tabs/Tabs";
 import Friend from "../../containers/tabs/Friend/Friend";
 import Sale from "../../containers/tabs/Sale/Sale";
+import Free from "../../containers/tabs/Free/Free";
+
 import * as friendActions from "../../modules/friend/friend.actions";
 import * as authActions from "../../modules/auth/auth.actions";
 import * as saleActions from "../../modules/sale/sale.actions";
+
 
 
 class HomePage extends Component {
 	static propTypes = {
 		getOffersSaga: func,
 		listFriendsSaga: func,
-		logoutStore: func
+		logoutStore: func,
+		offers: array
 	}
 
 	state = {
@@ -37,17 +41,25 @@ class HomePage extends Component {
 	};
 
 	renderTabsContent = () => {
+		const { offers } = this.props;
+
 		const { tabsValue } = this.state;
-		if (tabsValue.name === "Friends") {
-			return (
-				<Friend />
-			);
-		} else if (tabsValue.name === "Sale") {
-			return (
-				<Sale />
-			);
-		} else if (tabsValue.name === "Logout") {
-			this.props.logoutStore();
+		const saleProduct = [];
+		const freeProduct = [];
+
+		offers.map((offer) => {
+			offer.price === 0 ? freeProduct.push(offer) : saleProduct.push(offer);
+		});
+
+		switch (tabsValue.name) {
+			case "Friends":
+				return <Friend />;
+			case "Sale":
+				return <Sale offers={saleProduct} />;
+			case "Free":
+				return <Free offers={freeProduct} />;
+			case "Logout":
+				this.props.logoutStore();
 		}
 	}
 
@@ -67,4 +79,10 @@ class HomePage extends Component {
 	}
 }
 
-export default connect(null, { ...authActions, ...friendActions, ...saleActions })((HomePage));
+function mapStateToProps({ sale }) {
+	return {
+		offers: sale.offers
+	};
+}
+
+export default connect(mapStateToProps, { ...authActions, ...friendActions, ...saleActions })((HomePage));

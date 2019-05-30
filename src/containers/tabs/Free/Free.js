@@ -6,6 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import AddIcon from '@material-ui/icons/Add';
 
 import * as saleActions from "../../../modules/sale/sale.actions";
 
@@ -14,12 +16,23 @@ const styles = () => ({
 		width: '100%',
 		textAlign: "center"
 	},
+	polifishBtn: {
+		cursor: "pointer",
+		zIndex: "9",
+		display: "block",
+		position: "fixed",
+		bottom: "40px",
+		right: "0px",
+	}
 });
 
-class Sale extends React.Component {
+class Free extends React.Component {
 	static propTypes = {
 		classes: object,
 		offers: array
+	}
+	onPolifishBtnClick = () => {
+		Pollfish.showFullSurvey();
 	}
 
 	render() {
@@ -37,24 +50,27 @@ class Sale extends React.Component {
 				>
 					{
 						offers.map((offer, index) => {
-							const { name, description, price } = offer;
+							const { name, description } = offer;
 
 							return (
 								<Grid key={index} lg={2} item xs={12}>
 									<Paper className={classes.root} elevation={1}>
 										<h3>{ name }</h3>
 										<p>{ description }</p>
-										<p>{ price }</p>
 									</Paper>
 								</Grid>
 							);
 						})
 					}
 				</Grid>
+
+				<Button onClick={this.onPolifishBtnClick} variant="fab" color="primary" aria-label="Add" className={classes.polifishBtn}>
+					<AddIcon />
+				</Button>
 			</div>
 		);
 	}
 }
 
-export default connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Sale)));
+export default connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Free)));
 
