@@ -68,6 +68,7 @@ class App extends Component {
 	}
 
 	notFoundRedirect = () => {
+		debugger;
 		customToastify("Oops not found", "error");
 
 		console.log("not Found Page props", this.props);

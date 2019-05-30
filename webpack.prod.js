@@ -96,7 +96,7 @@ module.exports = {
 	output: {
 		path: path.resolve(__dirname, 'build/app'),
 		filename: 'bundle.js',
-		publicPath: '/',
+		publicPath: '/app',
 		chunkFilename: '[name].[chunkhash].js'
 	},
 	plugins: [
