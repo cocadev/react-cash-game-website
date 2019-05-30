@@ -17,6 +17,19 @@ const theme = createMuiTheme({
 	typography: {
 		useNextVariants: true,
 	},
+	palette: {
+		primary: {
+			main: "#442c2e",
+			light: '#FEDBD0',
+			dark: '#FEDBD0',
+		},
+		secondary: {
+			light: '#FEDBD0',
+			main: '#FEDBD0',
+			dark: '#FEDBD0',
+			contrastText: '#FEDBD0',
+		},
+	}
 });
 
 

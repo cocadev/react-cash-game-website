@@ -7,11 +7,14 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 
+import CutCorners from "../../components/CutCorners/CutCorners";
+
 import PaypalExpressBtn from 'react-paypal-express-checkout';
 
 import CreditCard from "../../components/CreditCard/CreditCard";
 import Tabs from "../../components/Tabs/Tabs";
 import customToastify from "../../helpers/customToastify";
+import {cutCorners} from "../../helpers/cutCorners";
 
 const styles = () => ({
 	buttonWrapper: {
@@ -128,12 +131,16 @@ class SaleWidget extends React.Component {
 					open={open}
 					scroll={"body"}
 				>
-					<Tabs
-						value={tabsValue}
-						mainTabChange={this.mainTabChange}
-						labels={labels}
-						fullWidth
-					/>
+
+					<CutCorners clipStyle={cutCorners(1, 15)} >
+						<Tabs
+							value={tabsValue}
+							mainTabChange={this.mainTabChange}
+							labels={labels}
+							fullWidth
+							customStyle={cutCorners(1, 15)}
+						/>
+					</CutCorners>
 					{ this.renderTabsContent() }
 				</Dialog>
 			</div>

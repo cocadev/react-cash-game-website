@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 
@@ -100,6 +101,9 @@ module.exports = {
 				useShortDoctype                : true
 			}
 		}),
-		new ErrorOverlayPlugin()
+		new ErrorOverlayPlugin(),
+		new webpack.ProvidePlugin({
+			TWEEN: path.resolve(__dirname, './src/helpers/libs/tween.js'),
+		})
 	]
 };

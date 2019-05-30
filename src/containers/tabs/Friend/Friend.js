@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { connect } from "react-redux";
 import { object, array, func } from "prop-types";
 
-
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -12,10 +11,14 @@ import Avatar from '@material-ui/core/Avatar';
 import Person from '@material-ui/icons/Person';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+
+import CutCorners from "../../../components/CutCorners/CutCorners";
 import customToastify from "../../../helpers/customToastify";
 
 import * as authActions from "../../../modules/auth/auth.actions";
 import * as friendActions from "../../../modules/friend/friend.actions";
+import { cutCorners } from "../../../helpers/cutCorners";
+import animationTween from "../../../hoc/animation";
 
 const styles = () => ({
 	root: {
@@ -27,6 +30,7 @@ const styles = () => ({
 	},
 	linkMargin: {
 		marginLeft: '20px',
+		marginRight: "10px"
 	},
 	singleFriendWrapper: {
 		display: "flex",
@@ -37,8 +41,15 @@ const styles = () => ({
 		display: "flex",
 		alignItems: "center",
 	},
-	copyBtn: {
-		marginLeft: "15px"
+	mainWrapper: {
+		position: "relative"
+	},
+	mainWrapperContent: {
+		backgroundColor: "#ffffff",
+		margin: "20px 0 0 0",
+		minHeight: "calc(100vh - 112px)",
+		animation: "unset",
+		display: "block"
 	}
 });
 
@@ -63,8 +74,40 @@ class Friend extends React.Component {
 		userData: object
 	}
 
+	constructor(props) {
+		super(props);
+		this.onLoadAnimation = React.createRef();
+	}
+
+
 	state = {
 		linkBtnCollapsed: true
+	}
+
+	componentDidMount(){
+		const dots = [
+			{ y: 100, width: 10, x: 0 },
+			{ y: 80, width: 100, x: 0 },
+			{ y: 0, width: 100, x: 0 }
+		];
+
+		const time = 600;
+
+		const update = [
+			({ y, width, x }) => {
+				this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
+				this.onLoadAnimation.current.style.width = `${width}%`;
+			},
+			({ y, width, x }) => {
+				this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
+				this.onLoadAnimation.current.style.width = `${width}%`;
+			}
+		];
+
+		this.onLoadAnimation.current.style.transform = `translateY(100%) translateX(100%)`;
+		this.onLoadAnimation.current.hidden = false;
+
+		this.props.onMountedAnimationRef(this.onLoadAnimation, dots, time, update);
 	}
 
 	onLinkBtnClick = () => {
@@ -138,6 +181,7 @@ class Friend extends React.Component {
 		return (
 			<Fragment>
 				<Button
+					style={cutCorners(7.5, 15)}
 					onClick={this.onLinkBtnClick}
 					color={linkBtnCollapsed ? "primary" : "secondary"}
 					className={classes.buttonMargin}
@@ -148,13 +192,16 @@ class Friend extends React.Component {
 				{ !linkBtnCollapsed &&
 					<div className={classes.inviteWrapper}>
 						<p className={classes.linkMargin}>{ linkText }</p>
-						<Button
-							onClick={this.onCopyBtnClick}
-							className={classes.copyBtn}
-							variant="contained"
-						>
-							<span>Copy link</span>
-						</Button>
+
+						<CutCorners clipStyle={cutCorners(7.5, 15)} >
+							<Button
+								style={cutCorners(7.5, 15)}
+								onClick={this.onCopyBtnClick}
+								variant="contained"
+							>
+								<span>Copy link</span>
+							</Button>
+						</CutCorners>
 					</div>
 				}
 			</Fragment>
@@ -217,12 +264,14 @@ class Friend extends React.Component {
 	}
 
 	render() {
+		const { classes } = this.props;
+
 		return (
-			<Fragment>
+			<div ref={this.onLoadAnimation} hidden className={classes.mainWrapperContent}>
 				{ this.renderLinkToFriend() }
 				{ this.renderPendingFriends() }
 				{ this.renderFriends() }
-			</Fragment>
+			</div>
 		);
 	}
 }
@@ -234,5 +283,5 @@ function mapStateToProps({ auth, friend }) {
 	};
 }
 
-export default connect(mapStateToProps, { ...authActions, ...friendActions })((withStyles(styles,  { withTheme: true })(Friend)));
+export default animationTween(connect(mapStateToProps, { ...authActions, ...friendActions })((withStyles(styles,  { withTheme: true })(Friend))));
 

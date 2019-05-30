@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from "react-redux";
 import { object, array } from "prop-types";
 
@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import * as saleActions from "../../../modules/sale/sale.actions";
 
 import SaleWidget from "../../../components/SaleWidget/SaleWidget";
+import animationTween from "../../../hoc/animation";
 
 const styles = () => ({
 	root: {
@@ -17,6 +18,13 @@ const styles = () => ({
 		textAlign: "center",
 		cursor: "pointer"
 	},
+	mainWrapperContent: {
+		backgroundColor: "#ffffff",
+		margin: "20px 0 0 0",
+		width: "100%",
+		minHeight: "calc(100vh - 112px)",
+		animation: "unset"
+	}
 });
 
 class Sale extends React.Component {
@@ -25,8 +33,40 @@ class Sale extends React.Component {
 		offers: array
 	}
 
+	constructor(props) {
+		super(props);
+		this.onLoadAnimation = React.createRef();
+	}
+
+
 	state = {
 		modalVisibility: false,
+	}
+
+	componentDidMount(){
+		const dots = [
+			{ y: 100, width: 10, x: 0 },
+			{ y: 80, width: 100, x: 0 },
+			{ y: 0, width: 100, x: 0 }
+		];
+
+		const time = 600;
+
+		const update = [
+			({ y, width, x }) => {
+				this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
+				this.onLoadAnimation.current.style.width = `${width}%`;
+			},
+			({ y, width, x }) => {
+				this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
+				this.onLoadAnimation.current.style.width = `${width}%`;
+			}
+		];
+
+		this.onLoadAnimation.current.style.transform = `translateY(100%) translateX(100%)`;
+		this.onLoadAnimation.current.hidden = false;
+
+		this.props.onMountedAnimationRef(this.onLoadAnimation, dots, time, update);
 	}
 
 	handleModalClose = () => {
@@ -43,36 +83,39 @@ class Sale extends React.Component {
 		const { modalVisibility } = this.state;
 
 		return (
-			<div>
-				<Grid
-					direction="row"
-					container
-					item
-					lg={12} xs={10}
-					spacing={24}
-				>
-					{
-						offers.map((offer, index) => {
-							const { name, description, price } = offer;
+			<Fragment>
+				<div ref={this.onLoadAnimation} hidden className={classes.mainWrapperContent}>
+					<Grid
+						direction="row"
+						container
+						item
+						lg={12} xs={10}
+						spacing={24}
+					>
+						{
+							offers.map((offer, index) => {
+								const { name, description, price } = offer;
 
-							return (
-								<Grid key={index} lg={2} item xs={12}>
-									<Paper onClick={this.handleModalOpen} className={classes.root} elevation={1}>
-										<h3>{ name }</h3>
-										<p>{ description }</p>
-										<p>{ price }</p>
-									</Paper>
-								</Grid>
-							);
-						})
-					}
-				</Grid>
+								return (
+									<Grid key={index} lg={2} item xs={12}>
+										<Paper onClick={this.handleModalOpen} className={classes.root} elevation={1}>
+											<h3>{ name }</h3>
+											<p>{ description }</p>
+											<p>{ price }</p>
+										</Paper>
+									</Grid>
+								);
+							})
+						}
+					</Grid>
+
+				</div>
 
 				<SaleWidget open={modalVisibility} onClose={this.handleModalClose} />
-			</div>
+			</Fragment>
 		);
 	}
 }
 
-export default connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Sale)));
+export default animationTween(connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Sale))));
 

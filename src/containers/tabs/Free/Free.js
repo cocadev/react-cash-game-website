@@ -12,6 +12,8 @@ import * as saleActions from "../../../modules/sale/sale.actions";
 import { GoogleSDK } from "../../../helpers/googleSDK";
 import customToastify from "../../../helpers/customToastify";
 
+import animationTween from "../../../hoc/animation";
+
 const styles = () => ({
 	root: {
 		width: '100%',
@@ -25,6 +27,13 @@ const styles = () => ({
 		position: "fixed",
 		bottom: "40px",
 		right: "0px",
+	},
+	mainWrapperContent: {
+		backgroundColor: "#ffffff",
+		margin: "20px 0 0 0",
+		width: "100%",
+		minHeight: "calc(100vh - 112px)",
+		animation: "unset"
 	}
 });
 
@@ -33,6 +42,10 @@ class Free extends React.Component {
 		classes: object,
 		offers: array
 	}
+	constructor(props) {
+		super(props);
+		this.onLoadAnimation = React.createRef();
+	}
 
 	state = {
 		googleSDKObj: null,
@@ -40,6 +53,32 @@ class Free extends React.Component {
 		contentElement: null,
 		adContainer: null,
 		googleError: false,
+	}
+
+	componentDidMount(){
+		const dots = [
+			{ y: 100, width: 10, x: 0 },
+			{ y: 80, width: 100, x: 0 },
+			{ y: 0, width: 100, x: 0 }
+		];
+
+		const time = 600;
+
+		const update = [
+			({ y, width, x }) => {
+				this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
+				this.onLoadAnimation.current.style.width = `${width}%`;
+			},
+			({ y, width, x }) => {
+				this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
+				this.onLoadAnimation.current.style.width = `${width}%`;
+			}
+		];
+
+		this.onLoadAnimation.current.style.transform = `translateY(100%) translateX(100%)`;
+		this.onLoadAnimation.current.hidden = false;
+
+		this.props.onMountedAnimationRef(this.onLoadAnimation, dots, time, update);
 	}
 
 	onAddLoaded = (contentElement, adContainer) => {
@@ -100,7 +139,7 @@ class Free extends React.Component {
 		const { classes, offers } = this.props;
 
 		return (
-			<div>
+			<div ref={this.onLoadAnimation} hidden className={classes.mainWrapperContent}>
 				<Grid
 					direction="row"
 					container
@@ -130,5 +169,5 @@ class Free extends React.Component {
 	}
 }
 
-export default connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Free)));
+export default animationTween(connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Free))));
 
