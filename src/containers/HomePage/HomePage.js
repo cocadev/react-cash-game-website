@@ -70,7 +70,7 @@ class HomePage extends Component {
 	componentDidMount() {
 		this.props.getOffersSaga();
 		this.props.listFriendsSaga();
-		this.props.fetchWinnersSaga();
+		// this.props.fetchWinnersSaga();
 
 		loader.hide();
 	}

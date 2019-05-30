@@ -31,7 +31,7 @@ class Sale extends React.Component {
 	static propTypes = {
 		classes: object,
 		offers: array,
-		onVideoPlay: func
+		onVideoPlay: func,
 	}
 
 	constructor(props) {
@@ -42,6 +42,7 @@ class Sale extends React.Component {
 
 	state = {
 		modalVisibility: false,
+		selectedItem: false,
 	}
 
 	componentDidMount(){
@@ -65,14 +66,14 @@ class Sale extends React.Component {
 		this.setState({ modalVisibility: false });
 	};
 
-	handleModalOpen = () => {
-		this.setState({ modalVisibility: true });
+	handleModalOpen = (index) => () => {
+		this.setState({ modalVisibility: true, selectedItem: index });
 	}
 
 	render() {
 		const { classes, offers } = this.props;
 
-		const { modalVisibility } = this.state;
+		const { modalVisibility, selectedItem } = this.state;
 
 		const saleProduct = [];
 		const freeProduct = [];
@@ -96,24 +97,46 @@ class Sale extends React.Component {
 								const { name, description, price } = offer;
 
 								return (
-									<Grid key={index} lg={2} item xs={12}>
-										<Paper onClick={this.handleModalOpen} className={classes.root} elevation={1}>
-											<h3>{ name }</h3>
-											<p>{ description }</p>
-											<p>{ price }</p>
-										</Paper>
-									</Grid>
+									<> { selectedItem ?
+											<>
+												{selectedItem === index &&
+												<Grid key={index} lg={2} item xs={12}>
+													<Paper
+														onClick={this.handleModalOpen(index)}
+														   className={classes.root} elevation={1}
+													>
+														<h3>{name}</h3>
+														<p>{description}</p>
+														<p>{price}</p>
+													</Paper>
+												</Grid>
+												}
+											</>
+										:
+
+										<Grid key={index} lg={2} item xs={12}>
+												<Paper onClick={this.handleModalOpen(index)} className={classes.root} elevation={1}>
+												<h3>{ name }</h3>
+												<p>{ description }</p>
+												<p>{ price }</p>
+											</Paper>
+											</Grid>
+									   }
+									</>
 								);
 							})
 						}
 					</Grid>
-
-					<h1>Free</h1>
-					<Free onVideoPlay={this.props.onVideoPlay} offers={freeProduct} />
+					{ modalVisibility ?
+						<SaleWidget open={modalVisibility} onClose={this.handleModalClose} />
+						:
+						<>
+							<h1>Free</h1>
+							<Free onVideoPlay={this.props.onVideoPlay} offers={freeProduct} />
+						</>
+					}
 
 				</div>
-
-				<SaleWidget open={modalVisibility} onClose={this.handleModalClose} />
 
 			</Fragment>
 		);

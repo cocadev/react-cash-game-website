@@ -87,7 +87,7 @@ class SaleWidget extends React.Component {
 	}
 
 	render() {
-		const { classes, open, theme } = this.props;
+		const { classes, theme } = this.props;
 
 		const { value, errorShow } = this.state;
 
@@ -99,47 +99,41 @@ class SaleWidget extends React.Component {
 		};
 
 		return (
-			<div>
-				<Dialog
-					onClose={this.props.onClose}
-					classes={{ paper: classes.dialogMinSize }}
-					open={open}
-					scroll={"body"}
-				>
-					<Tabs
-						value={value}
-						onChange={this.handleChange}
-						labels={labels}
-					/>
-					<div className={classes.tabContentWrapper}>
-						<SwipeableViews
-							axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-							index={value}
-							onChangeIndex={this.handleChangeIndex}
-						>
-							<div className={classes.payPal}><PaypalExpressBtn client={client} currency={'USD'} total={1.00} /></div>
-							<Fragment>
-								<DialogContent className={classes.content}>
-									<CreditCard isAllValueValid={this.onValueValid} errorShow={errorShow}  />
-								</DialogContent>
-								<DialogActions >
+			<>
+				<Tabs
+					value={value}
+					fullWidth
+					onChange={this.handleChange}
+					labels={labels}
+				/>
+				<div className={classes.tabContentWrapper}>
+					<SwipeableViews
+						axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+						index={value}
+						onChangeIndex={this.handleChangeIndex}
+					>
+						<div className={classes.payPal}><PaypalExpressBtn client={client} currency={'USD'} total={1.00} /></div>
+						<Fragment>
+							<DialogContent className={classes.content}>
+								<CreditCard isAllValueValid={this.onValueValid} errorShow={errorShow}  />
+							</DialogContent>
+							<DialogActions >
 
-									<div className={classes.buttonWrapper}>
-										<Button onClick={this.props.onClose} color="primary">
+								<div className={classes.buttonWrapper}>
+									<Button onClick={this.props.onClose} color="primary">
 												Cancel
-										</Button>
-										<Button onClick={this.onBuyBtnClick} color="primary">
+									</Button>
+									<Button onClick={this.onBuyBtnClick} color="primary">
 												Buy
-										</Button>
-									</div>
-								</DialogActions>
-							</Fragment>
+									</Button>
+								</div>
+							</DialogActions>
+						</Fragment>
 
-							<h1>Gold Coins</h1>
-						</SwipeableViews>
-					</div>
-				</Dialog>
-			</div>
+						<h1>Gold Coins</h1>
+					</SwipeableViews>
+				</div>
+			</>
 		);
 	}
 }

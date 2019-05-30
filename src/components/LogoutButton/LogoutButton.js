@@ -7,7 +7,7 @@ import LogoutIcon from '@material-ui/icons/ExitToApp';
 
 const styles = () => ({
 	root: {
-		position: "absolute",
+		position: "fixed",
 		bottom: "0",
 		left: "15px",
 		zIndex: "99",
