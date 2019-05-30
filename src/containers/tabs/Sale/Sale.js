@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from "react-redux";
-import { object, array } from "prop-types";
+import { object, array, func } from "prop-types";
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -10,6 +10,8 @@ import Paper from '@material-ui/core/Paper';
 import * as saleActions from "../../../modules/sale/sale.actions";
 
 import SaleWidget from "../../../components/SaleWidget/SaleWidget";
+
+import Free from "../../../containers/tabs/Free/Free";
 
 const styles = () => ({
 	root: {
@@ -28,7 +30,8 @@ const styles = () => ({
 class Sale extends React.Component {
 	static propTypes = {
 		classes: object,
-		offers: array
+		offers: array,
+		onVideoPlay: func
 	}
 
 	constructor(props) {
@@ -71,6 +74,13 @@ class Sale extends React.Component {
 
 		const { modalVisibility } = this.state;
 
+		const saleProduct = [];
+		const freeProduct = [];
+
+		offers.map((offer) => {
+			offer.price === 0 ? freeProduct.push(offer) : saleProduct.push(offer);
+		});
+
 		return (
 			<Fragment>
 				<div className={classes.mainWrapperContent}>
@@ -82,7 +92,7 @@ class Sale extends React.Component {
 						spacing={24}
 					>
 						{
-							offers.map((offer, index) => {
+							saleProduct.map((offer, index) => {
 								const { name, description, price } = offer;
 
 								return (
@@ -98,9 +108,13 @@ class Sale extends React.Component {
 						}
 					</Grid>
 
+					<h1>Free</h1>
+					<Free onVideoPlay={this.props.onVideoPlay} offers={freeProduct} />
+
 				</div>
 
 				<SaleWidget open={modalVisibility} onClose={this.handleModalClose} />
+
 			</Fragment>
 		);
 	}

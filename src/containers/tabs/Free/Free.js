@@ -24,10 +24,7 @@ const styles = () => ({
 		right: "0px",
 	},
 	mainWrapperContent: {
-		margin: "20px 0 0 0",
 		width: "100%",
-		minHeight: "calc(100vh - 112px)",
-		animation: "unset"
 	}
 });
 

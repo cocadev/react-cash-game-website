@@ -46,7 +46,7 @@ class App extends Component {
 		if (user && Object.keys(userData).length === 0) {
 			getUserDataSaga();
 		}
-
+		console.log(this.props.location);
 		if (this.props.location) {
 			parserRedirect(this.props);
 		}

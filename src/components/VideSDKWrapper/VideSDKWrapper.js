@@ -28,6 +28,9 @@ const styles = () => ({
 		width: "100%",
 		minHeight: "calc(100vh - 112px)",
 		animation: "unset"
+	},
+	hide: {
+		display: "none"
 	}
 });
 
@@ -114,8 +117,10 @@ class VideSDKWrapper extends React.Component {
 	render() {
 		const { classes } = this.props;
 
+		const showVideoSDKClass = this.state.videoAddStatus === "play" ? classes.mainWrapperContent : classes.hide;
+
 		return (
-			<div className={classes.mainWrapperContent}>
+			<div className={showVideoSDKClass}>
 				<VideoSDK onAddLoaded={this.onAddLoaded} fullScreen={this.state.videoAddStatus === "play"} />
 			</div>
 		);

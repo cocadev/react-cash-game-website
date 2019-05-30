@@ -71,7 +71,7 @@ function* fetchUserData() {
 	} catch (e) {
 		loader.hide();
 
-		yield put(authAction.logoutStore());
+		yield put(authAction.logoutStorePending());
 	}
 }
 
@@ -88,9 +88,17 @@ function* fetchUserName(data) {
 }
 
 function* logoutUser() {
+	loader.show();
+	const sessionId = yield select(userSessionId);
+
+	const result = yield api.auth.logoutUser(sessionId);
 	removeFromLocalStorage("user");
 	removeFromLocalStorage("userSessionId");
+
+	yield put(authAction.logoutStore());
 	history.push(`/`);
+
+	loader.hide();
 }
 
 function *initialize() {
@@ -110,7 +118,7 @@ export function* watchFetchUser() {
 	yield takeEvery(authAction.getUserDataSaga, fetchUserData);
 	yield takeEvery(authAction.initializeSaga, initialize);
 	yield takeEvery(authAction.setLoginNameSaga, fetchUserName);
-	yield takeEvery(authAction.logoutStore, logoutUser);
+	yield takeEvery(authAction.logoutStorePending, logoutUser);
 }
 
 

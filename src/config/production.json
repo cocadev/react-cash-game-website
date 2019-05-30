@@ -5,7 +5,8 @@
                 "googleLogin": "https://islandtreasure.co/auth/google?host=",
                 "faceBookLogin": "https://islandtreasure.co/auth/facebook?host=",
                 "v1Player": "https://islandtreasure.co/v1/player",
-                "termsOfService": "https://islandtreasure.co/Terms_of_Service"
+                "termsOfService": "https://islandtreasure.co/Terms_of_Service",
+                "logout": "https://islandtreasure.co/auth/logout"
             },
             "friend": {
                 "newFriend": "https://islandtreasure.co/v1/friend/",
@@ -15,6 +16,9 @@
             },
             "sale": {
                 "offers": "https://islandtreasure.co/v1/offers"
+            },
+            "winners": {
+                "getWinners": "https://islandtreasure.co/v1/winners"
             }
         }
     }

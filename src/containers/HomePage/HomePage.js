@@ -8,20 +8,23 @@ import SwipeableViews from 'react-swipeable-views';
 
 import { withStyles } from "@material-ui/core/styles/index";
 import Button from '@material-ui/core/Button';
+import GiftBtn from '@material-ui/icons/CardGiftcard';
+
 import Tabs from "../../components/Tabs/Tabs";
 import Friend from "../../containers/tabs/Friend/Friend";
 import Sale from "../../containers/tabs/Sale/Sale";
-import Free from "../../containers/tabs/Free/Free";
 import VideSDKWrapper from "../../components/VideSDKWrapper/VideSDKWrapper";
 
 import { loader } from "../../components/Loader/Loader";
 import UserWidget from "../../components/UserWidget/UserWidget";
 import CutCorners from "../../components/CutCorners/CutCorners";
 import LootBox from "../../components/LootBox/LootBox";
+import LogoutButton from "../../components/LogoutButton/LogoutButton";
 
 import * as friendActions from "../../modules/friend/friend.actions";
 import * as authActions from "../../modules/auth/auth.actions";
 import * as saleActions from "../../modules/sale/sale.actions";
+import * as winnersActions from "../../modules/winners/winners.actions";
 import { cutCorners } from "../../helpers/cutCorners";
 
 const styles = () => ({
@@ -35,12 +38,13 @@ const styles = () => ({
 		justifyContent: "center",
 		marginTop: "20px",
 	},
-	openLootBoxBtnWrapper: {
+	openLootCenterBtnWrapper: {
 		position: "fixed",
-		bottom: "30px",
-		right: "30px",
+		bottom: "15px",
+		left: "50%",
 		cursor: "pointer",
-		zIndex: "2"
+		zIndex: "2",
+		transform: "translate(-50%, -50%)"
 	}
 });
 
@@ -48,10 +52,11 @@ const styles = () => ({
 class HomePage extends Component {
 	static propTypes = {
 		classes: object,
+		fetchWinnersSaga: func,
 		getOffersSaga: func,
 		listFriendsSaga: func,
-		logoutStore: func,
-		offers: array,
+		logoutStorePending: func,
+		soffers: array,
 		theme: object,
 		userData: object
 	}
@@ -65,17 +70,14 @@ class HomePage extends Component {
 	componentDidMount() {
 		this.props.getOffersSaga();
 		this.props.listFriendsSaga();
+		this.props.fetchWinnersSaga();
 
 		loader.hide();
 	}
 
 	handleChange = (event, value) => {
-		if (value === 3) {
-			this.props.logoutStore();
-		} else {
-			this.lootBoxHide();
-			this.setState({ tabIndexValue: value });
-		}
+		this.lootBoxHide();
+		this.setState({ tabIndexValue: value });
 	};
 
 	handleChangeIndex = (index) => {
@@ -118,14 +120,7 @@ class HomePage extends Component {
 
 		const { tabIndexValue, lootBoxVisibility, videoPlayStatus } = this.state;
 
-		const labels = [{ name: "Friends" }, { name: "Sale" }, { name: "Free" }, { name: "Logout" }];
-
-		const saleProduct = [];
-		const freeProduct = [];
-
-		offers.map((offer) => {
-			offer.price === 0 ? freeProduct.push(offer) : saleProduct.push(offer);
-		});
+		const labels = [{ name: "Sale" }, { name: "Winners" }, { name: "Friends" },  { name: "Loot" }];
 
 		return (
 			<div>
@@ -138,20 +133,19 @@ class HomePage extends Component {
 				<LootBox lootBoxVisibility={lootBoxVisibility}  />
 
 				{ tabIndexValue !== false &&
-					<div className={classes.openLootBoxBtnWrapper}>
-						<CutCorners clipStyle={cutCorners(7.5, 15)}>
-							<Button
-								onClick={this.lootBoxShow}
-								color="primary"
-								style={cutCorners(7.5, 15)}
-								variant="contained"
-							>
-								<span>Open LootBox</span>
-							</Button>
-						</CutCorners>
-					</div>
+				<div className={classes.openLootCenterBtnWrapper}>
+					<CutCorners clipStyle={cutCorners(7.5, 15)}>
+						<Button
+							onClick={this.lootBoxShow}
+							color="primary"
+							style={cutCorners(7.5, 15)}
+							variant="contained"
+						>
+							<GiftBtn />
+						</Button>
+					</CutCorners>
+				</div>
 				}
-
 
 				<div className={classes.tabWrapper}>
 					<Tabs
@@ -167,14 +161,17 @@ class HomePage extends Component {
 								index={tabIndexValue}
 								onChangeIndex={this.handleChangeIndex}
 							>
+								<Sale onVideoPlay={this.onVideoPlay} offers={offers} />
+								<h1>Winners</h1>
 								<Friend />
-								<Sale offers={saleProduct} />
-								<Free onVideoPlay={this.onVideoPlay} offers={freeProduct} />
+								<h1>Loot</h1>
 							</SwipeableViews>
 						}
 					</div>
 
 					<VideSDKWrapper videoPlayStatus={videoPlayStatus} onVideoFinish={this.onVideoFinish} showAddBlockNotification={tabIndexValue === 2} />
+
+					<LogoutButton logout={this.props.logoutStorePending} />
 				</div>
 			</div>
 		);
@@ -188,4 +185,4 @@ function mapStateToProps({ sale, auth }) {
 	};
 }
 
-export default connect(mapStateToProps, { ...authActions, ...friendActions, ...saleActions })((withStyles(styles,  { withTheme: true })(HomePage)));
+export default connect(mapStateToProps, { ...authActions, ...friendActions, ...saleActions, ...winnersActions })((withStyles(styles,  { withTheme: true })(HomePage)));

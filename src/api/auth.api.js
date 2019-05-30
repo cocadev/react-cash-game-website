@@ -52,4 +52,16 @@ export default class AuthApi {
 
 		return result;
 	}
+
+	async logoutUser(sessionID) {
+		const result = await axios({
+			method: 'POST',
+			url: this.urls.logout,
+			headers: {
+				Authorization: sessionID
+			}
+		});
+
+		return result;
+	}
 }
