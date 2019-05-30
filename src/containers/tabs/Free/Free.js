@@ -13,6 +13,7 @@ import classes from "./Free.less";
 
 class Free extends React.Component {
 	static propTypes = {
+		changeScrollTabHeight: func,
 		googleVideoErrorStatus: bool,
 		offers: array,
 		onVideoPlay: func

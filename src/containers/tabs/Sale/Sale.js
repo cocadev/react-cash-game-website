@@ -16,10 +16,10 @@ import classes from "./Sale.less";
 
 class Sale extends React.Component {
 	static propTypes = {
+		changeScrollTabHeight: func,
 		googleVideoErrorStatus: bool,
 		offers: array,
-		onVideoPlay: func,
-		changeScrollTabHeight: func
+		onVideoPlay: func
 	}
 
 	state = {
@@ -90,7 +90,6 @@ class Sale extends React.Component {
 			offer.price === 0 ? freeProduct.push(offer) : saleProduct.push(offer);
 		});
 
-
 		return (
 			<Fragment>
 				<div className={classes.sale}>
@@ -114,7 +113,12 @@ class Sale extends React.Component {
 						:
 						<>
 							<h1 className={classes.saleTextCenter}>Free</h1>
-							<Free changeScrollTabHeight={this.props.changeScrollTabHeight} onVideoPlay={this.props.onVideoPlay} googleVideoErrorStatus={googleVideoErrorStatus} offers={freeProduct} />
+							<Free
+								changeScrollTabHeight={this.props.changeScrollTabHeight}
+								onVideoPlay={this.props.onVideoPlay}
+								googleVideoErrorStatus={googleVideoErrorStatus}
+								offers={freeProduct}
+							/>
 						</>
 					}
 				</div>

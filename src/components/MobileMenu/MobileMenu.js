@@ -5,6 +5,7 @@ import { bool, func } from "prop-types";
 import { CSSTransition } from 'react-transition-group';
 
 import classnames from "classnames";
+import MenuButton from "../../components/Buttons/MenuButton/MenuButton";
 
 import classes from "./MobileMenu.less";
 
@@ -23,19 +24,6 @@ export default class MobileMenu extends React.Component {
 	/**
 	 * Handles click on menu items and after click collapse menu
 	 */
-	handleItemClick = (event) => {
-		const tabHref = ["Sale", "Winners", "Friends", "Loot"];
-
-		if (event.target.innerText && event.target.localName !== "div") {
-			const tabIndex = tabHref.findIndex((item) => {
-				return item === event.target.innerText;
-			});
-
-			this.props.handleItemMenuClick(null, tabIndex);
-
-			this.props.closeMenu();
-		}
-	}
 
 	/**
 	 * Shows menu if button was clicked
@@ -66,10 +54,8 @@ export default class MobileMenu extends React.Component {
 					}}
 				>
 					<div className={classes.mobileMenuWrapper} onClick={this.handleItemClick} >
-						<h1>Sale</h1>
-						<h1>Winners</h1>
-						<h1>Friends</h1>
-						<h1>Loot</h1>
+						<MenuButton onClick={this.props.closeMenu} isMobileMenuOpen />
+						{ this.props.children }
 					</div>
 				</CSSTransition>
 			</div>

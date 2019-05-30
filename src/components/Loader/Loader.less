@@ -10,7 +10,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: rgba(0, 0, 0, 0.7);
+    background: #000;
+
+    img {
+        width: 30%;
+    }
 }
 .loader {
     display: block;
@@ -77,3 +81,5 @@
         transform: rotate(360deg);  /* Firefox 16+, IE 10+, Opera */
     }
 }
+
+@import "./Loader.mobile.less";

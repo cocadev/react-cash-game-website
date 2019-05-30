@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { any }  from "prop-types";
 import * as ee from 'event-emitter';
 
+import logo from "../../images/logo.png";
+
 import componentClasses from "./Loader.less";
 
 const EventEmitter = ee();
@@ -41,7 +43,7 @@ class LoaderContainer1 extends Component {
 		}
 		return (
 			<div className={componentClasses.loaderWrapper}>
-				<div className={componentClasses.loader} />
+				<img src={logo} />
 			</div>
 		);
 	}

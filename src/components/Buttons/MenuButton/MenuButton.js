@@ -10,13 +10,13 @@ import classes from "./MenuButton.less";
 class MenuButton extends React.Component {
 	static propTypes = {
 		isMobileMenuOpen: bool,
-		onMobileMenuClick: func
+		onClick: func
 	}
 	/**
 	 * Shows menu if button was clicked
 	 */
 	onButtonClick = () => {
-		this.props.onMobileMenuClick();
+		this.props.onClick();
 	}
 
 	render() {

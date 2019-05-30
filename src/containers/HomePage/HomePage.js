@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { func, array, object } from "prop-types";
+import { func, array, object, any } from "prop-types";
 
 import { connect } from "react-redux";
 
@@ -19,6 +19,7 @@ import { loader } from "../../components/Loader/Loader";
 import UserWidget from "../../components/UserWidget/UserWidget";
 import CutCorners from "../../components/CutCorners/CutCorners";
 import LootBox from "../../components/LootBox/LootBox";
+import Menus from "../../containers/Menus/Menus";
 
 import MobileMenu from "../../components/MobileMenu/MobileMenu";
 import LogoutButton from "../../components/Buttons/LogoutButton/LogoutButton";
@@ -28,6 +29,7 @@ import * as friendActions from "../../modules/friend/friend.actions";
 import * as authActions from "../../modules/auth/auth.actions";
 import * as saleActions from "../../modules/sale/sale.actions";
 import * as winnersActions from "../../modules/winners/winners.actions";
+import * as menusActions from "../../modules/menus/menus.actions";
 import { cutCorners } from "../../helpers/cutCorners";
 import history from "../../modules/history";
 
@@ -35,23 +37,30 @@ import classes from "./HomePage.less";
 
 
 class HomePage extends Component {
+
+	constructor(props) {
+		super(props);
+		this.myRef = React.createRef();
+	}
+
 	static propTypes = {
 		fetchBonus: func,
 		fetchWinnersSaga: func,
 		getOffersSaga: func,
 		listFriendsSaga: func,
 		logoutStorePending: func,
+		setTabIndex: func,
+		showMenu: func,
 		offers: array,
 		theme: object,
-		userData: object
+		userData: object,
+		tabIndex: any
 	}
 
 	state = {
-		tabIndexValue: false,
 		lootBoxVisibility: true,
 		videoPlayStatus: false,
-		googleVideoErrorStatus: true,
-		isMobileMenuOpen: false
+		googleVideoErrorStatus: true
 	};
 
 	componentDidMount() {
@@ -70,9 +79,10 @@ class HomePage extends Component {
 			tabHref.map((tab, index) => {
 				if (`#${tab}` === location.hash) {
 					this.setState({
-						tabIndexValue: index,
 						lootBoxVisibility: false
 					});
+
+					this.props.setTabIndex(index);
 				}
 			});
 		}
@@ -89,20 +99,25 @@ class HomePage extends Component {
 	handleChange = (event, value) => {
 		this.lootBoxHide();
 
-		this.setState({ tabIndexValue: value });
+		this.props.setTabIndex(value);
+
+		// this.setState({ tabIndexValue: value });
 		const tabHref = ["sale", "winners", "friends", "loot"];
 		history.push(`/#${tabHref[value]}`);
 	};
 
 	handleChangeIndex = (index) => {
-		this.setState({ tabIndexValue: index });
+		this.props.setTabIndex(index);
+		// this.setState({ tabIndexValue: index });
 	};
 
 	lootBoxShow = () => {
 		this.setState({
-			tabIndexValue: false,
+			// tabIndexValue: false,
 			lootBoxVisibility: true
 		});
+
+		this.props.setTabIndex(false);
 		//change hash name on main rout
 		history.push(`/`);
 	}
@@ -134,9 +149,7 @@ class HomePage extends Component {
 	 * handleMenuClick (works only on mobile)
 	 */
 	onMobileMenuClick = () => {
-		this.setState({
-			isMobileMenuOpen: !this.state.isMobileMenuOpen
-		});
+		this.props.showMenu("main");
 	}
 
 	omMobileMenuClose = () => {
@@ -156,18 +169,20 @@ class HomePage extends Component {
 	changeScrollTabHeight = () => {
 		if (this.swipeableActions) {
 			this.swipeableActions.updateHeight();
+
+			//console.dir(this.myRef.current);
+			// console.dir(this.myRef.current.containerNode.clientHeight);
+			//this.myRef.current.containerNode.style.height = `${this.myRef.current.containerNode.clientHeight + 5}px`;
 		}
 	}
 
 	render() {
-		const { theme, offers, userData } = this.props;
+		const { theme, offers, userData, tabIndex } = this.props;
 
 		const {
-			tabIndexValue,
 			lootBoxVisibility,
 			videoPlayStatus,
-			googleVideoErrorStatus,
-			isMobileMenuOpen
+			googleVideoErrorStatus
 		} = this.state;
 
 		const labels = [{ name: "Sale" }, { name: "Winners" }, { name: "Friends" },  { name: "Loot" }];
@@ -175,9 +190,10 @@ class HomePage extends Component {
 		return (
 			<div className={classes.homePage}>
 
-				<MenuButton isMobileMenuOpen={this.state.isMobileMenuOpen} onMobileMenuClick={this.onMobileMenuClick} />
-
 				<div className={classes.homePageTopElementWrapper}>
+
+					<MenuButton onClick={this.onMobileMenuClick} />
+
 					<UserWidget
 						lootBoxShow={this.lootBoxShow}
 						imgSrc={userData.picture}
@@ -188,13 +204,9 @@ class HomePage extends Component {
 
 				<LootBox lootBoxVisibility={lootBoxVisibility}  />
 
-				<MobileMenu
-					handleItemMenuClick={this.handleChange}
-					closeMenu={this.omMobileMenuClose}
-					isMobileMenuOpen={isMobileMenuOpen}
-				/>
+				<Menus />
 
-				{ tabIndexValue !== false &&
+				{ tabIndex !== false &&
 					<div className={classes.homePageOpenLootCenterBtnWrapper}>
 						<CutCorners clipStyle={cutCorners(7.5, 15)}>
 							<Button
@@ -211,7 +223,7 @@ class HomePage extends Component {
 
 				<div className={classes.homePageTabWrapper}>
 					<Tabs
-						value={tabIndexValue}
+						value={tabIndex}
 						onChange={this.handleChange}
 						className={classes.homePageTabCenter}
 						labels={labels}
@@ -220,7 +232,7 @@ class HomePage extends Component {
 					{/*<button onClick={this.changeScrollTabHeight}>check</button>*/}
 
 					<div className={classes.homePageTabContentWrapper}>
-						{ tabIndexValue !== false &&
+						{ tabIndex !== false &&
 							<>
 								<SwipeableViews
 									action={(actions) => {
@@ -228,9 +240,10 @@ class HomePage extends Component {
 									}}
 									animateHeight
 									disabled
+									ref={this.myRef}
 									slideClassName={classes.homePageOverFlowHidden}
 									axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-									index={tabIndexValue}
+									index={tabIndex}
 									onChangeIndex={this.handleChangeIndex}
 								>
 									<Sale
@@ -255,7 +268,7 @@ class HomePage extends Component {
 						videoPlayStatus={videoPlayStatus}
 						googleVideoErrorStatusChange={this.googleVideoErrorStatusChange}
 						onVideoFinish={this.onVideoFinish}
-						showAddBlockNotification={tabIndexValue === 2}
+						showAddBlockNotification={tabIndex === 2}
 						googleVideoErrorStatus={googleVideoErrorStatus}
 					/>
 
@@ -266,12 +279,13 @@ class HomePage extends Component {
 	}
 }
 
-function mapStateToProps({ sale, auth }) {
+function mapStateToProps({ sale, auth, menus }) {
 	return {
 		offers: sale.offers,
-		userData: auth.userData
+		userData: auth.userData,
+		tabIndex: menus.tabIndex
 	};
 }
 
-export default connect(mapStateToProps, { ...authActions, ...friendActions, ...saleActions, ...winnersActions })((withStyles(null,  { withTheme: true })(HomePage)));
+export default connect(mapStateToProps, { ...authActions, ...friendActions, ...saleActions, ...winnersActions, ...menusActions })((withStyles(null,  { withTheme: true })(HomePage)));
 

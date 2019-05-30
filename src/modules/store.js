@@ -5,6 +5,7 @@ import auth from "./auth/auth.reducer";
 import friend from "./friend/friend.reducer";
 import sale from "./sale/sale.reducer";
 import winners from "./winners/winners.reducer";
+import menus from "./menus/menus.reducer";
 
 import { initializeSaga } from "./auth/auth.actions";
 import { watchFetchUser } from "./auth/auth.saga";
@@ -15,7 +16,7 @@ import { watchFetchWinners } from "./winners/winners.saga";
 
 const sagaMiddleware = createSagaMiddleware();
 
-const rootReducer = combineReducers({ auth, friend, sale, winners });
+const rootReducer = combineReducers({ auth, friend, sale, winners, menus });
 
 const store = createStore(rootReducer, undefined, compose(
 	applyMiddleware(sagaMiddleware),
