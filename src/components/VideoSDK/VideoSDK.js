@@ -8,6 +8,8 @@ function onMouseWheel(e){ e.preventDefault(); }
 function openFullscreen(elem) {
 	document.body.classList.add("bodyFullScreen");
 	document.body.addEventListener("mousewheel", onMouseWheel);
+	document.body.addEventListener("touchmove", onMouseWheel);
+	document.body.removeEventListener("touchstart", onMouseWheel);
 
 	if (elem.requestFullscreen) {
 		elem.requestFullscreen();
@@ -23,6 +25,8 @@ function openFullscreen(elem) {
 function closeFullscreen() {
 	document.body.classList.remove("bodyFullScreen");
 	document.body.removeEventListener("mousewheel", onMouseWheel);
+	document.body.removeEventListener("touchstart", onMouseWheel);
+	document.body.removeEventListener("touchmove", onMouseWheel);
 
 	if (document.exitFullscreen) {
 		document.exitFullscreen();

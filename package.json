@@ -62,6 +62,7 @@
     "react-credit-cards": "^0.7.0",
     "react-dev-utils": "^6.0.5",
     "react-dom": "^16.5.2",
+    "react-ga": "^2.5.5",
     "react-paypal-express-checkout": "^1.0.5",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",

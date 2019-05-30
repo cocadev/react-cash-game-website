@@ -8,9 +8,12 @@ import * as Sentry from '@sentry/browser';
 
 import { ToastContainer } from 'react-toastify';
 
+import ReactGA from 'react-ga';
+
 import { LoaderContainer } from "./components/Loader/Loader";
 import HomePage from "./containers/HomePage/HomePage";
 import LoginPage from "./containers/LoginPage/LoginPage";
+import PrivacyPolicyPage from "./containers/PrivacyPolicyPage/PrivacyPolicyPage";
 
 import PrivateRoute from "./components/PrivateRouter/PrivateRouter";
 
@@ -27,7 +30,8 @@ import "./App.less";
 import customToastify from "./helpers/customToastify";
 
 Sentry.init({ dsn: 'https://87ee4c9092a1425c990ad3cd9d5fb349@sentry.io/1314519' });
-
+//googleAnalytics
+ReactGA.initialize("UA-125939911-1");
 
 class App extends Component {
 	static propTypes = {
@@ -51,6 +55,12 @@ class App extends Component {
 		if (this.props.location) {
 			parserRedirect(this.props);
 		}
+
+		this.fetchCurrentPage();
+	}
+
+	componentDidUpdate() {
+		this.fetchCurrentPage();
 	}
 
 	componentDidCatch(error, errorInfo) {
@@ -64,10 +74,17 @@ class App extends Component {
 
 	notFoundRedirect = () => {
 		customToastify("Oops not found", "error");
+
 		if (this.props.user) {
 			return <Redirect to={routes.homePage} />;
 		}
 		return  <Redirect to={routes.login} />;
+	}
+
+	fetchCurrentPage = () => {
+		const { pathname, hash } = this.props.history.location;
+		ReactGA.pageview(`${pathname}${hash}`);
+		console.log(`${pathname}${hash}`);
 	}
 
 	render() {
@@ -90,6 +107,12 @@ class App extends Component {
 						state={!this.props.user}
 						to={routes.homePage}
 						component={LoginPage}
+					/>
+
+					<Route
+						exact
+						path={routes.privacyPage}
+						component={PrivacyPolicyPage}
 					/>
 
 					<Route

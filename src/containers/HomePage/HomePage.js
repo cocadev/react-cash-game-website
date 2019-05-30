@@ -51,7 +51,8 @@ const styles = () => ({
 		transform: "translate(-50%, -50%)"
 	},
 	overFlowHidden: {
-		overflow: "hidden !important"
+		overflow: "hidden !important",
+		textAlign: "center"
 	}
 });
 
