@@ -2,19 +2,32 @@ import React, { Component } from 'react';
 
 import { connect } from "react-redux";
 import { Switch, withRouter } from "react-router-dom";
-import { any } from "prop-types";
-
-import PrivateRoute from "./components/PrivateRouter/PrivateRouter";
+import { any, func } from "prop-types";
 
 import HomePage from "./containers/HomePage/HomePage";
 import LoginPage from "./containers/LoginPage/LoginPage";
 
+import PrivateRoute from "./components/PrivateRouter/PrivateRouter";
+
 import routes from "./constans/routes";
+
+import * as authActions from "./modules/auth/auth.actions";
+
+import "./App.less";
 
 
 class App extends Component {
 	static propTypes = {
+		setUserSessionId: func,
 		user: any,
+	}
+
+	componentDidUpdate(prewProps) {
+		if (this.props.location) {
+			if (this.props.location.hash === "" && prewProps.location.hash.substring(0, 3) === "#s=") {
+				this.props.setUserSessionId(prewProps.location.hash.slice(3));
+			}
+		}
 	}
 
 	render() {
@@ -42,8 +55,9 @@ class App extends Component {
 
 function mapStateToProps({ auth }) {
 	return {
-		user: auth.user
+		user: auth.user,
+		userSessionId: auth.userSessionId
 	};
 }
 
-export default withRouter(connect(mapStateToProps, { })(App));
+export default withRouter(connect(mapStateToProps, { ...authActions })(App));

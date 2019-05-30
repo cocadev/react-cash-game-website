@@ -61,6 +61,8 @@ module.exports = {
 	},
 	devServer: {
 		historyApiFallback: true,
+		https: true,
+		port: "443"
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
