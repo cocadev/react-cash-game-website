@@ -19,7 +19,8 @@ import { loader } from "../../components/Loader/Loader";
 import UserWidget from "../../components/UserWidget/UserWidget";
 import CutCorners from "../../components/CutCorners/CutCorners";
 import LootBox from "../../components/LootBox/LootBox";
-import LogoutButton from "../../components/LogoutButton/LogoutButton";
+import LogoutButton from "../../components/Buttons/LogoutButton/LogoutButton";
+import MenuButton from "../../components/Buttons/MenuButton/MenuButton";
 
 import * as friendActions from "../../modules/friend/friend.actions";
 import * as authActions from "../../modules/auth/auth.actions";
@@ -28,38 +29,11 @@ import * as winnersActions from "../../modules/winners/winners.actions";
 import { cutCorners } from "../../helpers/cutCorners";
 import history from "../../modules/history";
 
-const styles = () => ({
-	tabWrapper: {
-		margin: "0 5px",
-	},
-	tabContentWrapper: {
-	},
-	tabCenter: {
-		display: "flex",
-		justifyContent: "center",
-		marginTop: "20px",
-		"@media only screen and (max-width: 768px)": {
-			paddingTop: "50px"
-		}
-	},
-	openLootCenterBtnWrapper: {
-		position: "fixed",
-		bottom: "15px",
-		left: "50%",
-		cursor: "pointer",
-		zIndex: "2",
-		transform: "translate(-50%, -50%)"
-	},
-	overFlowHidden: {
-		overflow: "hidden !important",
-		textAlign: "center"
-	}
-});
+import classes from "./HomePage.less";
 
 
 class HomePage extends Component {
 	static propTypes = {
-		classes: object,
 		fetchBonus: func,
 		fetchWinnersSaga: func,
 		getOffersSaga: func,
@@ -157,14 +131,14 @@ class HomePage extends Component {
 	}
 
 	render() {
-		const { classes, theme, offers, userData } = this.props;
+		const { theme, offers, userData } = this.props;
 
 		const { tabIndexValue, lootBoxVisibility, videoPlayStatus, googleVideoErrorStatus } = this.state;
 
 		const labels = [{ name: "Sale" }, { name: "Winners" }, { name: "Friends" },  { name: "Loot" }];
 
 		return (
-			<div>
+			<div className={classes.homePage}>
 				<UserWidget
 					lootBoxShow={this.lootBoxShow}
 					imgSrc={userData.picture}
@@ -172,9 +146,10 @@ class HomePage extends Component {
 					name={userData.screen_name}
 				/>
 				<LootBox lootBoxVisibility={lootBoxVisibility}  />
+				<MenuButton />
 
 				{ tabIndexValue !== false &&
-					<div className={classes.openLootCenterBtnWrapper}>
+					<div className={classes.homePageOpenLootCenterBtnWrapper}>
 						<CutCorners clipStyle={cutCorners(7.5, 15)}>
 							<Button
 								onClick={this.lootBoxShow}
@@ -188,17 +163,17 @@ class HomePage extends Component {
 					</div>
 				}
 
-				<div className={classes.tabWrapper}>
+				<div className={classes.homePageTabWrapper}>
 					<Tabs
 						value={tabIndexValue}
 						onChange={this.handleChange}
-						className={classes.tabCenter}
+						className={classes.homePageTabCenter}
 						labels={labels}
 					/>
-					<div className={classes.tabContentWrapper}>
+					<div className={classes.homePageTabContentWrapper}>
 						{ tabIndexValue !== false &&
 							<SwipeableViews
-								slideClassName={classes.overFlowHidden}
+								slideClassName={classes.homePageOverFlowHidden}
 								axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
 								index={tabIndexValue}
 								onChangeIndex={this.handleChangeIndex}
@@ -237,5 +212,5 @@ function mapStateToProps({ sale, auth }) {
 	};
 }
 
-export default connect(mapStateToProps, { ...authActions, ...friendActions, ...saleActions, ...winnersActions })((withStyles(styles,  { withTheme: true })(HomePage)));
+export default connect(mapStateToProps, { ...authActions, ...friendActions, ...saleActions, ...winnersActions })((withStyles(null,  { withTheme: true })(HomePage)));
 

@@ -1,7 +1,5 @@
 import React from 'react';
-import { object, func, bool } from "prop-types";
-
-import { withStyles } from '@material-ui/core/styles';
+import { func, bool } from "prop-types";
 
 import Payment from 'payment';
 import Cards from 'react-credit-cards';
@@ -9,25 +7,11 @@ import Cards from 'react-credit-cards';
 import TextField from '@material-ui/core/TextField';
 
 import 'react-credit-cards/es/styles-compiled.css';
-
-const styles = () => ({
-	root: {
-		marginTop: "30px"
-	},
-	textField: {
-		width: "140px"
-	},
-	textFieldWrapper: {
-		display: "flex",
-		justifyContent: "space-between"
-	}
-
-});
+import classes from "./CreditCard.less";
 
 
 class CreditCard extends React.Component {
 	static propTypes = {
-		classes: object,
 		errorShow: bool,
 		isAllValueValid: func
 	}
@@ -112,12 +96,12 @@ class CreditCard extends React.Component {
 	};
 
 	render() {
-		const { classes, errorShow } = this.props;
+		const { errorShow } = this.props;
 
 		const { name, number, expiry, cvc, focused, numberError, expiryError, cvcError, postalCodeError, nameError } = this.state;
 
 		return (
-			<div className={classes.root}>
+			<div className={classes.creditCard}>
 				<Cards
 					number={number}
 					name={name}
@@ -125,7 +109,7 @@ class CreditCard extends React.Component {
 					cvc={cvc}
 					focused={focused}
 				/>
-				<form className={classes.root}>
+				<form className={classes.creditCardRoot}>
 					<TextField
 						inputRef={this.nameOfCard}
 						fullWidth
@@ -148,11 +132,11 @@ class CreditCard extends React.Component {
 						onKeyUp={this.handleInputChange}
 						onFocus={this.handleInputFocus}
 					/>
-					<div className={classes.textFieldWrapper}>
+					<div className={classes.creditCardTextFieldWrapper}>
 						<TextField
 							inputRef={this.expiry}
 							error={errorShow && expiryError}
-							className={classes.textField}
+							className={classes.creditCardTextField}
 							label="Expiry Date"
 							type="tel"
 							name="expiry"
@@ -163,7 +147,7 @@ class CreditCard extends React.Component {
 						<TextField
 							inputRef={this.cvc}
 							error={errorShow && cvcError}
-							className={classes.textField}
+							className={classes.creditCardTextField}
 							label="CVC"
 							type="tel"
 							name="cvc"
@@ -189,5 +173,5 @@ class CreditCard extends React.Component {
 	}
 }
 
-export default withStyles(styles)(CreditCard);
+export default CreditCard;
 

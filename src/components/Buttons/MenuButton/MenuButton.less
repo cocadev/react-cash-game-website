@@ -1,0 +1,55 @@
+.menu-button {
+    position: fixed;
+    bottom: 0;
+    left: 2px;
+    right: 0;
+    z-index: 99;
+    top: 5px;
+    display: none;
+    width: 30px;
+    height: 30px;
+    border-top: 4px solid #000;
+    box-sizing: border-box;
+    transition: 0.5s;
+
+    &:before {
+        content: "";
+        position: absolute;
+        width: 30px;
+        height: 4px;
+        background-color: #000;
+        margin: auto;
+        top: 0;
+        bottom: 2px;
+        transition: 0.3s;
+    }
+
+    &:after {
+        content: "";
+        position: absolute;
+        width: 30px;
+        height: 4px;
+        background-color: #000;
+        bottom: 0;
+        top: 100%;
+        margin: auto;
+        transition: 0.3s;
+    }
+
+    &_active {
+        border: 0;
+        z-index: 99999;
+        left: calc(100% - 40px);
+
+        &:before {
+            transform: rotate(45deg);
+        }
+
+        &:after {
+            transform: rotate(-45deg);
+            top: 0;
+        }
+    }
+}
+
+@import "./MenuButton.mobile.less";

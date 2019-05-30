@@ -9,6 +9,8 @@ import * as saleActions from "../../modules/sale/sale.actions";
 import { GoogleSDK } from "../../helpers/googleSDK";
 import customToastify from "../../helpers/customToastify";
 
+import classes from "./VideSDKWrapper.less";
+
 function onMouseWheel(e){ e.preventDefault(); }
 
 function loadScript(url, callback, errorCallBack){
@@ -39,35 +41,9 @@ function loadScript(url, callback, errorCallBack){
 	}
 }
 
-const styles = () => ({
-	root: {
-		width: '100%',
-		textAlign: "center",
-		cursor: "pointer"
-	},
-	polifishBtn: {
-		cursor: "pointer",
-		zIndex: "9",
-		display: "block",
-		position: "fixed",
-		bottom: "40px",
-		right: "0px",
-	},
-	mainWrapperContent: {
-		margin: "20px 0 0 0",
-		width: "100%",
-		minHeight: "calc(100vh - 112px)",
-		animation: "unset"
-	},
-	hide: {
-		display: "none"
-	}
-});
-
 
 class VideSDKWrapper extends React.Component {
 	static propTypes = {
-		classes: object,
 		googleVideoErrorStatus: bool,
 		googleVideoErrorStatusChange: func,
 		onVideoFinish: func,
@@ -203,9 +179,9 @@ class VideSDKWrapper extends React.Component {
 	render() {
 		const { googleErrorAfterVideoOpen } = this.state;
 
-		const { classes, googleVideoErrorStatus } = this.props;
+		const { googleVideoErrorStatus } = this.props;
 
-		const showVideoSDKClass = this.state.videoAddStatus === "play" ? classes.mainWrapperContent : classes.hide;
+		const showVideoSDKClass = this.state.videoAddStatus === "play" ? classes.videoWrapper : classes.videoWrapperHide;
 
 		return (
 			<div className={showVideoSDKClass}>
@@ -215,5 +191,5 @@ class VideSDKWrapper extends React.Component {
 	}
 }
 
-export default connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(VideSDKWrapper)));
+export default connect(null, { ...saleActions })((VideSDKWrapper));
 

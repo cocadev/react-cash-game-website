@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { connect } from "react-redux";
 import { object, array, func } from "prop-types";
 
-import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import Paper from '@material-ui/core/Paper';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -20,50 +19,7 @@ import * as authActions from "../../../modules/auth/auth.actions";
 import * as friendActions from "../../../modules/friend/friend.actions";
 import { cutCorners } from "../../../helpers/cutCorners";
 
-const styles = () => ({
-	root: {
-		width: '100%',
-		marginTop: '30px',
-	},
-	buttonMargin: {
-		marginTop: '30px',
-	},
-	linkMargin: {
-		marginLeft: '20px',
-		marginRight: "10px"
-	},
-	singleFriendWrapper: {
-		display: "flex",
-		padding: "10px",
-		justifyContent: "space-between"
-	},
-	inviteWrapper: {
-		display: "flex",
-		alignItems: "center",
-	},
-	mainWrapper: {
-		position: "relative"
-	},
-	mainWrapperContent: {
-		margin: "20px 0 0 0",
-		minHeight: "calc(100vh - 112px)",
-		animation: "unset",
-		display: "block"
-	},
-	singleFriendContent: {
-		display: "flex",
-	},
-	friendButtonWrapper: {
-		display: "flex",
-		flexDirection: "column",
-		justifyContent: "space-around"
-	},
-	emptyList: {
-		color: "rgba(0, 0, 0, 0.54)",
-		fontWeight: "500",
-		fontSize: "18px",
-	}
-});
+import classes from "./Friend.less";
 
 function copyStringToClipboard(str) {
 	const el = document.createElement('textarea');
@@ -80,7 +36,6 @@ function copyStringToClipboard(str) {
 class Friend extends React.Component {
 	static propTypes = {
 		acceptFriendSaga: func,
-		classes: object,
 		friends: array,
 		listFriendsSaga: func,
 		removeFriendSaga: func,
@@ -118,13 +73,11 @@ class Friend extends React.Component {
 	}
 
 	returnMapFriend = (friend) => {
-		const { classes } = this.props;
-
 		const { status, id, screen_name, picture } = friend;
 
 		if (status !== "R") {
 			return (
-				<Paper className={classes.singleFriendWrapper} key={id}>
+				<Paper className={classes.friendSingleFriendWrapper} key={id}>
 					<div>
 						<div>
 							{
@@ -144,7 +97,7 @@ class Friend extends React.Component {
 							<p>Status: {status === "P" ? "Pending" : "Accepted"}</p>
 						</div>
 					</div>
-					<div className={classes.friendButtonWrapper}>
+					<div className={classes.friendFriendButtonWrapper}>
 						{
 							status === "P" &&
 							<>
@@ -207,7 +160,7 @@ class Friend extends React.Component {
 	}
 
 	renderLinkToFriend = () => {
-		const { classes, userData } = this.props;
+		const { userData } = this.props;
 
 		const { linkBtnCollapsed } = this.state;
 
@@ -219,14 +172,14 @@ class Friend extends React.Component {
 					style={cutCorners(7.5, 15)}
 					onClick={this.onLinkBtnClick}
 					color={linkBtnCollapsed ? "primary" : "secondary"}
-					className={classes.buttonMargin}
+					className={classes.friendButtonMargin}
 				>
 					<span>Invite</span>
 				</Button>
 
 				{ !linkBtnCollapsed &&
-					<div className={classes.inviteWrapper}>
-						<p className={classes.linkMargin}>{ linkText }</p>
+					<div className={classes.friendInviteWrapper}>
+						<p className={classes.friendLinkMargin}>{ linkText }</p>
 
 						<CutCorners clipStyle={cutCorners(7.5, 15)} >
 							<Button
@@ -244,14 +197,14 @@ class Friend extends React.Component {
 	}
 
 	renderPendingFriends = () => {
-		const { classes, friends } = this.props;
+		const { friends } = this.props;
 
 		return (
-			<div className={classes.root}>
+			<div className={classes.friendRoot}>
 				<ExpansionPanel>
 					<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-						<div className={classes.column}>
-							<p className={classes.heading}>PendingFriends</p>
+						<div className={classes.friendColumn}>
+							<p className={classes.friendHeading}>PendingFriends</p>
 						</div>
 					</ExpansionPanelSummary>
 					<Divider />
@@ -271,14 +224,14 @@ class Friend extends React.Component {
 	}
 
 	renderFriends = () => {
-		const { classes, friends } = this.props;
+		const { friends } = this.props;
 
 		return (
-			<div className={classes.root}>
+			<div className={classes.friendRoot}>
 				<ExpansionPanel>
 					<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-						<div className={classes.column}>
-							<p className={classes.heading}>Friends</p>
+						<div className={classes.friendColumn}>
+							<p className={classes.friendHeading}>Friends</p>
 						</div>
 					</ExpansionPanelSummary>
 					<Divider />
@@ -299,7 +252,7 @@ class Friend extends React.Component {
 	}
 
 	renderFriendList = () => {
-		const { classes, friends } = this.props;
+		const { friends } = this.props;
 		let friendCount = 0;
 		 friends.map((friend) => {
 			if (friend.status === "A" || friend.status === "P") {
@@ -309,7 +262,7 @@ class Friend extends React.Component {
 
 		if (friendCount > 0) {
 			return (
-				<div className={classes.root}>
+				<div className={classes.friendRoot}>
 					{friends.map((friend) => {
 						return this.returnMapFriend(friend);
 					})}
@@ -317,17 +270,15 @@ class Friend extends React.Component {
 			);
 		}
 		return (
-			<div className={classes.root}>
-				<p className={classes.emptyList}>Your friends list is empty</p>
+			<div className={classes.friendRoot}>
+				<p className={classes.friendEmptyList}>Your friends list is empty</p>
 			</div>
 		);
 	}
 
 	render() {
-		const { classes } = this.props;
-
 		return (
-			<div className={classes.mainWrapperContent}>
+			<div className={classes.friend}>
 				{ this.renderLinkToFriend() }
 				{ this.renderFriendList() }
 			</div>
@@ -342,5 +293,5 @@ function mapStateToProps({ auth, friend }) {
 	};
 }
 
-export default connect(mapStateToProps, { ...authActions, ...friendActions })((withStyles(styles,  { withTheme: true })(Friend)));
+export default connect(mapStateToProps, { ...authActions, ...friendActions })((Friend));
 

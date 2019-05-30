@@ -1,10 +1,8 @@
 import React, { Fragment } from 'react';
-import { bool, func, object } from "prop-types";
+import { func, object } from "prop-types";
 
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 
 import PaypalExpressBtn from 'react-paypal-express-checkout';
@@ -14,36 +12,11 @@ import CreditCard from "../../components/CreditCard/CreditCard";
 import Tabs from "../../components/Tabs/Tabs";
 import customToastify from "../../helpers/customToastify";
 
-
-const styles = () => ({
-	buttonWrapper: {
-		display: 'flex',
-		width: "100%",
-		justifyContent: 'center'
-	},
-	content: {
-		display: "flex",
-		justifyContent: 'center'
-	},
-	dialogMinSize: {
-		minWidth: "40%",
-		minHeight: "50%"
-	},
-	payPal: {
-		display: "flex",
-		justifyContent: "center",
-		marginTop: "30px",
-		"& .zoid-outlet": {
-			width: "200px !important",
-			height: "300px !important",
-		}
-	}
-});
+import classes from "./SaleWidget.less";
 
 
 class SaleWidget extends React.Component {
 	static propTypes = {
-		classes: object,
 		onClose: func,
 		theme: object
 	}
@@ -86,7 +59,7 @@ class SaleWidget extends React.Component {
 	}
 
 	render() {
-		const { classes, theme } = this.props;
+		const { theme } = this.props;
 
 		const { value, errorShow } = this.state;
 
@@ -98,26 +71,26 @@ class SaleWidget extends React.Component {
 		};
 
 		return (
-			<>
+			<div className={classes.saleWidget}>
 				<Tabs
 					value={value}
 					fullWidth
 					onChange={this.handleChange}
 					labels={labels}
 				/>
-				<div className={classes.tabContentWrapper}>
+				<div className={classes.saleWidgetTabContentWrapper}>
 					<SwipeableViews
 						axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
 						index={value}
 						onChangeIndex={this.handleChangeIndex}
 					>
-						<div className={classes.payPal}><PaypalExpressBtn client={client} currency={'USD'} total={1.00} /></div>
+						<div className={classes.saleWidgetPayPal}><PaypalExpressBtn client={client} currency={'USD'} total={1.00} /></div>
 						<Fragment>
-							<DialogContent className={classes.content}>
+							<DialogContent className={classes.saleWidgetContent}>
 								<div>
 									<CreditCard isAllValueValid={this.onValueValid} errorShow={errorShow}  />
 
-									<div className={classes.buttonWrapper}>
+									<div className={classes.saleWidgetButtonWrapper}>
 										<Button onClick={this.props.onClose} color="primary">
 											Cancel
 										</Button>
@@ -132,9 +105,9 @@ class SaleWidget extends React.Component {
 						<h1>Gold Coins</h1>
 					</SwipeableViews>
 				</div>
-			</>
+			</div>
 		);
 	}
 }
 
-export default withStyles(styles,  { withTheme: true })(SaleWidget);
+export default withStyles(null,  { withTheme: true })(SaleWidget);

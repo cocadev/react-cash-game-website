@@ -1,0 +1,24 @@
+.loot-box {
+    position: absolute;
+    margin: 65px 0 0 0;
+    width: 100%;
+    min-height: calc(100vh - 112px);
+    animation: unset;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    z-index: 999;
+
+    &__image-wrapper {
+        width: 80%;
+        height: 40%;
+        text-align: center;
+    }
+
+    &__image {
+        width: 50%;
+    }
+}
+
+@import "./LootBox.mobile.less";

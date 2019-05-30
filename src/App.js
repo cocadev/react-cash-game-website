@@ -33,6 +33,9 @@ Sentry.init({ dsn: 'https://87ee4c9092a1425c990ad3cd9d5fb349@sentry.io/1314519' 
 //googleAnalytics
 ReactGA.initialize("UA-125939911-1");
 
+/**
+ * App
+ */
 class App extends Component {
 	static propTypes = {
 		getUserDataSaga: func,
@@ -72,6 +75,10 @@ class App extends Component {
 		});
 	}
 
+	/**
+	 * If blabla
+	 * @returns {*}
+	 */
 	notFoundRedirect = () => {
 		customToastify("Oops not found", "error");
 

@@ -1,41 +1,13 @@
 import React from 'react';
-import { object, func, bool } from "prop-types";
-
-import { withStyles } from '@material-ui/core/styles';
+import { bool } from "prop-types";
 
 import customTween from "../../helpers/customTween";
 
-const styles = () => ({
-	root: {
-		position: "absolute",
-		margin: "65px 0 0 0",
-		width: "100%",
-		minHeight: "calc(100vh - 112px)",
-		animation: "unset",
-		display: "flex",
-		justifyContent: "center",
-		alignItems: "center",
-		backgroundColor: "#fff",
-		zIndex: "999",
-		"@media only screen and (max-width: 768px)": {
-			margin: "95px 0 0 0",
-			minHeight: "calc(100vh - 150px)",
-		}
-	},
-	imageWrapper: {
-		width: "80%",
-		height: "40%",
-		textAlign: "center"
-	},
-	image: {
-		width: "50%"
-	}
-});
+import classes from "./LootBox.less";
 
 
 class LootBox extends React.Component {
 	static propTypes = {
-		classes: object,
 		lootBoxVisibility: bool
 	}
 
@@ -101,12 +73,11 @@ class LootBox extends React.Component {
 	}
 
 	render() {
-		const { classes } = this.props;
 		return (
-			<div ref={this.onLoadAnimation} className={classes.root}>
-				<div className={classes.imageWrapper}>
+			<div ref={this.onLoadAnimation} className={classes.lootBox}>
+				<div className={classes.lootBoxImageWrapper}>
 					<img
-						className={classes.image}
+						className={classes.lootBoxImage}
 						src="https://playlivenation.com/wp-content/uploads/2017/11/7e27c6e71a02f14e2207578c53f1ca35-ow-lootbox-winter-mobile.jpg"
 						alt="lootBox"
 					/>
@@ -116,4 +87,4 @@ class LootBox extends React.Component {
 	}
 }
 
-export default withStyles(styles,  { withTheme: true })(LootBox);
+export default LootBox;

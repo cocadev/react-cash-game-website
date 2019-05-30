@@ -8,23 +8,11 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
-
-
-const styles = () => ({
-	dialogAction: {
-		display: "block",
-		paddingLeft: "10px"
-	},
-	buttonWrapper: {
-		display: 'flex',
-		justifyContent: 'flex-end'
-	}
-});
+import classes from "./ConfirmName.less";
 
 
 class ConfirmName extends React.Component {
 	static propTypes = {
-		classes: object,
 		open: bool,
 		setLoginName: func
 	}
@@ -44,19 +32,19 @@ class ConfirmName extends React.Component {
 	}
 
 	render() {
-		const { open, classes } = this.props;
+		const { open } = this.props;
 
 		const { userName } = this.state;
 
 		return (
-			<div>
+			<div className={classes.confirmName}>
 				<Dialog
 					open={open}
 					scroll="paper"
 					aria-labelledby="scroll-dialog-title"
 				>
 					<DialogTitle id="scroll-dialog-title">Confirm User Name</DialogTitle>
-					<DialogActions className={classes.dialogAction}>
+					<DialogActions className={classes.confirmNameDialogAction}>
 						<div>
 							<TextField
 								onChange={this.onNameChange}
@@ -67,7 +55,7 @@ class ConfirmName extends React.Component {
 								}}
 							/>
 						</div>
-						<div className={classes.buttonWrapper}>
+						<div className={classes.confirmNameButtonWrapper}>
 							<Button disabled={userName.length <= 3} onClick={this.onSubmitBtnClick} color="primary">
 								Ok
 							</Button>
@@ -79,4 +67,4 @@ class ConfirmName extends React.Component {
 	}
 }
 
-export default withStyles(styles)(ConfirmName);
+export default ConfirmName;

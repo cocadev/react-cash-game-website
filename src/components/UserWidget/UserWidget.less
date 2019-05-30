@@ -1,0 +1,102 @@
+.user-widget {
+    display: flex;
+    position: fixed;
+    align-items: center;
+    left: 16px;
+    cursor: pointer;
+    z-index: 999;
+
+    &__image-wrapper {
+        background-color: #341E05;
+        width: 60px;
+        height: 60px;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    &__image-container {
+        background-color: #E6B263;
+        width: 55px;
+        height: 55px;
+        border-radius: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__image {
+        width: 45px;
+        height: 45px;
+        border-radius: 100%;
+        border: 1px solid #504F48;
+    }
+
+    &__coin-container {
+        background-color: #341E05;
+        width: 145px;
+        height: 21px;
+        border-radius: 35%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__coin-wrapper {
+        background-color: #E6B263;
+        width: 151px;
+        height: 25px;
+        border-radius: 35%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: -25px;
+    }
+
+    &__coin {
+        width: 140px;
+        height: 19px;
+        color: #E6B263;
+        border-radius: 35%;
+        margin-left: 36px;
+    }
+
+    &__name-wrapper {
+        background-color: #E6B263;
+        width: 120px;
+        height: 25px;
+        border-radius: 35%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: -20px;
+    }
+
+    &__name-container {
+        background-color: #341E05;
+        width: 115px;
+        height: 21px;
+        border-radius: 35%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__name {
+        width: 110px;
+        height: 19px;
+        color: #E6B263;
+        border-radius: 35%;
+        margin-left: 20px;
+    }
+
+    &__addBlur {
+         span {
+            filter: blur(0.7px);
+         }
+    }
+}
+
+@import "./UserWidget.mobile.less";

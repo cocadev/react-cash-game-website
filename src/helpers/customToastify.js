@@ -1,6 +1,11 @@
 import { toast } from 'react-toastify';
 
-
+/**
+ * shows notification
+ * @param text
+ * @param type
+ * @param position
+ */
 export  default function customToastify(text, type = false, position = false) {
 	switch (type) {
 		case "error":

@@ -1,11 +1,8 @@
 import React, { Fragment } from 'react';
-import { bool, func, object } from "prop-types";
+import { bool, func } from "prop-types";
 
 import { Link } from "react-router-dom";
 
-import { withStyles } from '@material-ui/core/styles';
-
-import routes from "../../constants/routes";
 
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -14,8 +11,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import Checkbox from '@material-ui/core/Checkbox';
+import routes from "../../constants/routes";
 
 import DOBPicker from "../../components/DOBPicker/DOBPicker";
+
+import classes from "./ScrollDialog.less";
 
 function diff_years(dt2, dt1) {
 	let diff = (dt2.getTime() - dt1) / 1000;
@@ -23,49 +23,9 @@ function diff_years(dt2, dt1) {
 	return Math.abs(Math.round(diff / 365.25));
 }
 
-const styles = () => ({
-	dialogAction: {
-		display: "block",
-		padding: "15px"
-	},
-	errorLabel: {
-		margin: "10px 0",
-		color: "#F54B55"
-	},
-	dataPicker: {
-		display: 'flex',
-		width: "100%",
-		alignItems: "flex-end",
-		margin: 0
-	},
-	dataPickerWrapper: {
-		display: "flex",
-		flexDirection: "column"
-	},
-	buttonWrapper: {
-		display: 'flex',
-		justifyContent: 'flex-end'
-	},
-	privacyPage: {
-		display: "block",
-		marginTop: "10px"
-	},
-	dialog: {
-		"& ul": {
-			listStyle: "none !important"
-		},
-
-		"& h4": {
-			display: "inline !important"
-		}
-	}
-
-});
-
 
 class ScrollDialog extends React.Component {
 	static propTypes = {
-		classes: object,
 		handleClose: func,
 		handleConfirmAge: func,
 		open: bool
@@ -107,15 +67,13 @@ class ScrollDialog extends React.Component {
 	}
 
 	renderDataPicker = () => {
-		const { classes } = this.props;
-
 		return (
 			<Fragment>
-				<div className={classes.dataPickerWrapper}>
+				<div className={classes.scrollDialogDataPickerWrapper}>
 					<DOBPicker onDataPickerChange={this.onDataPickerChange}  />
 
 					{ this.state.dataPrickerErrorShow &&
-						<p className={classes.errorLabel}> You have to be at least 18 years old </p>
+						<p className={classes.scrollDialogErrorLabel}> You have to be at least 18 years old </p>
 					}
 				</div>
 			</Fragment>
@@ -123,12 +81,12 @@ class ScrollDialog extends React.Component {
 	}
 
 	render() {
-		const { open, handleClose, classes } = this.props;
+		const { open, handleClose } = this.props;
 
 		const { confirmChecked } = this.state;
 
 		return (
-			<div>
+			<div className={classes.scrollDialog}>
 				<Dialog
 					open={open}
 					onClose={handleClose}
@@ -137,7 +95,7 @@ class ScrollDialog extends React.Component {
 				>
 					<DialogTitle id="scroll-dialog-title">Agreement</DialogTitle>
 					<DialogContent>
-						<div className={classes.dialog}>
+						<div className={classes.scrollDialogDialog}>
 							<h1 className="center"><b className="green">Island Treasure Co.</b></h1>
 							<h3><b>Island Treasure Co Terms of Use, including Official Rules for Island Treasure Co Sweepstakes &amp; Instant Win</b></h3>
 							<h5><b>Effective January 1, 2016</b></h5>
@@ -329,13 +287,13 @@ class ScrollDialog extends React.Component {
 							</ul>
 						</div>
 					</DialogContent>
-					<DialogActions className={classes.dialogAction}>
-						<div className={classes.dataPicker}>
+					<DialogActions className={classes.scrollDialogDialogAction}>
+						<div className={classes.scrollDialogDataPicker}>
 							{ this.renderDataPicker() }
 						</div>
 
 						<div>
-							<Link className={classes.privacyPage} to={routes.privacyPage} target="_blank"> Privacy policy </Link>
+							<Link className={classes.scrollDialogPrivacyPage} to={routes.privacyPage} target="_blank"> Privacy policy </Link>
 							<p> Confirm rules
 								<Checkbox
 									checked={confirmChecked}
@@ -343,7 +301,7 @@ class ScrollDialog extends React.Component {
 									color={"primary"}
 								/>
 							</p>
-							<div className={classes.buttonWrapper}>
+							<div className={classes.scrollDialogButtonWrapper}>
 								<Button onClick={handleClose} color="primary">
 										Cancel
 								</Button>
@@ -359,4 +317,4 @@ class ScrollDialog extends React.Component {
 	}
 }
 
-export default withStyles(styles)(ScrollDialog);
+export default ScrollDialog;

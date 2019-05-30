@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from "react-redux";
-import { object, array, func, bool } from "prop-types";
-
-import { withStyles } from '@material-ui/core/styles';
+import { array, func, bool } from "prop-types";
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -13,30 +11,11 @@ import SaleWidget from "../../../components/SaleWidget/SaleWidget";
 
 import Free from "../../../containers/tabs/Free/Free";
 
-const styles = () => ({
-	root: {
-		width: '100%',
-		textAlign: "center",
-		cursor: "pointer"
-	},
-	mainWrapperContent: {
-		margin: "20px 0 0 0",
-		width: "100%",
-		minHeight: "calc(100vh - 112px)",
-		animation: "unset"
-	},
-	mainContent: {
-		display: "flex",
-		justifyContent: "center"
-	},
-	textCenter: {
-		textAlign: "center"
-	}
-});
+import classes from "./Sale.less";
+
 
 class Sale extends React.Component {
 	static propTypes = {
-		classes: object,
 		googleVideoErrorStatus: bool,
 		offers: array,
 		onVideoPlay: func
@@ -49,7 +28,7 @@ class Sale extends React.Component {
 
 	handlePayTabsClose = () => {
 		this.setState({ payTabsVisibility: false, selectedItem: false });
-	};
+	}
 
 	handlePayTabsOpen = (index) => () => {
 		if (this.state.selectedItem || this.state.selectedItem === 0) {
@@ -60,8 +39,6 @@ class Sale extends React.Component {
 	}
 
 	renderSelectedItem = (offer, index) => {
-		const { classes } = this.props;
-
 		const { selectedItem } = this.state;
 
 		const { name, description, price } = offer;
@@ -70,7 +47,7 @@ class Sale extends React.Component {
 			<Fragment key={index}>
 				{ (!selectedItem && selectedItem !== 0) &&
 					<Grid key={index} lg={2} item xs={12}>
-						<Paper onClick={this.handlePayTabsOpen(index)} className={classes.root} elevation={1}>
+						<Paper onClick={this.handlePayTabsOpen(index)} className={classes.saleRoot} elevation={1}>
 							<h3>{ name }</h3>
 							<p>{ description }</p>
 							<p>{ price }</p>
@@ -80,7 +57,7 @@ class Sale extends React.Component {
 
 				{ selectedItem === index &&
 					<Grid key={index} lg={2} item xs={12}>
-						<Paper onClick={this.handlePayTabsOpen(index)} className={classes.root} elevation={1}>
+						<Paper onClick={this.handlePayTabsOpen(index)} className={classes.saleRoot} elevation={1}>
 							<h3>{ name }</h3>
 							<p>{ description }</p>
 							<p>{ price }</p>
@@ -92,7 +69,7 @@ class Sale extends React.Component {
 	}
 
 	render() {
-		const { classes, offers, googleVideoErrorStatus } = this.props;
+		const { offers, googleVideoErrorStatus } = this.props;
 
 		const { payTabsVisibility } = this.state;
 
@@ -105,9 +82,9 @@ class Sale extends React.Component {
 
 		return (
 			<Fragment>
-				<div className={classes.mainWrapperContent}>
+				<div className={classes.sale}>
 					<Grid
-						className={classes.mainContent}
+						className={classes.saleMainContent}
 						direction="row"
 						container
 						item
@@ -124,7 +101,7 @@ class Sale extends React.Component {
 						<SaleWidget onClose={this.handlePayTabsClose} />
 						:
 						<>
-							<h1 className={classes.textCenter}>Free</h1>
+							<h1 className={classes.saleTextCenter}>Free</h1>
 							<Free onVideoPlay={this.props.onVideoPlay} googleVideoErrorStatus={googleVideoErrorStatus} offers={freeProduct} />
 						</>
 					}
@@ -135,5 +112,5 @@ class Sale extends React.Component {
 	}
 }
 
-export default connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Sale)));
+export default connect(null, { ...saleActions })((Sale));
 

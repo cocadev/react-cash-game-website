@@ -1,3 +1,10 @@
+/**
+ * Added animation to element
+ * @param {array} allPoints
+ * @param {number} time adds time to all animations (all-time divide on allPoints.length)
+ * @param {func} onUpdate
+ * @param {ref} element adds animation to element
+ */
 export default function customTween(allPoints, time, onUpdate, element) {
 	TWEEN.autoPlay(true);
 	onUpdate(allPoints[0]);

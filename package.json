@@ -59,6 +59,7 @@
     "payment": "^2.3.0",
     "react": "^16.5.2",
     "react-addons-test-utils": "^15.6.2",
+    "react-countup": "^4.0.0",
     "react-credit-cards": "^0.7.0",
     "react-dev-utils": "^6.0.5",
     "react-dom": "^16.5.2",

@@ -1,0 +1,27 @@
+.home-page {
+    &__tab-wrapper {
+        margin: 0 5px;
+    }
+
+    &__tab-center {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    &__open-loot-center-btn-wrapper {
+        position: fixed;
+        bottom: 15px;
+        left: 50%;
+        cursor: pointer;
+        z-index: 2;
+        transform: translate(-50%, -50%);
+    }
+
+    &__over-flow-hidden {
+        overflow: hidden !important;
+        text-align: center
+    }
+}
+
+@import "./HomePage.mobile.less";

@@ -1,55 +1,11 @@
 import React from 'react';
-import { func, object } from "prop-types";
+import { func } from "prop-types";
 
-import { withStyles } from '@material-ui/core/styles';
-
-const styles = () => ({
-	selectorWrapper: {
-		display: "flex",
-		margin: "0 -5px"
-	},
-	selectorContainer: {
-		margin: "0 25px 0",
-		flexGrow: "1",
-		flexShrink: "0"
-	},
-	selector: {
-		webkitAppearance: "none",
-		mozAppearance: "none",
-		appearance: "none",
-		background: "#ffffff",
-		borderRadius: "3px",
-		border: "1px solid #e6e6e6",
-		color: "#666666",
-		display: "block",
-		float: "left",
-		fontSize: "1.125rem",
-		height: "3.125rem",
-		margin: "0",
-		padding: "0 1.25rem",
-		position: "relative",
-		width: "100%",
-	},
-	mainSelector: {
-		outline: "none",
-		backgroundColor: "#ffff",
-		fontSize: "1rem",
-		lineHeight: "1.25rem",
-		border: "0 !important",
-		boxSizing: "borderBox",
-		color: "#666666",
-		fontFamily: "-apple-system, BlinkMacSystemFont, Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif",
-		height: "100%",
-		margin: "0",
-		padding: "0.625rem calc(2.875rem + 0.625rem) 0.625rem 0.625rem",
-		width: "100%",
-	}
-});
+import classes from "./DOBPicker.less";
 
 
 class DOBPicker extends React.Component {
 	static propTypes = {
-		classes: object,
 		onDataPickerChange: func
 	}
 
@@ -90,7 +46,6 @@ class DOBPicker extends React.Component {
 	}
 
 	render() {
-		const { classes } = this.props;
 
 		const months = [
 			"January", "February", "March", "April",
@@ -99,21 +54,21 @@ class DOBPicker extends React.Component {
 		];
 
 		return (
-			<form>
+			<form className={classes.dobPicker}>
 				<p>Date of birth</p>
-				<div className={classes.selectorWrapper}>
-					<div className={classes.selectorContainer}>
-						<div className={classes.selector}>
-							<select  className={classes.mainSelector}  onChange={this.selectOnChange} name="day" tabIndex="1">
+				<div className={classes.dobPickerSelectorWrapper}>
+					<div className={classes.dobPickerSelectorContainer}>
+						<div className={classes.dobPickerSelector}>
+							<select  className={classes.dobPickerMainSelector}  onChange={this.selectOnChange} name="day" tabIndex="1">
 								<option value="">Day</option>
 								{ this.renderByRange(1, 31) }
 							</select>
 						</div>
 					</div>
 
-					<div className={classes.selectorContainer}>
-						<div className={classes.selector}>
-							<select  className={classes.mainSelector}  onChange={this.selectOnChange} name="month" tabIndex="1">
+					<div className={classes.dobPickerSelectorContainer}>
+						<div className={classes.dobPickerSelector}>
+							<select  className={classes.dobPickerMainSelector}  onChange={this.selectOnChange} name="month" tabIndex="1">
 								<option value="">Month</option>
 								{
 									months.map((month, index) => {
@@ -124,9 +79,9 @@ class DOBPicker extends React.Component {
 						</div>
 					</div>
 
-					<div className={classes.selectorContainer}>
-						<div className={classes.selector}>
-							<select className={classes.mainSelector} onChange={this.selectOnChange} name="year" tabIndex="1">
+					<div className={classes.dobPickerSelectorContainer}>
+						<div className={classes.dobPickerSelector}>
+							<select className={classes.dobPickerMainSelector} onChange={this.selectOnChange} name="year" tabIndex="1">
 								<option value="">Year</option>
 								{ this.renderByRange(2018, 1900, true) }
 							</select>
@@ -138,4 +93,4 @@ class DOBPicker extends React.Component {
 	}
 }
 
-export default withStyles(styles)(DOBPicker);
+export default DOBPicker;

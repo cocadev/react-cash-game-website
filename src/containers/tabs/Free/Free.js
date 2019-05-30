@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { object, array, bool, func } from "prop-types";
-
-import { withStyles } from '@material-ui/core/styles';
+import { array, bool, func } from "prop-types";
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -10,38 +8,11 @@ import classNames from "classnames";
 
 import * as saleActions from "../../../modules/sale/sale.actions";
 
-const styles = () => ({
-	root: {
-		width: '100%',
-		textAlign: "center",
-		cursor: "pointer"
-	},
-	polifishBtn: {
-		cursor: "pointer",
-		zIndex: "9",
-		display: "block",
-		position: "fixed",
-		bottom: "40px",
-		right: "0px",
-	},
-	mainWrapperContent: {
-		width: "100%",
-	},
-	mainContent: {
-		display: "flex",
-		justifyContent: "center"
-	},
-	disable: {
-		backgroundColor: "gray",
-		cursor: "no-drop",
-		opacity: "0.8"
-	}
-});
+import classes from "./Free.less";
 
 
 class Free extends React.Component {
 	static propTypes = {
-		classes: object,
 		googleVideoErrorStatus: bool,
 		offers: array,
 		onVideoPlay: func
@@ -65,12 +36,12 @@ class Free extends React.Component {
 	}
 
 	render() {
-		const { classes, offers, googleVideoErrorStatus } = this.props;
+		const { offers, googleVideoErrorStatus } = this.props;
 
 		return (
-			<div className={classes.mainWrapperContent}>
+			<div className={classes.free}>
 				<Grid
-					className={classes.mainContent}
+					className={classes.freeMainContent}
 					direction="row"
 					container
 					item
@@ -85,7 +56,10 @@ class Free extends React.Component {
 								<Grid key={index} lg={2} item xs={12}>
 									<Paper
 										onClick={this.onPolifishBtnClick(name)}
-										className={(name === "Video" && googleVideoErrorStatus) ? classNames(classes.root, classes.disable) : classes.root}
+										className={(name === "Video" && googleVideoErrorStatus) ?
+											classNames(classes.freeRoot, classes.freeDisable)
+											:
+											classes.freeRoot}
 										elevation={1}
 									>
 										<h3>{ name }</h3>
@@ -101,5 +75,5 @@ class Free extends React.Component {
 	}
 }
 
-export default connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Free)));
+export default connect(null, { ...saleActions })((Free));
 
