@@ -1,3 +1,4 @@
+
 export class GoogleSDK {
 	constructor(videoAddEndCallback, videoAddStartCallback, contentElement, adContainer, onErrorCallBack) {
 		this.adsManager = "";
@@ -26,6 +27,7 @@ export class GoogleSDK {
 		this.createAdDisplayContainer();
 		// Create ads loader.
 		this.adsLoader = new google.ima.AdsLoader(this.adDisplayContainer);
+
 		// Listen and respond to ads loaded and error events.
 		this.adsLoader.addEventListener(
 			google.ima.AdsManagerLoadedEvent.Type.ADS_MANAGER_LOADED,
@@ -61,10 +63,8 @@ export class GoogleSDK {
 
 	createAdDisplayContainer() {
 		try {
-			this.adDisplayContainer = new google.ima.AdDisplayContainer(
-				this.adContainer, this.videoContent);
+			this.adDisplayContainer = new google.ima.AdDisplayContainer(this.adContainer, this.videoContent);
 		} catch (e) {
-			console.log(e);
 			throw e;
 		}
 	}
@@ -165,10 +165,13 @@ export class GoogleSDK {
 	}
 
 	 onAdError(adErrorEvent) {
-		console.log(adErrorEvent.getError());
-		console.log("addBlock error");
-		this.onError();
-		this.adsManager.destroy();
+		 this.onError();
+		 try {
+			 this.adsManager.destroy();
+		 }
+		 catch {
+			 this.onError();
+		 }
 	}
 
 	onContentPauseRequested() {

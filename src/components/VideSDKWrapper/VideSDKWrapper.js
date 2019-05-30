@@ -11,6 +11,34 @@ import customToastify from "../../helpers/customToastify";
 
 function onMouseWheel(e){ e.preventDefault(); }
 
+function loadScript(url, callback, errorCallBack){
+	try {
+		if (google) {
+			callback();
+		} else {
+			throw "Google is not defined ";
+		}
+	} catch (e) {
+		const script = document.createElement("script");
+		script.type = "text/javascript";
+		script.id = "googleAdd";
+
+		if (document.head.querySelector("#googleAdd")) {
+			document.head.removeChild(document.head.querySelector("#googleAdd"));
+		}
+		script.onerror = function () {
+			errorCallBack();
+		};
+
+		script.onload = function () {
+			callback();
+		};
+
+		script.src = url;
+		document.getElementsByTagName("head")[0].appendChild(script);
+	}
+}
+
 const styles = () => ({
 	root: {
 		width: '100%',
@@ -57,6 +85,7 @@ class VideSDKWrapper extends React.Component {
 		contentElement: null,
 		adContainer: null,
 		googleError: false,
+		googleErrorAfterVideoOpen: false
 	}
 
 	componentDidUpdate(prevProps) {
@@ -73,17 +102,18 @@ class VideSDKWrapper extends React.Component {
 			videoAddStatus: "end"
 		});
 
-		customToastify("Please close AdBlock or uBlock for reward", "error", "TOP_CENTER");
-
 		this.props.onVideoFinish();
 
 		this.props.googleVideoErrorStatusChange(true);
+
+		this.setState({
+			googleErrorAfterVideoOpen: true
+		});
 	}
 
-
-	onAddLoaded = (contentElement, adContainer) => {
+	onInitNewAdObject = (contentElement, adContainer) => {
 		this.setState({
-			googleSDKObj: new GoogleSDK(this.onVideoEnd, this.onVideoStart, contentElement.current, adContainer.current, this.closeFullscreen),
+			googleSDKObj: new GoogleSDK(this.onVideoEnd, this.onVideoStart, contentElement.current, adContainer.current, this.closeFullscreen,  this.props.googleVideoErrorStatusChange),
 			contentElement,
 			adContainer
 		}, () => {
@@ -99,11 +129,45 @@ class VideSDKWrapper extends React.Component {
 		});
 	}
 
+
+	onAddLoaded = (contentElement, adContainer, addBlockOff = false) => {
+		if (!addBlockOff) {
+			this.onInitNewAdObject(contentElement, adContainer);
+		} else {
+			loadScript("//imasdk.googleapis.com/js/sdkloader/ima3.js", () => {
+				this.setState({
+					googleSDKObj: new GoogleSDK(this.onVideoEnd, this.onVideoStart, contentElement.current, adContainer.current, this.closeFullscreen, this.props.googleVideoErrorStatusChange),
+					contentElement,
+					adContainer
+				}, () => {
+					try {
+						this.state.googleSDKObj.init();
+						this.props.googleVideoErrorStatusChange(false);
+						this.setState({
+							googleError: false
+						});
+					} catch (e) {
+						this.setState({
+							googleError: true
+						});
+						this.props.googleVideoErrorStatusChange(true);
+					}
+				});
+			},
+			() => {
+				this.setState({
+					googleError: true
+				});
+				this.props.googleVideoErrorStatusChange(true);
+			});
+		}
+	}
+
 	onBtnPlay = () => {
 		if (!this.state.googleError && !this.props.googleVideoErrorStatus) {
 			this.state.googleSDKObj.playAds();
 		} else {
-			customToastify("Please close AdBlock or uBlock for reward", "error", "TOP_CENTER");
+			customToastify(`Please close AdBlock or uBlock for reward ${this.state.googleErrorAfterVideoOpen ? "and reload the page" : ""}`, "error", "TOP_CENTER");
 			this.props.onVideoFinish();
 		}
 	}
@@ -137,13 +201,15 @@ class VideSDKWrapper extends React.Component {
 	}
 
 	render() {
-		const { classes } = this.props;
+		const { googleErrorAfterVideoOpen } = this.state;
+
+		const { classes, googleVideoErrorStatus } = this.props;
 
 		const showVideoSDKClass = this.state.videoAddStatus === "play" ? classes.mainWrapperContent : classes.hide;
 
 		return (
 			<div className={showVideoSDKClass}>
-				<VideoSDK onAddLoaded={this.onAddLoaded}fullScreen={this.state.videoAddStatus === "play"} />
+				<VideoSDK onAddLoaded={this.onAddLoaded} googleVideoErrorStatus={googleVideoErrorStatus && !googleErrorAfterVideoOpen} fullScreen={this.state.videoAddStatus === "play"} />
 			</div>
 		);
 	}

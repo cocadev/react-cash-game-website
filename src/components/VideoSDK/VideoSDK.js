@@ -39,6 +39,7 @@ function closeFullscreen() {
 class VideoSDK extends React.Component {
 	static propTypes = {
 		fullScreen: bool,
+		googleVideoErrorStatus: bool,
 		onAddBlockOff: func,
 		onAddLoaded: func
 	}
@@ -51,6 +52,11 @@ class VideoSDK extends React.Component {
 
 	componentDidMount() {
 		this.props.onAddLoaded(this.contentElement, this.adContainer);
+		setInterval(() => {
+			if (this.props.googleVideoErrorStatus) {
+				this.props.onAddLoaded(this.contentElement, this.adContainer, true);
+			}
+		}, 5000);
 	}
 
 	componentDidUpdate(prevProps){
