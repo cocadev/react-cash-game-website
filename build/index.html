@@ -43,7 +43,7 @@
 <noscript>You need to enable JavaScript to run this app.</noscript>
 <script>
 	if(window.localStorage.getItem("user")) {
-		window.location.origin += "app"
+		window.location.href = `${window.location.origin}/app`;
 	}
 </script>
 <div id="root">
