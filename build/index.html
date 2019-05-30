@@ -41,6 +41,17 @@
 </head>
 <body data-gr-c-s-loaded="true">
 <noscript>You need to enable JavaScript to run this app.</noscript>
+<script>
+	if(window.localStorage.getItem("user")) {
+		window.location.origin += "/app"
+	}
+
+	let facebook = document.querySelector("#facebook");
+	facebook.href += document.location.host;
+
+	let google = document.querySelector("#google");
+	google.href += document.location.host;
+</script>
 <div id="root">
         <div class="login-page--qEwfJ">
             <div class="login-page__buttonWrapper--EEAs2">
@@ -53,19 +64,7 @@
                 <div class="social-wrap a login-page__faceBookBtn--3xArD"><a id="facebook" href="https://islandtreasure.co/auth/facebook?host=">Sign in with Facebook</a></div>
             </div>
         </div>
-x</div>
-
-<script>
-	if(window.localStorage.getItem("user")) {
-		window.location.href += "app";
-	}
-
-    let facebook = document.querySelector("#facebook");
-	facebook.href += document.location.host;
-
-	let google = document.querySelector("#google");
-	google.href += document.location.host;
-</script>
+</div>
 </body>
 
 </html>
