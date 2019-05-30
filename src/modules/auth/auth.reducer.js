@@ -1,6 +1,6 @@
 import { createReducer } from "redux-act";
 import * as actions from "../auth/auth.actions";
-import { addToLocalStorage } from "../../customFunction/store";
+import { addToLocalStorage } from "../../helpers/store";
 
 const initialState = {
 	user: null,

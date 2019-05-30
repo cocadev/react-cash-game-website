@@ -8,7 +8,7 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import store from "./modules/store";
 
-import history from "./config/history";
+import history from "./modules/history";
 
 import App from './App';
 

@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { func, object } from "prop-types";
+import { func, object, array } from "prop-types";
 
 import Paper from '@material-ui/core/Paper';
 import TabsMaterial from '@material-ui/core/Tabs';
@@ -8,6 +8,7 @@ import Tab from '@material-ui/core/Tab';
 
 class Tabs extends React.Component {
 	static propTypes = {
+		labels: array,
 		mainTabChange: func,
 		value: object
 	}
@@ -22,6 +23,8 @@ class Tabs extends React.Component {
 	};
 
 	render() {
+		const { labels } = this.props;
+
 		return (
 			<Paper square>
 				<TabsMaterial
@@ -30,8 +33,11 @@ class Tabs extends React.Component {
 					textColor="primary"
 					onChange={this.handleChange}
 				>
-					<Tab label="Friends" />
-					<Tab label="Sale" />
+					{
+						labels.map((label) => {
+						return <Tab key={label.name} label={label.name} />;
+						})
+					}
 				</TabsMaterial>
 			</Paper>
 		);

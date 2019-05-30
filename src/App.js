@@ -9,8 +9,8 @@ import LoginPage from "./containers/LoginPage/LoginPage";
 
 import PrivateRoute from "./components/PrivateRouter/PrivateRouter";
 
-import routes from "./constans/routes";
-import parserRedirect from "./customFunction/parcerRedirect";
+import routes from "./constants/routes";
+import parserRedirect from "./helpers/parcerRedirect";
 
 import * as authActions from "./modules/auth/auth.actions";
 import * as friendActions from "./modules/friend/friend.actions";

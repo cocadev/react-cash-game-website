@@ -1,9 +1,9 @@
 
 import store from "store";
-import history from "../../config/history";
+import history from "../../modules/history";
 import api from "../../api";
 
-import { addToLocalStorage } from "../../customFunction/store";
+import { addToLocalStorage } from "../../helpers/store";
 
 import * as  authAction from "../auth/auth.actions";
 

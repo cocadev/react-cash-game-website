@@ -3,15 +3,17 @@ import { compose, createStore, combineReducers, applyMiddleware } from "redux";
 
 import auth from "./auth/auth.reducer";
 import friend from "./friend/friend.reducer";
+import sale from "./sale/sale.reducer";
 
 import { initializeSaga } from "./auth/auth.actions";
 import { watchFetchUser } from "./auth/auth.saga";
 import { watchFetchFriend } from "./friend/friend.saga";
+import { watchFetchSale } from "./sale/sale.saga";
 
 
 const sagaMiddleware = createSagaMiddleware();
 
-const rootReducer = combineReducers({ auth, friend });
+const rootReducer = combineReducers({ auth, friend, sale });
 
 const store = createStore(rootReducer, undefined, compose(
 	applyMiddleware(sagaMiddleware),
@@ -20,6 +22,7 @@ const store = createStore(rootReducer, undefined, compose(
 
 sagaMiddleware.run(watchFetchUser);
 sagaMiddleware.run(watchFetchFriend);
+sagaMiddleware.run(watchFetchSale);
 
 store.dispatch(initializeSaga());
 

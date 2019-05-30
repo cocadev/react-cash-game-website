@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
 import Tabs from "../../components/Tabs/Tabs";
-import FriendPanels from "../../containers/FrienPanels/FrienPanels";
+import Friend from "../../containers/tabs/Friend/Friend";
+import Sale from "../../containers/tabs/Sale/Sale";
 
 
 class HomePage extends Component {
@@ -18,23 +19,30 @@ class HomePage extends Component {
 		});
 	};
 
-	renderFriendsContent = () => {
+	renderTabsContent = () => {
 		const { tabsValue } = this.state;
 		if (tabsValue.name === "Friends") {
 			return (
-				<FriendPanels />
+				<Friend />
+			);
+		} else if (tabsValue.name === "Sale") {
+			return (
+				<Sale />
 			);
 		}
 	}
 
+
 	render() {
 		const { tabsValue } = this.state;
 
+		const labels = [{ name: "Friends" }, { name: "Sale" }];
+
 		return (
 			<div>
-				<Tabs value={tabsValue} mainTabChange={this.mainTabChange} />
+				<Tabs value={tabsValue} mainTabChange={this.mainTabChange} labels={labels} />
 
-				{ this.renderFriendsContent() }
+				{ this.renderTabsContent() }
 			</div>
 		);
 	}

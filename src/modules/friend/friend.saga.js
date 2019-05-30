@@ -1,5 +1,5 @@
 import api from "../../api";
-import history from "../../config/history";
+import history from "../../modules/history";
 
 import * as  friendAction from "../friend/friend.actions";
 
