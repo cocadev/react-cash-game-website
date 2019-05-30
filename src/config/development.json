@@ -6,7 +6,8 @@
                 "faceBookLogin": "https://islandtreasure.co/auth/facebook?host=",
                 "v1Player": "https://islandtreasure.co/v1/player",
                 "termsOfService": "https://islandtreasure.co/Terms_of_Service",
-                "logout": "https://islandtreasure.co/auth/logout"
+                "logout": "https://islandtreasure.co/auth/logout",
+                "returnBonus": "https://islandtreasure.co/v1/return_bonus"
             },
             "friend": {
                 "newFriend": "https://islandtreasure.co/v1/friend/",

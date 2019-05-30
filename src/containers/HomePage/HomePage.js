@@ -52,6 +52,7 @@ const styles = () => ({
 class HomePage extends Component {
 	static propTypes = {
 		classes: object,
+		fetchBonus: func,
 		fetchWinnersSaga: func,
 		getOffersSaga: func,
 		listFriendsSaga: func,
@@ -70,6 +71,11 @@ class HomePage extends Component {
 	componentDidMount() {
 		this.props.getOffersSaga();
 		this.props.listFriendsSaga();
+
+		setTimeout(() => {
+			this.props.fetchBonus();
+		}, 86400000);
+
 		// this.props.fetchWinnersSaga();
 
 		loader.hide();

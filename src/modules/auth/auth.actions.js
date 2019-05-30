@@ -20,3 +20,6 @@ export const setLoginName = createAction("set login name");
 export const logoutStore = createAction("logout / store");
 export const logoutStorePending = createAction("logout pending");
 
+export const fetchBonus = createAction("fetch bonus");
+
+

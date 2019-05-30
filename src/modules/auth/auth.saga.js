@@ -1,4 +1,3 @@
-
 import store from "store";
 import history from "../../modules/history";
 import api from "../../api";
@@ -8,6 +7,7 @@ import { addToLocalStorage, removeFromLocalStorage } from "../../helpers/store";
 import * as  authAction from "../auth/auth.actions";
 
 import { loader } from "../../components/Loader/Loader";
+import customToastify from "../../helpers/customToastify";
 import { takeEvery, put, select } from "redux-saga/effects";
 
 const userSessionId = (state) => state.auth.userSessionId;
@@ -15,6 +15,7 @@ const userSessionId = (state) => state.auth.userSessionId;
 
 function* fetchGoogleData(data) {
 	const { sessionId } = data.payload;
+
 	const result = yield api.auth.v1Player(sessionId);
 
 	loader.show();
@@ -32,6 +33,8 @@ function* fetchGoogleData(data) {
 
 		loader.hide();
 		history.push(`/`);
+
+		yield put(authAction.fetchBonus());
 	} else {
 		yield put(authAction.setLoginData({
 			userData: result.data,
@@ -68,6 +71,8 @@ function* fetchUserData() {
 		}));
 
 		loader.hide();
+
+		yield put(authAction.fetchBonus());
 	} catch (e) {
 		loader.hide();
 
@@ -89,6 +94,7 @@ function* fetchUserName(data) {
 
 function* logoutUser() {
 	loader.show();
+
 	const sessionId = yield select(userSessionId);
 
 	const result = yield api.auth.logoutUser(sessionId);
@@ -99,6 +105,16 @@ function* logoutUser() {
 	history.push(`/`);
 
 	loader.hide();
+}
+
+function * checkBonus() {
+	const sessionId = yield select(userSessionId);
+
+	const bonusResult = yield api.auth.returnBonus(sessionId);
+
+	if (bonusResult.data.new_reward > 0) {
+		customToastify(`You got new bonus ${bonusResult.data.new_reward}`, "success");
+	}
 }
 
 function *initialize() {
@@ -119,6 +135,7 @@ export function* watchFetchUser() {
 	yield takeEvery(authAction.initializeSaga, initialize);
 	yield takeEvery(authAction.setLoginNameSaga, fetchUserName);
 	yield takeEvery(authAction.logoutStorePending, logoutUser);
+	yield takeEvery(authAction.fetchBonus, checkBonus);
 }
 
 

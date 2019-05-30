@@ -23,7 +23,6 @@ const styles = () => ({
 	},
 	content: {
 		display: "flex",
-		justifyContent: "center"
 	},
 	dialogMinSize: {
 		minWidth: "40%",
@@ -31,7 +30,6 @@ const styles = () => ({
 	},
 	payPal: {
 		display: "flex",
-		justifyContent: "center",
 		marginTop: "30px",
 		"& .zoid-outlet": {
 			width: "200px !important",
@@ -45,7 +43,6 @@ class SaleWidget extends React.Component {
 	static propTypes = {
 		classes: object,
 		onClose: func,
-		open: bool,
 		theme: object
 	}
 
@@ -115,19 +112,19 @@ class SaleWidget extends React.Component {
 						<div className={classes.payPal}><PaypalExpressBtn client={client} currency={'USD'} total={1.00} /></div>
 						<Fragment>
 							<DialogContent className={classes.content}>
-								<CreditCard isAllValueValid={this.onValueValid} errorShow={errorShow}  />
-							</DialogContent>
-							<DialogActions >
+								<div>
+									<CreditCard isAllValueValid={this.onValueValid} errorShow={errorShow}  />
 
-								<div className={classes.buttonWrapper}>
-									<Button onClick={this.props.onClose} color="primary">
-												Cancel
-									</Button>
-									<Button onClick={this.onBuyBtnClick} color="primary">
-												Buy
-									</Button>
+									<div className={classes.buttonWrapper}>
+										<Button onClick={this.props.onClose} color="primary">
+											Cancel
+										</Button>
+										<Button onClick={this.onBuyBtnClick} color="primary">
+											Buy
+										</Button>
+									</div>
 								</div>
-							</DialogActions>
+							</DialogContent>
 						</Fragment>
 
 						<h1>Gold Coins</h1>

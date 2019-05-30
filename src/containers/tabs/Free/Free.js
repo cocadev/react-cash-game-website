@@ -35,10 +35,6 @@ class Free extends React.Component {
 		offers: array,
 		onVideoPlay: func,
 	}
-	constructor(props) {
-		super(props);
-		this.onLoadAnimation = React.createRef();
-	}
 
 	state = {
 		googleSDKObj: null,

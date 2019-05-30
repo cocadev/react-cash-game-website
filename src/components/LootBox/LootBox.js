@@ -32,8 +32,7 @@ const styles = () => ({
 class LootBox extends React.Component {
 	static propTypes = {
 		classes: object,
-		lootBoxVisibility: bool,
-		onHideAnimation: func,
+		lootBoxVisibility: bool
 	}
 
 	constructor(props) {

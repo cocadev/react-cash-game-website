@@ -9,7 +9,8 @@ const styles = () => ({
 		position: "fixed",
 		alignItems: "center",
 		left: "16px",
-		cursor: "pointer"
+		cursor: "pointer",
+		zIndex: "99999"
 	},
 	imageWrapper: {
 		backgroundColor: "#341E05",

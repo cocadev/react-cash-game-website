@@ -38,6 +38,18 @@ export default class AuthApi {
 		return result;
 	}
 
+	async returnBonus(sessionID) {
+		const result = await axios({
+			method: 'GET',
+			url: this.urls.returnBonus,
+			headers: {
+				Authorization: sessionID
+			}
+		});
+
+		return result;
+	}
+
 	async termsOfServiceConfirmAge(sessionID, data) {
 		const result = await axios({
 			method: 'POST',

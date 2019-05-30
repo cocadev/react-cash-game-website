@@ -34,46 +34,59 @@ class Sale extends React.Component {
 		onVideoPlay: func,
 	}
 
-	constructor(props) {
-		super(props);
-		this.onLoadAnimation = React.createRef();
-	}
-
-
 	state = {
-		modalVisibility: false,
+		payTabsVisibility: false,
 		selectedItem: false,
 	}
 
-	componentDidMount(){
-		// const dots = [
-		// 	{ y: 100, width: 10, x: 0, element: this.onLoadAnimation.current },
-		// 	{ y: 80, width: 100, x: 0, element: this.onLoadAnimation.current },
-		// 	{ y: 0, width: 100, x: 0, element: this.onLoadAnimation.current }
-		// ];
-		//
-		// const time = 600;
-		//
-		// const update = ({ y, width, x, element }) => {
-		// 	element.style.transform = `translateY(${y}%) translateX(${x}%)`;
-		// 	element.style.width = `${width}%`;
-		// };
-		//
-		// customTween(dots, time, update, this.onLoadAnimation.current);
-	}
-
-	handleModalClose = () => {
-		this.setState({ modalVisibility: false });
+	handlePayTabsClose = () => {
+		this.setState({ payTabsVisibility: false, selectedItem: false });
 	};
 
-	handleModalOpen = (index) => () => {
-		this.setState({ modalVisibility: true, selectedItem: index });
+	handlePayTabsOpen = (index) => () => {
+		if (this.state.selectedItem || this.state.selectedItem === 0) {
+			this.handlePayTabsClose();
+		} else {
+			this.setState({ payTabsVisibility: true, selectedItem: index });
+		}
+	}
+
+	renderSelectedItem = (offer, index) => {
+		const { classes } = this.props;
+
+		const { selectedItem } = this.state;
+
+		const { name, description, price } = offer;
+
+		return (
+			<Fragment key={index}>
+				{ (!selectedItem && selectedItem !== 0) &&
+					<Grid key={index} lg={2} item xs={12}>
+						<Paper onClick={this.handlePayTabsOpen(index)} className={classes.root} elevation={1}>
+							<h3>{ name }</h3>
+							<p>{ description }</p>
+							<p>{ price }</p>
+						</Paper>
+					</Grid>
+				}
+
+				{ selectedItem === index &&
+					<Grid key={index} lg={2} item xs={12}>
+						<Paper onClick={this.handlePayTabsOpen(index)} className={classes.root} elevation={1}>
+							<h3>{ name }</h3>
+							<p>{ description }</p>
+							<p>{ price }</p>
+						</Paper>
+					</Grid>
+				}
+			</Fragment>
+		);
 	}
 
 	render() {
 		const { classes, offers } = this.props;
 
-		const { modalVisibility, selectedItem } = this.state;
+		const { payTabsVisibility } = this.state;
 
 		const saleProduct = [];
 		const freeProduct = [];
@@ -94,48 +107,18 @@ class Sale extends React.Component {
 					>
 						{
 							saleProduct.map((offer, index) => {
-								const { name, description, price } = offer;
-
-								return (
-									<> { selectedItem ?
-											<>
-												{selectedItem === index &&
-												<Grid key={index} lg={2} item xs={12}>
-													<Paper
-														onClick={this.handleModalOpen(index)}
-														   className={classes.root} elevation={1}
-													>
-														<h3>{name}</h3>
-														<p>{description}</p>
-														<p>{price}</p>
-													</Paper>
-												</Grid>
-												}
-											</>
-										:
-
-										<Grid key={index} lg={2} item xs={12}>
-												<Paper onClick={this.handleModalOpen(index)} className={classes.root} elevation={1}>
-												<h3>{ name }</h3>
-												<p>{ description }</p>
-												<p>{ price }</p>
-											</Paper>
-											</Grid>
-									   }
-									</>
-								);
+								return this.renderSelectedItem(offer, index);
 							})
 						}
 					</Grid>
-					{ modalVisibility ?
-						<SaleWidget open={modalVisibility} onClose={this.handleModalClose} />
+					{ payTabsVisibility ?
+						<SaleWidget onClose={this.handlePayTabsClose} />
 						:
 						<>
 							<h1>Free</h1>
 							<Free onVideoPlay={this.props.onVideoPlay} offers={freeProduct} />
 						</>
 					}
-
 				</div>
 
 			</Fragment>

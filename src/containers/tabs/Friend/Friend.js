@@ -87,12 +87,6 @@ class Friend extends React.Component {
 		userData: object
 	}
 
-	constructor(props) {
-		super(props);
-		this.onLoadAnimation = React.createRef();
-	}
-
-
 	state = {
 		linkBtnCollapsed: true
 	}
@@ -333,7 +327,7 @@ class Friend extends React.Component {
 		const { classes } = this.props;
 
 		return (
-			<div ref={this.onLoadAnimation} hidden className={classes.mainWrapperContent}>
+			<div className={classes.mainWrapperContent}>
 				{ this.renderLinkToFriend() }
 				{ this.renderFriendList() }
 			</div>
