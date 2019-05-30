@@ -10,23 +10,25 @@ import classes from "./Notification.less";
 class Notification extends Component {
 	state = {
 		boxes: [
-			{ id: 1, img: BoxIcon1, text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vivamus" },
-			{ id: 2, img: BoxIcon2, text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vivamus" },
-			{ id: 3, img: BoxIcon3, text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vivamus" },
-			{ id: 4, img: BoxIcon4, text: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vivamus" }
+			{ id: 1, img: BoxIcon1, text: "Lorem ipsum dolor sit consect etur adipiscing elit. Vivamus." },
+			{ id: 2, img: BoxIcon2, text: "Lorem ipsum dolor sit consect etur adipiscing elit. Vivamus."  },
+			{ id: 3, img: BoxIcon3, text: "Lorem ipsum dolor sit consect etur adipiscing elit. Vivamus."  },
+			{ id: 4, img: BoxIcon4, text: "Lorem ipsum dolor sit consect etur adipiscing elit. Vivamus." }
 		]
 	}
 
 	renderBox = (box) => {
 		return (
 			<div key={box.id} className={classes.notificationSingleBox}>
-				<img src={box.img} alt="" />
+				<div className={classes.notificationSingleBoxImageWrapper}>
+					<img src={box.img} alt="" />
+				</div>
 				<div className={classes.notificationSingleBoxContent}>
 					<h4 className={classes.notificationSingleBoxLabel}>Loot Box {box.id}</h4>
 					<p className={classes.notificationSingleBoxText}>
 						{box.text}
-					</p>
 
+					</p>
 					<a className={classes.notificationSingleBoxButton}> Open Loot box</a>
 				</div>
 			</div>
@@ -40,10 +42,14 @@ class Notification extends Component {
 					Notification
 				</p>
 				{
-					this.state.boxes.map(box => {
+					this.state.boxes.map((box) => {
 						return this.renderBox(box);
 					})
 				}
+
+				<a className={classes.notificationButton}>view all notification</a>
+
+
 			</div>
 
 		);

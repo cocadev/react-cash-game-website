@@ -64,7 +64,7 @@ class VideoSDK extends React.Component {
 	}
 
 	componentDidUpdate(prevProps){
-		if (this.props.fullScreen && !prevProps.function) {
+		if (this.props.fullScreen && !prevProps.fullScreen) {
 			openFullscreen(this.adContainer.current);
 		} else {
 			closeFullscreen(this.adContainer.current);

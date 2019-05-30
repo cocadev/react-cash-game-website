@@ -33,6 +33,14 @@ export default class MobileMenu extends React.Component {
 		});
 	}
 
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.menuSettings !== this.state.menuSettings && !this.state.onExitingAnimation) {
+			this.setState({
+				menuSettings: nextProps.menuSettings
+			});
+		}
+	}
+
 	componentDidUpdate() {
 		/**
 		 * changes menu with animations worked only when menu was set from nexMenuSet
@@ -44,14 +52,6 @@ export default class MobileMenu extends React.Component {
 		if (!this.state.onExitingAnimation && this.props.nextMenu !== "") {
 			this.props.showMenu(this.props.nextMenu);
 			this.props.nextMenuScreen("");
-		}
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.menuSettings !== this.state.menuSettings && !this.state.onExitingAnimation) {
-			this.setState({
-				menuSettings: nextProps.menuSettings
-			});
 		}
 	}
 
@@ -93,7 +93,9 @@ export default class MobileMenu extends React.Component {
 						style={{
 							width: menuSettings.width,
 							backgroundImage: `url(${menuSettings.background})`,
-							backgroundSize: "cover"
+							backgroundSize: "cover",
+							position: menuSettings.position,
+							height: menuSettings.position && "auto"
 						}}
 						onClick={this.handleItemClick}
 					>

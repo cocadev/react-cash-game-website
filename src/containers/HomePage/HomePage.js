@@ -64,6 +64,7 @@ class HomePage extends Component {
 		tabIndex: any,
 		theme: object,
 		userData: object,
+		menuVisibility: bool
 	}
 
 	state = {
@@ -179,7 +180,7 @@ class HomePage extends Component {
 	}
 
 	render() {
-		const { theme, offers, userData, tabIndex, lootBoxVisibility } = this.props;
+		const { theme, offers, userData, tabIndex, lootBoxVisibility, menuVisibility } = this.props;
 
 		const {
 			videoPlayStatus,
@@ -242,7 +243,7 @@ class HomePage extends Component {
 					{/*<button onClick={this.changeScrollTabHeight}>check</button>*/}
 
 					<div className={classes.homePageTabContentWrapper}>
-						{ tabIndex !== false &&
+						{ (tabIndex !== false && !menuVisibility) &&
 							<>
 								<SwipeableViews
 									action={(actions) => {
@@ -292,7 +293,8 @@ function mapStateToProps({ sale, auth, menus }) {
 		offers: sale.offers,
 		userData: auth.userData,
 		tabIndex: menus.tabIndex,
-		lootBoxVisibility: menus.lootBoxVisibility
+		lootBoxVisibility: menus.lootBoxVisibility,
+		menuVisibility: menus.menuVisibility
 	};
 }
 

@@ -62,7 +62,8 @@ class Menus extends Component {
 		const menuSettings = {
 			classes: this.getClass(),
 			width: this.getMenuWidth(),
-			background: this.getBackground()
+			background: this.getBackground(),
+			position: menuName === "notification" && "absolute"
 		};
 
 		return (

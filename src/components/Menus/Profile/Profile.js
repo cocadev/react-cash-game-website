@@ -51,22 +51,6 @@ class Profile extends Component {
 		notification: false
 	};
 
-	// handleItemClick = (event) => {
-	// 	const tabHref = ["Sale", "Winners", "Friends", "Loot"];
-	//
-	// 	if (event.target.innerText && event.target.localName !== "div") {
-	// 		const tabIndex = tabHref.findIndex((item) => {
-	// 			return item === event.target.innerText;
-	// 		});
-	//
-	// 		this.props.setTabIndex(tabIndex);
-	//
-	// 		this.props.hideMenu();
-	//
-	// 		this.props.hideLootBox();
-	// 	}
-	// }
-
 	onNameInputChange = (event) => {
 		this.setState({
 			nameText: event.target.value
@@ -196,10 +180,6 @@ class Profile extends Component {
 				isNew: false,
 				onClick: () => {
 					this.props.nextMenuScreen("notification");
-					// this.props.hideMenu();
-					// setTimeout(() => {
-					// 	this.props.showMenu("notification");
-					// }, 200);
 				}
 			},
 		];
@@ -213,8 +193,6 @@ class Profile extends Component {
 
 	render() {
 		const { userData } = this.props;
-
-		//const { notification } = this.state;
 
 		return (
 			<div className={classes.profile}>
