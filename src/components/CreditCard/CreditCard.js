@@ -16,6 +16,15 @@ class CreditCard extends React.Component {
 		isAllValueValid: func
 	}
 
+	constructor(props) {
+		super(props);
+		this.nameOfCard = React.createRef();
+		this.number = React.createRef();
+		this.expiry = React.createRef();
+		this.cvc = React.createRef();
+		this.postalCode = React.createRef();
+	}
+
 	state = {
 		number: '',
 		name: '',
@@ -31,15 +40,6 @@ class CreditCard extends React.Component {
 		cvcError: true,
 		postalCodeError: true
 	};
-
-	constructor(props) {
-		super(props);
-		this.nameOfCard = React.createRef();
-		this.number = React.createRef();
-		this.expiry = React.createRef();
-		this.cvc = React.createRef();
-		this.postalCode = React.createRef();
-	}
 
 	componentDidMount() {
 		Payment.formatCardNumber(this.number.current);

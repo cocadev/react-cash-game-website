@@ -100,7 +100,7 @@ module.exports = {
 				removeStyleLinkTypeAttributese : true,
 				useShortDoctype                : true
 			},
-			favicon: 'src/images/logo.png'
+			favicon: 'src/images/favicon.png'
 		}),
 		new ErrorOverlayPlugin(),
 		new webpack.ProvidePlugin({

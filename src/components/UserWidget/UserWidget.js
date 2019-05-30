@@ -1,8 +1,8 @@
 import React from 'react';
-import { string, func, number } from "prop-types";
+import { string, func, number, bool } from "prop-types";
 import CountUp from 'react-countup';
 
-import { withStyles } from '@material-ui/core/styles';
+import classnames from "classnames";
 
 import classes from "./UserWidget.less";
 
@@ -11,7 +11,9 @@ class UserWidget extends React.Component {
 		coins: number,
 		imgSrc: string,
 		lootBoxShow: func,
-		name: string
+		name: string,
+		onProfileShow: func,
+		profilePage: bool
 	}
 
 	state = {
@@ -49,19 +51,37 @@ class UserWidget extends React.Component {
 		});
 	}
 
+	onAvatarClick = () => {
+		if (!this.props.profilePage) {
+			this.props.onProfileShow();
+		}
+	}
+
+	onLootBoxShowClick = () => {
+		if (!this.props.profilePage) {
+			this.props.lootBoxShow();
+		}
+	}
+
 	render() {
-		const { imgSrc, name, lootBoxShow } = this.props;
+		const { imgSrc, name, profilePage } = this.props;
 
 		const { startCoins, endCoins, onProgress } = this.state;
 
+		const userWidgetClasses = classnames({
+			[classes.userWidget]: true,
+			[classes.userWidgetProfilePage]: profilePage
+		});
+
+
 		return (
-			<div onClick={lootBoxShow} className={classes.userWidget}>
-				<div className={classes.userWidgetImageWrapper}>
+			<div className={userWidgetClasses}>
+				<div onClick={this.onAvatarClick} className={classes.userWidgetImageWrapper}>
 					<div className={classes.userWidgetImageContainer}>
 						<img className={classes.userWidgetImage} src={imgSrc} alt="" />
 					</div>
 				</div>
-				<div>
+				<div onClick={this.onLootBoxShowClick}>
 					<div className={classes.userWidgetCoinWrapper}>
 						<div className={classes.userWidgetCoinContainer}>
 							<p className={onProgress ? `${classes.userWidgetAddBlur} ${classes.userWidgetCoin}` : classes.userWidgetCoin}>coins:

@@ -4,7 +4,8 @@ import * as actions from "../menus/menus.actions";
 const initialState = {
 	menuVisibility: false,
 	menuName: "",
-	tabIndex: false
+	tabIndex: false,
+	lootBoxVisibility: true
 };
 
 const reducer = {
@@ -23,6 +24,16 @@ const reducer = {
 	[actions.setTabIndex]: (state, index) => ({
 		...state,
 		tabIndex: index
+	}),
+
+	[actions.showLootBox]: (state) => ({
+		...state,
+		lootBoxVisibility: true
+	}),
+
+	[actions.hideLootBox]: (state) => ({
+		...state,
+		lootBoxVisibility: false
 	}),
 };
 

@@ -131,9 +131,5 @@ function mapStateToProps({ auth }) {
 		userData: auth.userData
 	};
 }
-/**
- * This is MyClass.
- * @reactProps {!number} prop1 - this is prop1
- * @reactProps {string} prop2 - this is prop2
- */
+
 export default withRouter(connect(mapStateToProps, { ...authActions, ...friendActions })(App));

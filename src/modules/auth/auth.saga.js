@@ -92,6 +92,15 @@ function* fetchUserName(data) {
 	history.push(`/`);
 }
 
+function* changeUserName(data) {
+	const sessionId = yield select(userSessionId);
+	const result = yield api.auth.setUserName(sessionId, data.payload.screen_name);
+
+	yield put(authAction.changeLoginUserName(data.payload.screen_name));
+
+	customToastify(`Name was changing successfully`, "success");
+}
+
 function* logoutUser() {
 	loader.show();
 
@@ -136,6 +145,7 @@ export function* watchFetchUser() {
 	yield takeEvery(authAction.setLoginNameSaga, fetchUserName);
 	yield takeEvery(authAction.logoutStorePending, logoutUser);
 	yield takeEvery(authAction.fetchBonus, checkBonus);
+	yield takeEvery(authAction.changeLoginNameSaga, changeUserName);
 }
 
 

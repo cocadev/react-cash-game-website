@@ -22,4 +22,8 @@ export const logoutStorePending = createAction("logout pending");
 
 export const fetchBonus = createAction("fetch bonus");
 
+export const changeLoginNameSaga = createAction("change login name saga", (screen_name) => ({ screen_name }));
+export const changeLoginUserName = createAction("change login name");
+
+
 

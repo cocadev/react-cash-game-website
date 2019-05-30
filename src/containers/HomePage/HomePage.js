@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { func, array, object, any } from "prop-types";
+import { func, array, object, any, bool } from "prop-types";
 
 import { connect } from "react-redux";
 
@@ -21,7 +21,6 @@ import CutCorners from "../../components/CutCorners/CutCorners";
 import LootBox from "../../components/LootBox/LootBox";
 import Menus from "../../containers/Menus/Menus";
 
-import MobileMenu from "../../components/MobileMenu/MobileMenu";
 import LogoutButton from "../../components/Buttons/LogoutButton/LogoutButton";
 import MenuButton from "../../components/Buttons/MenuButton/MenuButton";
 
@@ -37,7 +36,6 @@ import classes from "./HomePage.less";
 
 
 class HomePage extends Component {
-
 	constructor(props) {
 		super(props);
 		this.myRef = React.createRef();
@@ -47,18 +45,20 @@ class HomePage extends Component {
 		fetchBonus: func,
 		fetchWinnersSaga: func,
 		getOffersSaga: func,
+		hideLootBox: func,
 		listFriendsSaga: func,
 		logoutStorePending: func,
-		setTabIndex: func,
-		showMenu: func,
+		lootBoxVisibility: bool,
 		offers: array,
+		setTabIndex: func,
+		showLootBox: func,
+		showMenu: func,
+		tabIndex: any,
 		theme: object,
-		userData: object,
-		tabIndex: any
+		userData: object
 	}
 
 	state = {
-		lootBoxVisibility: true,
 		videoPlayStatus: false,
 		googleVideoErrorStatus: true
 	};
@@ -78,9 +78,7 @@ class HomePage extends Component {
 		if (location.hash !== "/" && location.hash) {
 			tabHref.map((tab, index) => {
 				if (`#${tab}` === location.hash) {
-					this.setState({
-						lootBoxVisibility: false
-					});
+					this.props.hideLootBox();
 
 					this.props.setTabIndex(index);
 				}
@@ -112,10 +110,7 @@ class HomePage extends Component {
 	};
 
 	lootBoxShow = () => {
-		this.setState({
-			// tabIndexValue: false,
-			lootBoxVisibility: true
-		});
+		this.props.showLootBox();
 
 		this.props.setTabIndex(false);
 		//change hash name on main rout
@@ -123,9 +118,7 @@ class HomePage extends Component {
 	}
 
 	lootBoxHide = () => {
-		this.setState({
-			lootBoxVisibility: false
-		});
+		this.props.hideLootBox();
 	}
 
 	mainTabChange = (value) => {
@@ -158,6 +151,14 @@ class HomePage extends Component {
 		});
 	}
 
+	/**
+	 * open profile menu
+	 */
+	onProfileShow = () => {
+		this.props.showMenu("profile");
+	}
+
+
 	googleVideoErrorStatusChange = (status) => {
 		this.setState({
 			googleVideoErrorStatus: status
@@ -177,10 +178,9 @@ class HomePage extends Component {
 	}
 
 	render() {
-		const { theme, offers, userData, tabIndex } = this.props;
+		const { theme, offers, userData, tabIndex, lootBoxVisibility } = this.props;
 
 		const {
-			lootBoxVisibility,
 			videoPlayStatus,
 			googleVideoErrorStatus
 		} = this.state;
@@ -199,6 +199,7 @@ class HomePage extends Component {
 						imgSrc={userData.picture}
 						coins={userData.FUN_balance}
 						name={userData.screen_name}
+						onProfileShow={this.onProfileShow}
 					/>
 				</div>
 
@@ -283,7 +284,8 @@ function mapStateToProps({ sale, auth, menus }) {
 	return {
 		offers: sale.offers,
 		userData: auth.userData,
-		tabIndex: menus.tabIndex
+		tabIndex: menus.tabIndex,
+		lootBoxVisibility: menus.lootBoxVisibility
 	};
 }
 

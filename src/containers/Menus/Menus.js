@@ -1,21 +1,25 @@
 import React, { Component } from 'react';
 
-import { func, string, bool } from "prop-types";
+import { func, string, bool, object } from "prop-types";
 
 import { connect } from "react-redux";
 
 import MobileMenu from "../../components/MobileMenu/MobileMenu";
 
-import MainMenus from "../../components/Menus/MainMenu/MainMenu";
+import MainMenu from "../../components/Menus/MainMenu/MainMenu";
+
+import Profile from "../../components/Menus/Profile/Profile";
 
 import * as menusActions from "../../modules/menus/menus.actions";
+import * as authActions from "../../modules/auth/auth.actions";
 
 
 class Menus extends Component {
 	static propTypes = {
 		hideMenu: func,
 		menuName: string,
-		menuVisibility: bool
+		menuVisibility: bool,
+		userData: object
 	}
 
 	onCloseMenuClick = () => {
@@ -32,19 +36,24 @@ class Menus extends Component {
 				isMobileMenuOpen={menuVisibility}
 			>
 				{ menuName === "main" &&
-					<MainMenus />
+					<MainMenu {...this.props} />
+				}
+
+				{ menuName === "profile" &&
+					<Profile {...this.props} />
 				}
 			</MobileMenu>
 		);
 	}
 }
 
-function mapStateToProps({ menus }) {
+function mapStateToProps({ menus, auth }) {
 	return {
 		menuVisibility: menus.menuVisibility,
 		menuName: menus.menuName,
+		userData: auth.userData,
 	};
 }
 
-export default connect(mapStateToProps, { ...menusActions })((Menus));
+export default connect(mapStateToProps, { ...menusActions, ...authActions })((Menus));
 

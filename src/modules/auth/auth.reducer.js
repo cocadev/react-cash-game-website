@@ -1,5 +1,7 @@
 import { createReducer } from "redux-act";
+import _ from 'lodash';
 import * as actions from "../auth/auth.actions";
+
 import { addToLocalStorage } from "../../helpers/store";
 
 const initialState = {
@@ -36,6 +38,18 @@ const reducer = {
 		userLoaded: data.userLoaded,
 		userLoginStatus: data.userLoginStatus
 	}),
+
+	[actions.changeLoginUserName]: (state, data) => {
+		const { userData } = state;
+
+		const  userDataChangeLoginName = _.cloneDeep(userData);
+		userDataChangeLoginName.screen_name = data;
+
+		return {
+			...state,
+			userData: userDataChangeLoginName
+		};
+	},
 
 	[actions.confirmAgeSaga]: (state) => ({
 		...state,

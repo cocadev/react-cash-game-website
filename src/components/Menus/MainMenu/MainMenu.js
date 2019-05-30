@@ -2,15 +2,12 @@ import React, { Component } from 'react';
 
 import { func } from "prop-types";
 
-import { connect } from "react-redux";
-
-import * as menusActions from "../../../modules/menus/menus.actions";
-
 import classes from "./MainMenus.less";
 
 
 class MainMenu extends Component {
 	static propTypes = {
+		hideLootBox: func,
 		hideMenu: func,
 		setTabIndex: func
 	}
@@ -23,13 +20,11 @@ class MainMenu extends Component {
 				return item === event.target.innerText;
 			});
 
-			//this.props.handleItemMenuClick(null, tabIndex);
-
-			console.log(tabIndex);
-
 			this.props.setTabIndex(tabIndex);
 
 			this.props.hideMenu();
+
+			this.props.hideLootBox();
 		}
 	}
 
@@ -46,5 +41,5 @@ class MainMenu extends Component {
 	}
 }
 
-export default connect(null, { ...menusActions })((MainMenu));
+export default MainMenu;
 
