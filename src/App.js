@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 
 import { connect } from "react-redux";
-import { Switch, withRouter } from "react-router-dom";
+import { Switch, withRouter, Route, Redirect } from "react-router-dom";
 import { any, func, object } from "prop-types";
 
 import * as Sentry from '@sentry/browser';
 
 import { ToastContainer } from 'react-toastify';
 
-import { LoaderContainer, loader } from "./components/Loader/Loader";
+import { LoaderContainer } from "./components/Loader/Loader";
 import HomePage from "./containers/HomePage/HomePage";
 import LoginPage from "./containers/LoginPage/LoginPage";
 
@@ -24,6 +24,7 @@ import { pollfishConfig } from "./helpers/polifish";
 
 import "react-toastify/dist/ReactToastify.css";
 import "./App.less";
+import customToastify from "./helpers/customToastify";
 
 Sentry.init({ dsn: 'https://87ee4c9092a1425c990ad3cd9d5fb349@sentry.io/1314519' });
 
@@ -61,6 +62,14 @@ class App extends Component {
 		});
 	}
 
+	notFoundRedirect = () => {
+		customToastify("Oops not found", "error");
+		if (this.props.user) {
+			return <Redirect to={routes.homePage} />;
+		}
+		return  <Redirect to={routes.login} />;
+	}
+
 	render() {
 		return (
 			<div>
@@ -81,6 +90,10 @@ class App extends Component {
 						state={!this.props.user}
 						to={routes.homePage}
 						component={LoginPage}
+					/>
+
+					<Route
+						component={this.notFoundRedirect}
 					/>
 				</Switch>
 			</div>

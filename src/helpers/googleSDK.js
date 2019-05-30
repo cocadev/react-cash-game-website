@@ -1,5 +1,5 @@
 export class GoogleSDK {
-	constructor(videoAddEndCallback, videoAddStartCallback, contentElement, adContainer) {
+	constructor(videoAddEndCallback, videoAddStartCallback, contentElement, adContainer, onErrorCallBack) {
 		this.adsManager = "";
 		this.adsLoader = "";
 		this.adDisplayContainer = "";
@@ -12,6 +12,8 @@ export class GoogleSDK {
 		this.isaddVideoInit = false;
 
 		this.adContainer = adContainer;
+
+		this.onError = onErrorCallBack;
 	}
 
 	init() {
@@ -58,10 +60,13 @@ export class GoogleSDK {
 	}
 
 	createAdDisplayContainer() {
-		// We assume the adContainer is the DOM id of the element that will house
-		// the ads.
-		this.adDisplayContainer = new google.ima.AdDisplayContainer(
-			this.adContainer, this.videoContent);
+		try {
+			this.adDisplayContainer = new google.ima.AdDisplayContainer(
+				this.adContainer, this.videoContent);
+		} catch (e) {
+			console.log(e);
+			throw e;
+		}
 	}
 
 	playAds() {
@@ -78,6 +83,7 @@ export class GoogleSDK {
 			this.iSAddVideostart();
 			this.adsManager.start();
 		} catch (adError) {
+			this.onError();
 			// An error may be thrown if there was a problem with the VAST response.
 			this.videoContent.play();
 		}
@@ -159,8 +165,9 @@ export class GoogleSDK {
 	}
 
 	 onAdError(adErrorEvent) {
-		// Handle the error logging.
 		console.log(adErrorEvent.getError());
+		console.log("addBlock error");
+		this.onError();
 		this.adsManager.destroy();
 	}
 

@@ -1,9 +1,14 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { bool, func } from "prop-types";
 
 import "./VideoSDK.css";
 
+function onMouseWheel(e){ e.preventDefault(); }
+
 function openFullscreen(elem) {
+	document.body.classList.add("bodyFullScreen");
+	document.body.addEventListener("mousewheel", onMouseWheel);
+
 	if (elem.requestFullscreen) {
 		elem.requestFullscreen();
 	} else if (elem.mozRequestFullScreen) { /* Firefox */
@@ -16,6 +21,9 @@ function openFullscreen(elem) {
 }
 
 function closeFullscreen() {
+	document.body.classList.remove("bodyFullScreen");
+	document.body.removeEventListener("mousewheel", onMouseWheel);
+
 	if (document.exitFullscreen) {
 		document.exitFullscreen();
 	} else if (document.mozCancelFullScreen) { /* Firefox */
@@ -31,6 +39,7 @@ function closeFullscreen() {
 class VideoSDK extends React.Component {
 	static propTypes = {
 		fullScreen: bool,
+		onAddBlockOff: func,
 		onAddLoaded: func
 	}
 
@@ -54,7 +63,7 @@ class VideoSDK extends React.Component {
 
 	render() {
 		return (
-			<Fragment>
+			<>
 				<div className="mainContainer">
 					<div className="content">
 						<video ref={this.contentElement} className="contentElement">
@@ -63,7 +72,7 @@ class VideoSDK extends React.Component {
 					</div>
 					<div ref={this.adContainer} className="adContainer" className={this.props.fullScreen ? "fullScreen" : "false"} />
 				</div>
-			</Fragment>
+			</>
 		);
 	}
 }

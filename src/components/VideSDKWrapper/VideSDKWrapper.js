@@ -9,6 +9,8 @@ import * as saleActions from "../../modules/sale/sale.actions";
 import { GoogleSDK } from "../../helpers/googleSDK";
 import customToastify from "../../helpers/customToastify";
 
+function onMouseWheel(e){ e.preventDefault(); }
+
 const styles = () => ({
 	root: {
 		width: '100%',
@@ -38,6 +40,8 @@ const styles = () => ({
 class VideSDKWrapper extends React.Component {
 	static propTypes = {
 		classes: object,
+		googleVideoErrorStatus: bool,
+		googleVideoErrorStatusChange: func,
 		onVideoFinish: func,
 		showAddBlockNotification: bool,
 		videoPlayStatus: bool
@@ -61,24 +65,42 @@ class VideSDKWrapper extends React.Component {
 		}
 	}
 
+	closeFullscreen = () =>  {
+		document.body.classList.remove("bodyFullScreen");
+
+		document.body.removeEventListener("mousewheel", onMouseWheel);
+		this.setState({
+			videoAddStatus: "end"
+		});
+
+		customToastify("Please close AdBlock or uBlock for reward", "error", "TOP_CENTER");
+
+		this.props.onVideoFinish();
+
+		this.props.googleVideoErrorStatusChange(true);
+	}
+
+
 	onAddLoaded = (contentElement, adContainer) => {
 		this.setState({
-			googleSDKObj: new GoogleSDK(this.onVideoEnd, this.onVideoStart, contentElement.current, adContainer.current),
+			googleSDKObj: new GoogleSDK(this.onVideoEnd, this.onVideoStart, contentElement.current, adContainer.current, this.closeFullscreen),
 			contentElement,
 			adContainer
 		}, () => {
 			try {
 				this.state.googleSDKObj.init();
+				this.props.googleVideoErrorStatusChange(false);
 			} catch (e) {
 				this.setState({
 					googleError: true
 				});
+				this.props.googleVideoErrorStatusChange(true);
 			}
 		});
 	}
 
 	onBtnPlay = () => {
-		if (!this.state.googleError) {
+		if (!this.state.googleError && !this.props.googleVideoErrorStatus) {
 			this.state.googleSDKObj.playAds();
 		} else {
 			customToastify("Please close AdBlock or uBlock for reward", "error", "TOP_CENTER");
@@ -121,7 +143,7 @@ class VideSDKWrapper extends React.Component {
 
 		return (
 			<div className={showVideoSDKClass}>
-				<VideoSDK onAddLoaded={this.onAddLoaded} fullScreen={this.state.videoAddStatus === "play"} />
+				<VideoSDK onAddLoaded={this.onAddLoaded}fullScreen={this.state.videoAddStatus === "play"} />
 			</div>
 		);
 	}

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { connect } from "react-redux";
-import { object, array, func } from "prop-types";
+import { object, array, func, bool } from "prop-types";
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -30,8 +30,9 @@ const styles = () => ({
 class Sale extends React.Component {
 	static propTypes = {
 		classes: object,
+		googleVideoErrorStatus: bool,
 		offers: array,
-		onVideoPlay: func,
+		onVideoPlay: func
 	}
 
 	state = {
@@ -84,7 +85,7 @@ class Sale extends React.Component {
 	}
 
 	render() {
-		const { classes, offers } = this.props;
+		const { classes, offers, googleVideoErrorStatus } = this.props;
 
 		const { payTabsVisibility } = this.state;
 
@@ -116,7 +117,7 @@ class Sale extends React.Component {
 						:
 						<>
 							<h1>Free</h1>
-							<Free onVideoPlay={this.props.onVideoPlay} offers={freeProduct} />
+							<Free onVideoPlay={this.props.onVideoPlay} googleVideoErrorStatus={googleVideoErrorStatus} offers={freeProduct} />
 						</>
 					}
 				</div>

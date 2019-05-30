@@ -42,6 +42,7 @@
     "@sentry/browser": "^4.2.4",
     "axios": "^0.18.0",
     "babel-eslint": "^10.0.1",
+    "classnames": "^2.2.6",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
     "error-overlay-webpack-plugin": "^0.1.5",

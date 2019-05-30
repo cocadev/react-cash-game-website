@@ -6,6 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import classNames from "classnames";
 
 import * as saleActions from "../../../modules/sale/sale.actions";
 
@@ -25,6 +26,11 @@ const styles = () => ({
 	},
 	mainWrapperContent: {
 		width: "100%",
+	},
+	disable: {
+		backgroundColor: "gray",
+		cursor: "no-drop",
+		opacity: "0.8"
 	}
 });
 
@@ -32,8 +38,9 @@ const styles = () => ({
 class Free extends React.Component {
 	static propTypes = {
 		classes: object,
+		googleVideoErrorStatus: bool,
 		offers: array,
-		onVideoPlay: func,
+		onVideoPlay: func
 	}
 
 	state = {
@@ -54,7 +61,7 @@ class Free extends React.Component {
 	}
 
 	render() {
-		const { classes, offers } = this.props;
+		const { classes, offers, googleVideoErrorStatus } = this.props;
 
 		return (
 			<div className={classes.mainWrapperContent}>
@@ -71,7 +78,11 @@ class Free extends React.Component {
 
 							return (
 								<Grid key={index} lg={2} item xs={12}>
-									<Paper onClick={this.onPolifishBtnClick(name)} className={classes.root} elevation={1}>
+									<Paper
+										onClick={this.onPolifishBtnClick(name)}
+										className={(name === "Video" && googleVideoErrorStatus) ? classNames(classes.root, classes.disable) : classes.root}
+										elevation={1}
+									>
 										<h3>{ name }</h3>
 										<p>{ description }</p>
 									</Paper>

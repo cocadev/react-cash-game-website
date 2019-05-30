@@ -16,7 +16,11 @@ const styles = () => ({
 		justifyContent: "center",
 		alignItems: "center",
 		backgroundColor: "#fff",
-		zIndex: "999"
+		zIndex: "999",
+		"@media only screen and (max-width: 768px)": {
+			margin: "95px 0 0 0",
+			minHeight: "calc(100vh - 150px)",
+		}
 	},
 	imageWrapper: {
 		width: "80%",

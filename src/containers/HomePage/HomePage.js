@@ -26,10 +26,11 @@ import * as authActions from "../../modules/auth/auth.actions";
 import * as saleActions from "../../modules/sale/sale.actions";
 import * as winnersActions from "../../modules/winners/winners.actions";
 import { cutCorners } from "../../helpers/cutCorners";
+import history from "../../modules/history";
 
 const styles = () => ({
 	tabWrapper: {
-		margin: "0 5px"
+		margin: "0 5px",
 	},
 	tabContentWrapper: {
 	},
@@ -37,6 +38,9 @@ const styles = () => ({
 		display: "flex",
 		justifyContent: "center",
 		marginTop: "20px",
+		"@media only screen and (max-width: 768px)": {
+			paddingTop: "50px"
+		}
 	},
 	openLootCenterBtnWrapper: {
 		position: "fixed",
@@ -68,16 +72,32 @@ class HomePage extends Component {
 	state = {
 		tabIndexValue: false,
 		lootBoxVisibility: true,
-		videoPlayStatus: false
+		videoPlayStatus: false,
+		googleVideoErrorStatus: true,
 	};
 
 	componentDidMount() {
-		this.props.getOffersSaga();
-		this.props.listFriendsSaga();
+		const { getOffersSaga, listFriendsSaga, fetchBonus, location } = this.props;
+
+		const tabHref = ["sale", "winners", "friends", "loot"];
+		getOffersSaga();
+		listFriendsSaga();
 
 		setTimeout(() => {
-			this.props.fetchBonus();
+			fetchBonus();
 		}, 86400000);
+
+		// for tab redirected with href
+		if (location.hash !== "/" && location.hash) {
+			tabHref.map((tab, index) => {
+				if (`#${tab}` === location.hash) {
+					this.setState({
+						tabIndexValue: index,
+						lootBoxVisibility: false
+					});
+				}
+			});
+		}
 
 		// this.props.fetchWinnersSaga();
 
@@ -86,7 +106,10 @@ class HomePage extends Component {
 
 	handleChange = (event, value) => {
 		this.lootBoxHide();
+
 		this.setState({ tabIndexValue: value });
+		const tabHref = ["sale", "winners", "friends", "loot"];
+		history.push(`/#${tabHref[value]}`);
 	};
 
 	handleChangeIndex = (index) => {
@@ -98,6 +121,8 @@ class HomePage extends Component {
 			tabIndexValue: false,
 			lootBoxVisibility: true
 		});
+		//change hash name on main rout
+		history.push(`/`);
 	}
 
 	lootBoxHide = () => {
@@ -124,10 +149,16 @@ class HomePage extends Component {
 		});
 	}
 
+	googleVideoErrorStatusChange = (status) => {
+		this.setState({
+			googleVideoErrorStatus: status
+		});
+	}
+
 	render() {
 		const { classes, theme, offers, userData } = this.props;
 
-		const { tabIndexValue, lootBoxVisibility, videoPlayStatus } = this.state;
+		const { tabIndexValue, lootBoxVisibility, videoPlayStatus, googleVideoErrorStatus } = this.state;
 
 		const labels = [{ name: "Sale" }, { name: "Winners" }, { name: "Friends" },  { name: "Loot" }];
 
@@ -142,18 +173,18 @@ class HomePage extends Component {
 				<LootBox lootBoxVisibility={lootBoxVisibility}  />
 
 				{ tabIndexValue !== false &&
-				<div className={classes.openLootCenterBtnWrapper}>
-					<CutCorners clipStyle={cutCorners(7.5, 15)}>
-						<Button
-							onClick={this.lootBoxShow}
-							color="primary"
-							style={cutCorners(7.5, 15)}
-							variant="contained"
-						>
-							<GiftBtn />
-						</Button>
-					</CutCorners>
-				</div>
+					<div className={classes.openLootCenterBtnWrapper}>
+						<CutCorners clipStyle={cutCorners(7.5, 15)}>
+							<Button
+								onClick={this.lootBoxShow}
+								color="primary"
+								style={cutCorners(7.5, 15)}
+								variant="contained"
+							>
+								<GiftBtn />
+							</Button>
+						</CutCorners>
+					</div>
 				}
 
 				<div className={classes.tabWrapper}>
@@ -171,7 +202,11 @@ class HomePage extends Component {
 								index={tabIndexValue}
 								onChangeIndex={this.handleChangeIndex}
 							>
-								<Sale onVideoPlay={this.onVideoPlay} offers={offers} />
+								<Sale
+									onVideoPlay={this.onVideoPlay}
+									googleVideoErrorStatus={googleVideoErrorStatus}
+									offers={offers}
+								/>
 								<h1>Winners</h1>
 								<Friend />
 								<h1>Loot</h1>
@@ -179,7 +214,13 @@ class HomePage extends Component {
 						}
 					</div>
 
-					<VideSDKWrapper videoPlayStatus={videoPlayStatus} onVideoFinish={this.onVideoFinish} showAddBlockNotification={tabIndexValue === 2} />
+					<VideSDKWrapper
+						videoPlayStatus={videoPlayStatus}
+						googleVideoErrorStatusChange={this.googleVideoErrorStatusChange}
+						onVideoFinish={this.onVideoFinish}
+						showAddBlockNotification={tabIndexValue === 2}
+						googleVideoErrorStatus={googleVideoErrorStatus}
+					/>
 
 					<LogoutButton logout={this.props.logoutStorePending} />
 				</div>
@@ -196,3 +237,4 @@ function mapStateToProps({ sale, auth }) {
 }
 
 export default connect(mapStateToProps, { ...authActions, ...friendActions, ...saleActions, ...winnersActions })((withStyles(styles,  { withTheme: true })(HomePage)));
+
