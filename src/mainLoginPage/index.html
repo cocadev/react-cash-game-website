@@ -43,14 +43,8 @@
 <noscript>You need to enable JavaScript to run this app.</noscript>
 <script>
 	if(window.localStorage.getItem("user")) {
-		window.location.origin += "/app"
+		window.location.origin += "app"
 	}
-
-	let facebook = document.querySelector("#facebook");
-	facebook.href += document.location.host;
-
-	let google = document.querySelector("#google");
-	google.href += document.location.host;
 </script>
 <div id="root">
         <div class="login-page--qEwfJ">
@@ -65,6 +59,13 @@
             </div>
         </div>
 </div>
+<script>
+	let facebook = document.querySelector("#facebook");
+	facebook.href += document.location.host;
+
+	let google = document.querySelector("#google");
+	google.href += document.location.host;
+</script>
 </body>
 
 </html>
