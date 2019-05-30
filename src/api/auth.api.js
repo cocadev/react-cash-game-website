@@ -1,4 +1,5 @@
 import axios from 'axios';
+import store from "store";
 import { api } from "../config";
 
 
@@ -7,25 +8,46 @@ export default class AuthApi {
 		return api.urls.auth;
 	}
 
-	async v1Player(sessionId) {
-		const result = await axios.get(this.urls.v1Player, {
+	get sessionID() {
+		return store.get("userSessionId");
+	}
+
+	async v1Player() {
+		const result = await axios({
+			method: 'GET',
+			url: this.urls.v1Player,
 			headers: {
-				Authorization: sessionId
+				Authorization: this.sessionID
+			}
+		});
+
+		return result;
+	}
+	async setUserName(sessionID, screen_name) {
+		const result = await axios({
+			method: 'POST',
+			url: this.urls.v1Player,
+			headers: {
+				Authorization: sessionID
+			},
+			data: {
+				screen_name
 			}
 		});
 
 		return result;
 	}
 
-	async termsOfServiceConfirmAge(sessionId, data) {
-		const result = await axios.post(this.urls.termsOfService, {
-			params: {
+	async termsOfServiceConfirmAge(sessionID, data) {
+		const result = await axios({
+			method: 'POST',
+			url: this.urls.termsOfService,
+			data: {
 				dob: data
 			},
-		}, {
 			headers: {
-				Authorization: sessionId
-			},
+				Authorization: sessionID
+			}
 		});
 
 		return result;

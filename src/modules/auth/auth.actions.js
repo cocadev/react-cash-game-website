@@ -14,3 +14,6 @@ export const confirmAgeSuccess = createAction("confirm age success");
 
 export const setLoginData = createAction("set login data");
 
+export const setLoginNameSaga = createAction("set login name saga", (screen_name) => ({ screen_name }));
+export const setLoginName = createAction("set login name");
+

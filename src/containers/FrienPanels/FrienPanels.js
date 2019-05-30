@@ -8,6 +8,8 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Avatar from '@material-ui/core/Avatar';
+import Person from '@material-ui/icons/Person';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
@@ -21,23 +23,26 @@ const styles = () => ({
 		width: '100%',
 		marginTop: '30px',
 	},
-	icon: {
-		verticalAlign: 'bottom',
-		height: 20,
-		width: 20,
-	},
 	buttonMargin: {
 		marginTop: '30px',
 	},
 	linkMargin: {
 		marginTop: '20px',
 		marginLeft: '20px',
+	},
+	singleFriendWrapper: {
+		display: "flex",
+		padding: "10px",
+		alignItems: "center"
 	}
 });
 
 class FriendPanels extends React.Component {
 	static propTypes = {
+		acceptFriendSaga: func,
+		removeFriendSaga: func,
 		classes: object,
+		friends: array,
 		listFriendsSaga: func,
 		userData: object
 	}
@@ -47,7 +52,6 @@ class FriendPanels extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log(this.props);
 		this.props.listFriendsSaga();
 	}
 
@@ -57,12 +61,57 @@ class FriendPanels extends React.Component {
 		});
 	}
 
+	onAddToFriendBtnClick = (id) => (event) => {
+		event.stopPropagation();
+
+		this.props.acceptFriendSaga(id);
+	}
+
+	onDeleteBtnClick = (id) => (event) => {
+		event.stopPropagation();
+		this.props.removeFriendSaga(id);
+	}
+
+	returnMapFriend = (friend, statusRender) => {
+		const { classes } = this.props;
+
+		const { status, id, screen_name, picture } = friend;
+		if (status === statusRender) {
+			return (
+				<div className={classes.singleFriendWrapper} key={id}>
+					<div>
+						{
+							picture !== "" ?
+								<img src={picture} alt="" />
+								:
+								<Avatar>
+									<Person />
+								</Avatar>
+						}
+						{ screen_name }
+					</div>
+					<div>
+						{
+							status === "P" &&
+							<button onClick={this.onAddToFriendBtnClick(id)}> Add To Friend</button>
+						}
+
+						{
+							status === "A" &&
+							<button onClick={this.onDeleteBtnClick(id)}> Delete </button>
+						}
+					</div>
+				</div>
+			);
+		}
+	}
+
 	renderLinkToFriend = () => {
 		const { classes, userData } = this.props;
 
 		const { linkBtnCollapsed } = this.state;
 
-		const linkText = `${api.urls.currentPath}${userData.invite_code}`;
+		const linkText = `${api.urls.currentPath}#i=${userData.invite_code}`;
 
 		return (
 			<Fragment>
@@ -87,7 +136,7 @@ class FriendPanels extends React.Component {
 	}
 
 	renderPendingFriends = () => {
-		const { classes } = this.props;
+		const { classes, friends } = this.props;
 
 		return (
 			<div className={classes.root}>
@@ -98,6 +147,9 @@ class FriendPanels extends React.Component {
 						</div>
 					</ExpansionPanelSummary>
 					<Divider />
+					{ friends.map((friend) => {
+						return this.returnMapFriend(friend, "P");
+					}) }
 
 					<ExpansionPanelActions>
 						<Button size="small">Cancel</Button>
@@ -111,7 +163,7 @@ class FriendPanels extends React.Component {
 	}
 
 	renderFriends = () => {
-		const { classes } = this.props;
+		const { classes, friends } = this.props;
 
 		return (
 			<div className={classes.root}>
@@ -122,6 +174,10 @@ class FriendPanels extends React.Component {
 						</div>
 					</ExpansionPanelSummary>
 					<Divider />
+
+					{ friends.map((friend) => {
+						return this.returnMapFriend(friend, "A");
+					}) }
 
 					<ExpansionPanelActions>
 						<Button size="small">Cancel</Button>
@@ -144,9 +200,10 @@ class FriendPanels extends React.Component {
 		);
 	}
 }
-function mapStateToProps({ auth }) {
+function mapStateToProps({ auth, friend }) {
 	return {
-		userData: auth.userData
+		userData: auth.userData,
+		friends: friend.friends
 	};
 }
 

@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
 import ScrollDialog from "../../components/ScrollDialog/ScrollDialog";
+import ConfirmName from "../../components/ConfirmName/ConfirmName";
 
 import { api } from "../../config";
 import * as authAction from "../../modules/auth/auth.actions";
@@ -14,11 +15,13 @@ import classes from "./LoginPage.less";
 
 class LoginPage extends Component {
 	static propTypes = {
+		confirmAge: string,
 		confirmAgeSaga: func,
 		googleLoginUserSaga: func,
 		userData: object,
 		userLoaded: bool,
 		userLoginStatus: string,
+		setLoginNameSaga: func,
 		userSessionId: string
 	}
 
@@ -51,6 +54,8 @@ class LoginPage extends Component {
 
 
 	render() {
+		const { confirmAge } = this.props;
+
 		const { modalVisibility } = this.state;
 
 		return (
@@ -73,9 +78,11 @@ class LoginPage extends Component {
 
 				<ScrollDialog
 					handleConfirmAge={this.handleConfirmAge}
-					open={modalVisibility}
+					open={modalVisibility && confirmAge !== "success"}
 					handleClose={this.handleModalClose}
 				/>
+
+				<ConfirmName open={confirmAge === "success"} setLoginName={this.props.setLoginNameSaga} />
 			</div>
 		);
 	}
@@ -86,7 +93,8 @@ function mapStateToProps({ auth }) {
 		userLoaded: auth.userLoaded,
 		userLoginStatus: auth.userLoginStatus,
 		userData: auth.userData,
-		userSessionId: auth.userSessionId
+		userSessionId: auth.userSessionId,
+		confirmAge: auth.confirmAge
 	};
 }
 

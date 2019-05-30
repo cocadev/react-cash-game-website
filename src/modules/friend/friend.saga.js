@@ -21,11 +21,11 @@ function* fetchFriends() {
 
 function* fetchAcceptFriend(data) {
 	try {
-		const sessionId = yield select(userSessionId);
 		const friend_uuid = data.payload.friend_uuid;
 
-		const result = yield api.friend.acceptFriendRequest(sessionId, friend_uuid);
-		console.log(result);
+		const result = yield api.friend.acceptFriendRequest(friend_uuid);
+
+		yield put(friendAction.listFriendsSaga());
 	} catch (e) {
 		console.log("fetchAcceptFriendRequest", e);
 	}
@@ -33,11 +33,10 @@ function* fetchAcceptFriend(data) {
 
 function* fetchRemoveFriend(data) {
 	try {
-		const sessionId = yield select(userSessionId);
 		const friend_uuid = data.payload.friend_uuid;
 
-		const result = yield api.friend.removeFriend(sessionId, friend_uuid);
-		console.log(result);
+		const result = yield api.friend.removeFriend(friend_uuid);
+		yield put(friendAction.listFriendsSaga());
 	} catch (e) {
 		console.log("fetchAcceptFriendRequest", e);
 	}
@@ -49,7 +48,9 @@ function* fetchNewFriends(data) {
 		const friend_uuid = data.payload.invite_uuid;
 
 		const result = yield api.friend.newFriend(sessionId, friend_uuid);
-		console.log(result);
+
+		yield put(friendAction.listFriendsSaga());
+		history.push("/");
 	} catch (e) {
 		console.log("fetchAcceptFriendRequest", e);
 	}

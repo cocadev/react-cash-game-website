@@ -24,10 +24,9 @@ function* fetchGoogleData(data) {
 				userLoginStatus: "success"
 			}));
 
-			yield put(authAction.setCurrentUser());
-
 			addToLocalStorage("user", true);
-			addToLocalStorage("userSessionId", userSessionId);
+
+			yield put(authAction.setCurrentUser());
 
 			history.push(`/`);
 		} else {
@@ -43,18 +42,16 @@ function* fetchGoogleData(data) {
 }
 
 function* fetchConfirmUserAge(data) {
-	const state = yield select();
-	const { userSessionId } = state.auth;
-	// //TODO change
-	// debugger;
-	// const result = yield api.auth.termsOfServiceConfirmAge(userSessionId, data.payload.data);
-	// console.log(result);
-	yield put(authAction.setCurrentUser());
+	try {
+		const state = yield select();
+		const { userSessionId } = state.auth;
 
-	addToLocalStorage("user", true);
-	addToLocalStorage("userSessionId", userSessionId);
+		const result = yield api.auth.termsOfServiceConfirmAge(userSessionId, data.payload.data);
 
-	history.push(`/`);
+		yield put(authAction.confirmAgeSuccess());
+	} catch (e) {
+		console.log("fetchConfirmUserAge", e);
+	}
 }
 
 
@@ -67,6 +64,22 @@ function* fetchUserData() {
 		userLoaded: true,
 		userLoginStatus: "success"
 	}));
+}
+
+function* fetchUserName(data) {
+	try {
+		const sessionId = yield select(userSessionId);
+
+		const result = yield api.auth.setUserName(sessionId, data.payload.screen_name);
+
+		addToLocalStorage("user", true);
+		addToLocalStorage("userSessionId", sessionId);
+
+		yield put(authAction.setCurrentUser());
+		history.push(`/`);
+	} catch (e) {
+		console.log("fetchUserName", e);
+	}
 }
 
 function *initialize() {
@@ -83,6 +96,7 @@ export function* watchFetchUser() {
 	yield takeEvery(authAction.confirmAgeSaga, fetchConfirmUserAge);
 	yield takeEvery(authAction.getUserDataSaga, fetchUserData);
 	yield takeEvery(authAction.initializeSaga, initialize);
+	yield takeEvery(authAction.setLoginNameSaga, fetchUserName);
 }
 
 

@@ -8,6 +8,7 @@ export default function parserRedirect(props) {
 				break;
 			case "#i=":
 				props.newFriendSaga(hashId);
+				break;
 		}
 	}
 }

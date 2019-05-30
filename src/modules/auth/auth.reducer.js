@@ -1,5 +1,6 @@
 import { createReducer } from "redux-act";
 import * as actions from "../auth/auth.actions";
+import { addToLocalStorage } from "../../customFunction/store";
 
 const initialState = {
 	user: null,
@@ -16,10 +17,14 @@ const reducer = {
 		user: true
 	}),
 
-	[actions.setUserSessionId]: (state, userSessionId) => ({
-		...state,
-		userSessionId
-	}),
+	[actions.setUserSessionId]: (state, userSessionId) => {
+		addToLocalStorage("userSessionId", userSessionId);
+
+		return {
+			...state,
+			userSessionId
+		};
+	},
 	[actions.googleLoginUserSaga]: (state) => ({
 		...state,
 		userLoginStatus: "pending"
@@ -35,6 +40,11 @@ const reducer = {
 	[actions.confirmAgeSaga]: (state) => ({
 		...state,
 		confirmAge: "pending"
+	}),
+
+	[actions.confirmAgeSuccess]: (state) => ({
+		...state,
+		confirmAge: "success"
 	}),
 
 };

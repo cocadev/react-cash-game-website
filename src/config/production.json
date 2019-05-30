@@ -2,7 +2,7 @@
     "api": {
         "urls": {
             "auth": {
-                "googleLogin": "https://islandtreasure.co/auth/google?host=localhost",
+                "googleLogin": "https://islandtreasure.co/auth/google",
                 "v1Player": "https://islandtreasure.co/v1/player",
                 "termsOfService": "https://islandtreasure.co/Terms_of_Service"
             },
