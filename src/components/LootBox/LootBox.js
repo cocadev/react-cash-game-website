@@ -43,8 +43,10 @@ class LootBox extends React.Component {
 
 	componentDidMount() {
 		const dots = [
-			{ y: 100, width: 0, x: 0, element: this.onLoadAnimation.current },
-			{ y: 100, width: 0, x: 0, element: this.onLoadAnimation.current }];
+			{ y: 100, width: 10, x: 0, element: this.onLoadAnimation.current },
+			{ y: 80, width: 100, x: 0, element: this.onLoadAnimation.current },
+			{ y: 0, width: 100, x: 0, element: this.onLoadAnimation.current }
+		];
 
 		const time = 600;
 

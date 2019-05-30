@@ -57,6 +57,11 @@ const styles = () => ({
 		display: "flex",
 		flexDirection: "column",
 		justifyContent: "space-around"
+	},
+	emptyList: {
+		color: "rgba(0, 0, 0, 0.54)",
+		fontWeight: "500",
+		fontSize: "18px",
 	}
 });
 
@@ -92,23 +97,6 @@ class Friend extends React.Component {
 		linkBtnCollapsed: true
 	}
 
-	componentDidMount(){
-		// const dots = [
-		// 	{ y: 100, width: 10, x: 0, element: this.onLoadAnimation.current },
-		// 	{ y: 80, width: 100, x: 0, element: this.onLoadAnimation.current },
-		// 	{ y: 0, width: 100, x: 0, element: this.onLoadAnimation.current }
-		// ];
-		//
-		// const time = 600;
-		//
-		// const update = ({ y, width, x, element }) => {
-		// 	element.style.transform = `translateY(${y}%) translateX(${x}%)`;
-		// 	element.style.width = `${width}%`;
-		// };
-		//
-		// customTween(dots, time, update, this.onLoadAnimation.current);
-	}
-
 	onLinkBtnClick = () => {
 		this.setState({
 			linkBtnCollapsed: !this.state.linkBtnCollapsed
@@ -140,17 +128,17 @@ class Friend extends React.Component {
 
 		const { status, id, screen_name, picture } = friend;
 
-		if(status !== "R") {
+		if (status !== "R") {
 			return (
 				<Paper className={classes.singleFriendWrapper} key={id}>
 					<div>
 						<div>
 							{
 								picture !== "" ?
-									<img src={picture} alt=""/>
+									<img src={picture} alt="" />
 									:
 									<Avatar>
-										<Person/>
+										<Person />
 									</Avatar>
 							}
 							<div>
@@ -318,12 +306,25 @@ class Friend extends React.Component {
 
 	renderFriendList = () => {
 		const { classes, friends } = this.props;
+		let friendCount = 0;
+		 friends.map((friend) => {
+			if (friend.status === "A" || friend.status === "P") {
+				friendCount++;
+			}
+		});
 
+		if (friendCount > 0) {
+			return (
+				<div className={classes.root}>
+					{friends.map((friend) => {
+						return this.returnMapFriend(friend);
+					})}
+				</div>
+			);
+		}
 		return (
 			<div className={classes.root}>
-				{ friends.map((friend) => {
-					return this.returnMapFriend(friend);
-				}) }
+				<p className={classes.emptyList}>Your friends list is empty</p>
 			</div>
 		);
 	}
@@ -334,8 +335,6 @@ class Friend extends React.Component {
 		return (
 			<div ref={this.onLoadAnimation} hidden className={classes.mainWrapperContent}>
 				{ this.renderLinkToFriend() }
-				{/*{ this.renderPendingFriends() }*/}
-				{/*{ this.renderFriends() }*/}
 				{ this.renderFriendList() }
 			</div>
 		);

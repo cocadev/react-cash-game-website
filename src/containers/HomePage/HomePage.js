@@ -12,6 +12,7 @@ import Tabs from "../../components/Tabs/Tabs";
 import Friend from "../../containers/tabs/Friend/Friend";
 import Sale from "../../containers/tabs/Sale/Sale";
 import Free from "../../containers/tabs/Free/Free";
+import VideSDKWrapper from "../../components/VideSDKWrapper/VideSDKWrapper";
 
 import { loader } from "../../components/Loader/Loader";
 import UserWidget from "../../components/UserWidget/UserWidget";
@@ -57,7 +58,8 @@ class HomePage extends Component {
 
 	state = {
 		tabIndexValue: false,
-		lootBoxVisibility: false
+		lootBoxVisibility: true,
+		videoPlayStatus: false
 	};
 
 	componentDidMount() {
@@ -70,9 +72,9 @@ class HomePage extends Component {
 	handleChange = (event, value) => {
 		if (value === 3) {
 			this.props.logoutStore();
-		}else {
+		} else {
 			this.lootBoxHide();
-			this.setState({ tabIndexValue: value })
+			this.setState({ tabIndexValue: value });
 		}
 	};
 
@@ -99,10 +101,22 @@ class HomePage extends Component {
 		});
 	};
 
+	onVideoPlay = () => {
+		this.setState({
+			videoPlayStatus: true
+		});
+	}
+
+	onVideoFinish = () => {
+		this.setState({
+			videoPlayStatus: false
+		});
+	}
+
 	render() {
 		const { classes, theme, offers, userData } = this.props;
 
-		const { tabIndexValue, lootBoxVisibility } = this.state;
+		const { tabIndexValue, lootBoxVisibility, videoPlayStatus } = this.state;
 
 		const labels = [{ name: "Friends" }, { name: "Sale" }, { name: "Free" }, { name: "Logout" }];
 
@@ -155,10 +169,12 @@ class HomePage extends Component {
 							>
 								<Friend />
 								<Sale offers={saleProduct} />
-								<Free offers={freeProduct} showAddBlockNotification={tabIndexValue === 2} />
+								<Free onVideoPlay={this.onVideoPlay} offers={freeProduct} />
 							</SwipeableViews>
 						}
 					</div>
+
+					<VideSDKWrapper videoPlayStatus={videoPlayStatus} onVideoFinish={this.onVideoFinish} showAddBlockNotification={tabIndexValue === 2} />
 				</div>
 			</div>
 		);
