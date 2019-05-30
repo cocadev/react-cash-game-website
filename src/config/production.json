@@ -5,6 +5,12 @@
                 "googleLogin": "https://islandtreasure.co/auth/google?host=localhost",
                 "v1Player": "https://islandtreasure.co/v1/player",
                 "termsOfService": "https://islandtreasure.co/Terms_of_Service"
+            },
+            "friend": {
+                "newFriend": "https://islandtreasure.co/v1/friend/",
+                "listFriends": "https://islandtreasure.co/v1/friend",
+                "acceptFriendRequest": "https://islandtreasure.co/v1/friend/",
+                "removeFriend": "https://islandtreasure.co/v1/friend/"
             }
         }
     }

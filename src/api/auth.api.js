@@ -8,33 +8,25 @@ export default class AuthApi {
 	}
 
 	async v1Player(sessionId) {
-		try {
-			const result = await axios.get(this.urls.v1Player, {
-				headers: {
-					Authorization: sessionId
-				}
-			});
+		const result = await axios.get(this.urls.v1Player, {
+			headers: {
+				Authorization: sessionId
+			}
+		});
 
-			return result;
-		} catch (e) {
-			console.log("v1Player", e);
-		}
+		return result;
 	}
 
 	async termsOfServiceConfirmAge(sessionId, data) {
-		try {
-			const result = await axios.post(this.urls.termsOfService, {
-				headers: {
-					Authorization: sessionId
-				},
-				params: {
-					dob: data
-				}
-			});
+		const result = await axios.post(this.urls.termsOfService, {
+			headers: {
+				Authorization: sessionId
+			},
+			params: {
+				dob: data
+			}
+		});
 
-			return result;
-		} catch (e) {
-			console.log("termsOfServiceConfirmAge", e);
-		}
+		return result;
 	}
 }

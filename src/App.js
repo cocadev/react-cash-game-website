@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from "react-redux";
 import { Switch, withRouter } from "react-router-dom";
-import { any, func } from "prop-types";
+import { any, func, object } from "prop-types";
 
 import HomePage from "./containers/HomePage/HomePage";
 import LoginPage from "./containers/LoginPage/LoginPage";
@@ -18,8 +18,18 @@ import "./App.less";
 
 class App extends Component {
 	static propTypes = {
+		getUserDataSaga: func,
 		setUserSessionId: func,
 		user: any,
+		userData: object,
+	}
+
+	componentDidMount() {
+		const { user, userData, getUserDataSaga } = this.props;
+
+		if (user && Object.keys(userData).length === 0) {
+			getUserDataSaga();
+		}
 	}
 
 	componentDidUpdate(prewProps) {
@@ -56,7 +66,8 @@ class App extends Component {
 function mapStateToProps({ auth }) {
 	return {
 		user: auth.user,
-		userSessionId: auth.userSessionId
+		userSessionId: auth.userSessionId,
+		userData: auth.userData
 	};
 }
 
