@@ -35,8 +35,10 @@ import * as saleActions from "../../modules/sale/sale.actions";
 import * as winnersActions from "../../modules/winners/winners.actions";
 import * as menusActions from "../../modules/menus/menus.actions";
 import { cutCorners } from "../../helpers/cutCorners";
+
 import history from "../../modules/history";
-import { FriendPageLoad } from "./HomePage.loader";
+
+import  Friend from "../../containers/tabs/Friend/Friend";
 
 import classes from "./HomePage.less";
 
@@ -270,7 +272,7 @@ class HomePage extends Component {
 									<div className={classes.homePageTabMinHeight}>
 										<h1>Winners</h1>
 									</div>
-									<FriendPageLoad />
+									<Friend />
 									<div className={classes.homePageTabMinHeight}>
 										<h1>Loot</h1>
 									</div>

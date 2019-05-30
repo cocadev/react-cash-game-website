@@ -12,7 +12,9 @@ import ReactGA from 'react-ga';
 
 import { LoaderContainer } from "./components/Loader/Loader";
 
-import { HomePageLoad, PrivacyPolicyPageLoad, LoginPageLoad } from "./App.loader";
+import HomePage from "./containers/HomePage/HomePage";
+import LoginPage from "./containers/LoginPage/LoginPage";
+import PrivacyPolicyPage from "./containers/PrivacyPolicyPage/PrivacyPolicyPage";
 
 import PrivateRoute from "./components/PrivateRouter/PrivateRouter";
 
@@ -37,6 +39,7 @@ class App extends Component {
 		user: any,
 		userData: object
 	}
+
 	componentDidMount() {
 		const { user, userData, getUserDataSaga } = this.props;
 
@@ -92,7 +95,7 @@ class App extends Component {
 						path={routes.homePage}
 						state={this.props.user}
 						to={routes.login}
-						component={HomePageLoad}
+						component={HomePage}
 					/>
 
 					<PrivateRoute
@@ -100,13 +103,13 @@ class App extends Component {
 						path={routes.login}
 						state={!this.props.user}
 						to={routes.homePage}
-						component={LoginPageLoad}
+						component={LoginPage}
 					/>
 
 					<Route
 						exact
 						path={routes.privacyPage}
-						component={PrivacyPolicyPageLoad}
+						component={PrivacyPolicyPage}
 					/>
 
 					<Route
