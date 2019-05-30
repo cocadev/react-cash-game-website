@@ -19,12 +19,13 @@ export default class AuthApi {
 
 	async termsOfServiceConfirmAge(sessionId, data) {
 		const result = await axios.post(this.urls.termsOfService, {
+			params: {
+				dob: data
+			},
+		}, {
 			headers: {
 				Authorization: sessionId
 			},
-			params: {
-				dob: data
-			}
 		});
 
 		return result;

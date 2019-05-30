@@ -9,8 +9,9 @@ export default class FriendApi {
 
 	async newFriend(sessionId, invite_uuid) {
 		const result = await axios.put(`${this.urls.newFriend}${invite_uuid}`, {
+		}, {
 			headers: {
-				Authorization: sessionId
+				Authorization: sessionId,
 			},
 		});
 
@@ -20,7 +21,7 @@ export default class FriendApi {
 	async listFriends(sessionId) {
 		const result = await axios.get(this.urls.listFriends, {
 			headers: {
-				Authorization: sessionId
+				Authorization: sessionId,
 			}
 		});
 

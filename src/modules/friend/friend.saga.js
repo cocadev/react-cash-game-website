@@ -1,4 +1,5 @@
 import api from "../../api";
+import history from "../../config/history";
 
 import * as  friendAction from "../friend/friend.actions";
 
@@ -11,7 +12,8 @@ function* fetchFriends() {
 		const sessionId = yield select(userSessionId);
 
 		const result = yield api.friend.listFriends(sessionId);
-		console.log(result);
+
+		yield put(friendAction.setListFriends({ friends: result.data, friendsStatus: "success" }));
 	} catch (e) {
 		console.log("fetchFriends", e);
 	}
@@ -41,8 +43,21 @@ function* fetchRemoveFriend(data) {
 	}
 }
 
+function* fetchNewFriends(data) {
+	try {
+		const sessionId = yield select(userSessionId);
+		const friend_uuid = data.payload.invite_uuid;
+
+		const result = yield api.friend.newFriend(sessionId, friend_uuid);
+		console.log(result);
+	} catch (e) {
+		console.log("fetchAcceptFriendRequest", e);
+	}
+}
+
 
 export function* watchFetchFriend() {
+	yield takeEvery(friendAction.newFriendSaga, fetchNewFriends);
 	yield takeEvery(friendAction.listFriendsSaga, fetchFriends);
 	yield takeEvery(friendAction.acceptFriendSaga, fetchAcceptFriend);
 	yield takeEvery(friendAction.removeFriendSaga, fetchRemoveFriend);

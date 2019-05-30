@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars,import/no-duplicates */
+
 import store from "store";
 import history from "../../config/history";
 import api from "../../api";
@@ -45,8 +45,10 @@ function* fetchGoogleData(data) {
 function* fetchConfirmUserAge(data) {
 	const state = yield select();
 	const { userSessionId } = state.auth;
-	//TODO change
-	//const result = yield api.auth.termsOfServiceConfirmAge(userSessionId, data.payload.data);
+	// //TODO change
+	// debugger;
+	// const result = yield api.auth.termsOfServiceConfirmAge(userSessionId, data.payload.data);
+	// console.log(result);
 	yield put(authAction.setCurrentUser());
 
 	addToLocalStorage("user", true);

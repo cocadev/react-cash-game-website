@@ -10,8 +10,10 @@ import LoginPage from "./containers/LoginPage/LoginPage";
 import PrivateRoute from "./components/PrivateRouter/PrivateRouter";
 
 import routes from "./constans/routes";
+import parserRedirect from "./customFunction/parcerRedirect";
 
 import * as authActions from "./modules/auth/auth.actions";
+import * as friendActions from "./modules/friend/friend.actions";
 
 import "./App.less";
 
@@ -19,6 +21,7 @@ import "./App.less";
 class App extends Component {
 	static propTypes = {
 		getUserDataSaga: func,
+		newFriendSaga: func,
 		setUserSessionId: func,
 		user: any,
 		userData: object,
@@ -30,13 +33,9 @@ class App extends Component {
 		if (user && Object.keys(userData).length === 0) {
 			getUserDataSaga();
 		}
-	}
 
-	componentDidUpdate(prewProps) {
 		if (this.props.location) {
-			if (this.props.location.hash === "" && prewProps.location.hash.substring(0, 3) === "#s=") {
-				this.props.setUserSessionId(prewProps.location.hash.slice(3));
-			}
+			parserRedirect(this.props);
 		}
 	}
 
@@ -71,4 +70,4 @@ function mapStateToProps({ auth }) {
 	};
 }
 
-export default withRouter(connect(mapStateToProps, { ...authActions })(App));
+export default withRouter(connect(mapStateToProps, { ...authActions, ...friendActions })(App));

@@ -11,7 +11,8 @@
                 "listFriends": "https://islandtreasure.co/v1/friend",
                 "acceptFriendRequest": "https://islandtreasure.co/v1/friend/",
                 "removeFriend": "https://islandtreasure.co/v1/friend/"
-            }
+            },
+            "currentPath": "https://localhost/"
         }
     }
 }

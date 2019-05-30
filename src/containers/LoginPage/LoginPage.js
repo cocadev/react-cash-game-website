@@ -27,13 +27,15 @@ class LoginPage extends Component {
 		modalVisibility: false,
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidMount() {
 		const { userSessionId, googleLoginUserSaga } = this.props;
 
-		if (userSessionId !== "" && prevProps.userSessionId === "") {
+		if (userSessionId !== "") {
 			googleLoginUserSaga(userSessionId);
 		}
+	}
 
+	componentDidUpdate(prevProps) {
 		if (this.props.userLoaded && !prevProps.userLoaded) {
 			this.setState({ modalVisibility: true });
 		}
