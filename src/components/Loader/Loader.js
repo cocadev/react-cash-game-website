@@ -4,6 +4,10 @@ import { any }  from "prop-types";
 import * as ee from 'event-emitter';
 
 import componentClasses from "./Loader.less";
+
+const EventEmitter = ee();
+
+
 class LoaderContainer1 extends Component {
 	static propTypes = {
 		classes: any
@@ -13,19 +17,6 @@ class LoaderContainer1 extends Component {
 		visible: false
 	};
 
-	componentWillMount() {
-		if (!window.LoaderEmitter) {
-			window.LoaderEmitter = ee();
-		}
-		window.LoaderEmitter.on('show', this.onShow);
-		window.LoaderEmitter.on('hide', this.onHide);
-	}
-
-	componentWillUnmount() {
-		window.LoaderEmitter.off('show', this.onShow);
-		window.LoaderEmitter.off('hide', this.onHide);
-	}
-
 	onShow = () => {
 		this.setState({ visible: true });
 	};
@@ -34,38 +25,39 @@ class LoaderContainer1 extends Component {
 		this.setState({ visible: false });
 	};
 
+	componentWillMount() {
+		EventEmitter.on('show', this.onShow);
+		EventEmitter.on('hide', this.onHide);
+	}
+
+	componentWillUnmount() {
+		EventEmitter.off('show', this.onShow);
+		EventEmitter.off('hide', this.onHide);
+	}
+
 	render() {
 		if (!this.state.visible) {
 			return null;
 		}
 		return (
-			<div className={componentClasses.rootLoader}>
-				<div className={componentClasses.ldsRoller}><div /><div /><div /><div /><div /><div /><div /><div /></div>
+			<div className={componentClasses.loaderWrapper}>
+				<div className={componentClasses.loader} />
 			</div>
 		);
 	}
 }
 
+
 class Loader1 {
-	static getEmitter() {
-		if (!window.LoaderEmitter) {
-			return null;
-		}
-
-		return window.LoaderEmitter;
-	}
-
 	static show() {
-		const em = Loader1.getEmitter();
-		if (em) {
-			em.emit('show');
+		if (EventEmitter) {
+			EventEmitter.emit('show');
 		}
 	}
 
 	static hide() {
-		const em = Loader1.getEmitter();
-		if (em) {
-			em.emit('hide');
+		if (EventEmitter) {
+			EventEmitter.emit('hide');
 		}
 	}
 }

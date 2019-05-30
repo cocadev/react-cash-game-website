@@ -11,9 +11,6 @@ import VideoSDK from "../../../components/VideoSDK/VideoSDK";
 import * as saleActions from "../../../modules/sale/sale.actions";
 import { GoogleSDK } from "../../../helpers/googleSDK";
 import customToastify from "../../../helpers/customToastify";
-import customTween from "../../../helpers/cutstomTween";
-
-import withAnimation from "../../../hoc/animation";
 
 const styles = () => ({
 	root: {
@@ -36,6 +33,7 @@ const styles = () => ({
 		animation: "unset"
 	}
 });
+
 
 class Free extends React.Component {
 	static propTypes = {

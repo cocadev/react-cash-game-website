@@ -4,6 +4,7 @@ import { object, array, func } from "prop-types";
 
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import Paper from '@material-ui/core/Paper';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -18,8 +19,6 @@ import customToastify from "../../../helpers/customToastify";
 import * as authActions from "../../../modules/auth/auth.actions";
 import * as friendActions from "../../../modules/friend/friend.actions";
 import { cutCorners } from "../../../helpers/cutCorners";
-import withAnimation from "../../../hoc/animation";
-import customTween from "../../../helpers/cutstomTween";
 
 const styles = () => ({
 	root: {
@@ -36,7 +35,7 @@ const styles = () => ({
 	singleFriendWrapper: {
 		display: "flex",
 		padding: "10px",
-		alignItems: "center"
+		justifyContent: "space-between"
 	},
 	inviteWrapper: {
 		display: "flex",
@@ -50,6 +49,14 @@ const styles = () => ({
 		minHeight: "calc(100vh - 112px)",
 		animation: "unset",
 		display: "block"
+	},
+	singleFriendContent: {
+		display: "flex",
+	},
+	friendButtonWrapper: {
+		display: "flex",
+		flexDirection: "column",
+		justifyContent: "space-around"
 	}
 });
 
@@ -63,6 +70,7 @@ function copyStringToClipboard(str) {
 	document.execCommand('copy');
 	document.body.removeChild(el);
 }
+
 
 class Friend extends React.Component {
 	static propTypes = {
@@ -127,37 +135,91 @@ class Friend extends React.Component {
 		this.props.removeFriendSaga(id);
 	}
 
-	returnMapFriend = (friend, statusRender) => {
+	returnMapFriend = (friend) => {
 		const { classes } = this.props;
 
 		const { status, id, screen_name, picture } = friend;
 
-		if (status === statusRender) {
+		if(status !== "R") {
 			return (
-				<div className={classes.singleFriendWrapper} key={id}>
+				<Paper className={classes.singleFriendWrapper} key={id}>
 					<div>
-						{
-							picture !== "" ?
-								<img src={picture} alt="" />
-								:
-								<Avatar>
-									<Person />
-								</Avatar>
-						}
-						{ screen_name }
+						<div>
+							{
+								picture !== "" ?
+									<img src={picture} alt=""/>
+									:
+									<Avatar>
+										<Person/>
+									</Avatar>
+							}
+							<div>
+								{screen_name}
+							</div>
+						</div>
+
+						<div>
+							<p>Status: {status === "P" ? "Pending" : "Accepted"}</p>
+						</div>
 					</div>
-					<div>
+					<div className={classes.friendButtonWrapper}>
 						{
 							status === "P" &&
-							<button onClick={this.onAddToFriendBtnClick(id)}> Add To Friend</button>
+							<>
+								<CutCorners clipStyle={cutCorners(7.5, 15)}>
+									<Button
+										color="primary"
+										style={cutCorners(7.5, 15)}
+										onClick={this.onAddToFriendBtnClick(id)}
+										variant="contained"
+									>
+										<span>Accept</span>
+									</Button>
+								</CutCorners>
+
+								<CutCorners clipStyle={cutCorners(7.5, 15)}>
+									<Button
+										color="secondary"
+										style={cutCorners(7.5, 15)}
+										onClick={this.onDeleteBtnClick(id)}
+										variant="contained"
+									>
+										<span>Decline</span>
+									</Button>
+								</CutCorners>
+							</>
 						}
 
 						{
 							status === "A" &&
-							<button onClick={this.onDeleteBtnClick(id)}> Delete </button>
+							<>
+								<CutCorners clipStyle={cutCorners(7.5, 15)}>
+									<Button
+										fullWidth
+										color="primary"
+										style={cutCorners(7.5, 15)}
+										onClick={this.onAddToFriendBtnClick(id)}
+										variant="contained"
+									>
+										<span>Gift</span>
+									</Button>
+								</CutCorners>
+
+								<CutCorners clipStyle={cutCorners(7.5, 15)}>
+									<Button
+										color="secondary"
+										style={cutCorners(7.5, 15)}
+										onClick={this.onDeleteBtnClick(id)}
+										variant="contained"
+									>
+										<span>Unfriend</span>
+									</Button>
+								</CutCorners>
+
+							</>
 						}
 					</div>
-				</div>
+				</Paper>
 			);
 		}
 	}
@@ -254,14 +316,27 @@ class Friend extends React.Component {
 		);
 	}
 
+	renderFriendList = () => {
+		const { classes, friends } = this.props;
+
+		return (
+			<div className={classes.root}>
+				{ friends.map((friend) => {
+					return this.returnMapFriend(friend);
+				}) }
+			</div>
+		);
+	}
+
 	render() {
 		const { classes } = this.props;
 
 		return (
 			<div ref={this.onLoadAnimation} hidden className={classes.mainWrapperContent}>
 				{ this.renderLinkToFriend() }
-				{ this.renderPendingFriends() }
-				{ this.renderFriends() }
+				{/*{ this.renderPendingFriends() }*/}
+				{/*{ this.renderFriends() }*/}
+				{ this.renderFriendList() }
 			</div>
 		);
 	}

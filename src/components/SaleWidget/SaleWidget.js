@@ -108,7 +108,7 @@ class SaleWidget extends React.Component {
 				>
 					<Tabs
 						value={value}
-						mainTabChange={this.handleChange}
+						onChange={this.handleChange}
 						labels={labels}
 					/>
 					<div className={classes.tabContentWrapper}>

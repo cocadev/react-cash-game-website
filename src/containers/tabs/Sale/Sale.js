@@ -10,8 +10,6 @@ import Paper from '@material-ui/core/Paper';
 import * as saleActions from "../../../modules/sale/sale.actions";
 
 import SaleWidget from "../../../components/SaleWidget/SaleWidget";
-import withAnimation from "../../../hoc/animation";
-import customTween from "../../../helpers/cutstomTween";
 
 const styles = () => ({
 	root: {

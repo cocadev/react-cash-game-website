@@ -7,22 +7,39 @@ import { connect } from "react-redux";
 import SwipeableViews from 'react-swipeable-views';
 
 import { withStyles } from "@material-ui/core/styles/index";
+import Button from '@material-ui/core/Button';
 import Tabs from "../../components/Tabs/Tabs";
 import Friend from "../../containers/tabs/Friend/Friend";
 import Sale from "../../containers/tabs/Sale/Sale";
 import Free from "../../containers/tabs/Free/Free";
 
 import { loader } from "../../components/Loader/Loader";
+import UserWidget from "../../components/UserWidget/UserWidget";
+import CutCorners from "../../components/CutCorners/CutCorners";
+import LootBox from "../../components/LootBox/LootBox";
 
 import * as friendActions from "../../modules/friend/friend.actions";
 import * as authActions from "../../modules/auth/auth.actions";
 import * as saleActions from "../../modules/sale/sale.actions";
+import { cutCorners } from "../../helpers/cutCorners";
 
 const styles = () => ({
 	tabWrapper: {
 		margin: "0 5px"
 	},
 	tabContentWrapper: {
+	},
+	tabCenter: {
+		display: "flex",
+		justifyContent: "center",
+		marginTop: "20px",
+	},
+	openLootBoxBtnWrapper: {
+		position: "fixed",
+		bottom: "30px",
+		right: "30px",
+		cursor: "pointer",
+		zIndex: "2"
 	}
 });
 
@@ -34,11 +51,13 @@ class HomePage extends Component {
 		listFriendsSaga: func,
 		logoutStore: func,
 		offers: array,
-		theme: object
+		theme: object,
+		userData: object
 	}
 
 	state = {
-		value: 0,
+		tabIndexValue: false,
+		lootBoxVisibility: false
 	};
 
 	componentDidMount() {
@@ -49,18 +68,30 @@ class HomePage extends Component {
 	}
 
 	handleChange = (event, value) => {
-		this.setState({ value });
-
 		if (value === 3) {
-
 			this.props.logoutStore();
+		}else {
+			this.lootBoxHide();
+			this.setState({ tabIndexValue: value })
 		}
 	};
 
 	handleChangeIndex = (index) => {
-		this.setState({ value: index });
+		this.setState({ tabIndexValue: index });
 	};
 
+	lootBoxShow = () => {
+		this.setState({
+			tabIndexValue: false,
+			lootBoxVisibility: true
+		});
+	}
+
+	lootBoxHide = () => {
+		this.setState({
+			lootBoxVisibility: false
+		});
+	}
 
 	mainTabChange = (value) => {
 		this.setState({
@@ -69,9 +100,9 @@ class HomePage extends Component {
 	};
 
 	render() {
-		const { classes, theme, offers } = this.props;
+		const { classes, theme, offers, userData } = this.props;
 
-		const { value } = this.state;
+		const { tabIndexValue, lootBoxVisibility } = this.state;
 
 		const labels = [{ name: "Friends" }, { name: "Sale" }, { name: "Free" }, { name: "Logout" }];
 
@@ -84,22 +115,49 @@ class HomePage extends Component {
 
 		return (
 			<div>
+				<UserWidget
+					lootBoxShow={this.lootBoxShow}
+					imgSrc={userData.picture}
+					coins={userData.FUN_balance}
+					name={userData.screen_name}
+				/>
+				<LootBox lootBoxVisibility={lootBoxVisibility}  />
+
+				{ tabIndexValue !== false &&
+					<div className={classes.openLootBoxBtnWrapper}>
+						<CutCorners clipStyle={cutCorners(7.5, 15)}>
+							<Button
+								onClick={this.lootBoxShow}
+								color="primary"
+								style={cutCorners(7.5, 15)}
+								variant="contained"
+							>
+								<span>Open LootBox</span>
+							</Button>
+						</CutCorners>
+					</div>
+				}
+
+
 				<div className={classes.tabWrapper}>
 					<Tabs
-						value={value}
-						mainTabChange={this.handleChange}
+						value={tabIndexValue}
+						onChange={this.handleChange}
+						className={classes.tabCenter}
 						labels={labels}
 					/>
 					<div className={classes.tabContentWrapper}>
-						<SwipeableViews
-							axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-							index={value}
-							onChangeIndex={this.handleChangeIndex}
-						>
-							<Friend />
-							<Sale offers={saleProduct} />
-							<Free offers={freeProduct} showAddBlockNotification={value === 2} />
-						</SwipeableViews>
+						{ tabIndexValue !== false &&
+							<SwipeableViews
+								axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+								index={tabIndexValue}
+								onChangeIndex={this.handleChangeIndex}
+							>
+								<Friend />
+								<Sale offers={saleProduct} />
+								<Free offers={freeProduct} showAddBlockNotification={tabIndexValue === 2} />
+							</SwipeableViews>
+						}
 					</div>
 				</div>
 			</div>
@@ -107,9 +165,10 @@ class HomePage extends Component {
 	}
 }
 
-function mapStateToProps({ sale }) {
+function mapStateToProps({ sale, auth }) {
 	return {
-		offers: sale.offers
+		offers: sale.offers,
+		userData: auth.userData
 	};
 }
 
