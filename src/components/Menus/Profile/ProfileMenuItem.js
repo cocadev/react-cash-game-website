@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 import {  object } from "prop-types";
 
-import classnames from "classnames";
 
 import classes from "./ProfileMenuItem.less";
 

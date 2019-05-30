@@ -37,6 +37,10 @@ class Menus extends Component {
 		window.addEventListener("resize", this.updateDimensions);
 	}
 
+	componentDidUpdate() {
+		this.getMenuWidth();
+	}
+
 	onCloseMenuClick = () => {
 		this.props.hideMenu();
 	}
@@ -44,7 +48,7 @@ class Menus extends Component {
 	getClass = () => {
 		const { menuName } = this.props;
 
-		if (menuName === "profile" && this.state.screenWidth > 756) {
+		if (menuName === "profile" && screen.width > 756) {
 			return "fade-left";
 		}
 
@@ -63,17 +67,12 @@ class Menus extends Component {
 		const { menuName, menuVisibility } = this.props;
 
 		if (menuVisibility) {
-			if (menuName === "profile" && this.state.screenWidth > 756) {
+			if (menuName === "profile" && screen.width > 756) {
 				this.setLastWidthValue("320px");
-
-				return "320px";
+			} else {
+				this.setLastWidthValue("100%");
 			}
-
-			this.setLastWidthValue("100%");
-
-			return "100%";
 		}
-		return this.state.lastWidthValue;
 	}
 
 	getBackground = () => {
@@ -81,16 +80,12 @@ class Menus extends Component {
 	}
 
 	updateDimensions = () => {
-		console.log("chage Dimensions");
-		this.setState({
-			screenWidth: screen.width
-		});
+		this.getMenuWidth();
 	}
 
 	componentWillUnmount() {
 		window.removeEventListener("resize", this.updateDimensions);
 	}
-
 
 	render() {
 		const { menuVisibility, menuName } = this.props;
@@ -99,8 +94,6 @@ class Menus extends Component {
 			background: this.getBackground(),
 			position: menuName === "notification" && "absolute"
 		};
-
-		const width = this.getMenuWidth();
 
 		return (
 			<MobileMenu
@@ -111,7 +104,7 @@ class Menus extends Component {
 				menuSettings={menuSettings}
 				showMenu={this.props.showMenu}
 				hideMenu={this.props.hideMenu}
-				width={width}
+				width={this.state.lastWidthValue}
 			>
 				{ menuName === "main" &&
 					<MainMenu {...this.props} />

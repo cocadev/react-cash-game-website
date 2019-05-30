@@ -22,8 +22,6 @@ import parserRedirect from "./helpers/parcerRedirect";
 import * as authActions from "./modules/auth/auth.actions";
 import * as friendActions from "./modules/friend/friend.actions";
 
-import { pollfishConfig } from "./helpers/polifish";
-
 import "react-toastify/dist/ReactToastify.css";
 import "./App.less";
 import customToastify from "./helpers/customToastify";
@@ -38,10 +36,6 @@ class App extends Component {
 		location: any,
 		user: any,
 		userData: object
-	}
-
-	componentWillMount() {
-		Pollfish.start(pollfishConfig);
 	}
 
 	componentDidMount() {

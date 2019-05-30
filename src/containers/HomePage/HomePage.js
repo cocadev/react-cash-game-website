@@ -11,9 +11,10 @@ import Button from '@material-ui/core/Button';
 import GiftBtn from '@material-ui/icons/CardGiftcard';
 
 import Tabs from "../../components/Tabs/Tabs";
-//import Friend from "../../containers/tabs/Friend/Friend";
 import Sale from "../../containers/tabs/Sale/Sale";
 import VideSDKWrapper from "../../components/VideSDKWrapper/VideSDKWrapper";
+
+import { pollfishConfig } from "../../helpers/polifish";
 
 import { loader } from "../../components/Loader/Loader";
 import { FriendPageLoad } from "./HomePage.loader";
@@ -22,7 +23,7 @@ import CutCorners from "../../components/CutCorners/CutCorners";
 import LootBox from "../../components/LootBox/LootBox";
 import Menus from "../../containers/Menus/Menus";
 
-import MenuButton from "../../components/Buttons/MenuButton/MenuButton";
+// import MenuButton from "../../components/Buttons/MenuButton/MenuButton";
 
 import SaleIcon from "../../images/icons/shop.png";
 import WinnersIcon from "../../images/icons/dollar.png";
@@ -71,6 +72,11 @@ class HomePage extends Component {
 		videoPlayStatus: false,
 		googleVideoErrorStatus: true,
 	};
+
+	componentWillMount() {
+		Pollfish.start(pollfishConfig);
+	}
+
 
 	componentDidMount() {
 		const { getOffersSaga, listFriendsSaga, fetchBonus, location } = this.props;
@@ -180,7 +186,7 @@ class HomePage extends Component {
 	}
 
 	render() {
-		const { theme, offers, userData, tabIndex, lootBoxVisibility, menuVisibility } = this.props;
+		const { theme, offers, userData, tabIndex, lootBoxVisibility, location } = this.props;
 
 		const {
 			videoPlayStatus,
@@ -199,7 +205,7 @@ class HomePage extends Component {
 
 				<div className={classes.homePageTopElementWrapper}>
 
-					<MenuButton onClick={this.onMobileMenuClick} />
+					{/*<MenuButton onClick={this.onMobileMenuClick} />*/}
 
 					<UserWidget
 						lootBoxShow={this.lootBoxShow}
@@ -210,7 +216,7 @@ class HomePage extends Component {
 					/>
 				</div>
 
-				<img src={Logo} alt="logo" className={classes.homePageLogo} />
+				<img  onClick={this.onMobileMenuClick} src={Logo} alt="logo" className={classes.homePageLogo} />
 
 				<Menus />
 
@@ -238,12 +244,12 @@ class HomePage extends Component {
 						customstyle={{ alignItems: "center" }}
 					/>
 
-					<LootBox lootBoxVisibility={lootBoxVisibility} funBalance={userData.FUN_balance}   />
+					<LootBox lootBoxVisibility={lootBoxVisibility} location={location} funBalance={userData.FUN_balance}   />
 
 					{/*<button onClick={this.changeScrollTabHeight}>check</button>*/}
 
 					<div className={classes.homePageTabContentWrapper}>
-						{ (tabIndex !== false && !menuVisibility) &&
+						{ (tabIndex !== false) &&
 							<>
 								<SwipeableViews
 									action={(actions) => {
@@ -294,7 +300,6 @@ function mapStateToProps({ sale, auth, menus }) {
 		userData: auth.userData,
 		tabIndex: menus.tabIndex,
 		lootBoxVisibility: menus.lootBoxVisibility,
-		menuVisibility: menus.menuVisibility
 	};
 }
 

@@ -48,7 +48,7 @@ class LootBox extends React.Component {
 
 	componentDidUpdate(prevProps) {
 		//Up
-		if (!prevProps.lootBoxVisibility  && this.props.lootBoxVisibility) {
+		if (this.props.lootBoxVisibility && this.state.odometerValue !== this.props.funBalance && this.props.funBalance) {
 			const dots = [
 				{ y: 100, width: 100, x: 0, element: this.onLoadAnimation.current },
 				{ y: 0, width: 100, x: 0, element: this.onLoadAnimation.current }
@@ -66,7 +66,8 @@ class LootBox extends React.Component {
 			});
 
 			customTween(dots, time, update, this.onLoadAnimation.current);
-		} else if (prevProps.lootBoxVisibility  && !this.props.lootBoxVisibility) {
+		}
+		else if (!this.props.lootBoxVisibility && this.state.odometerValue !== 0 && this.props.funBalance) {
 			//down
 			const dots = [
 				{ y: 0, width: 100, x: 0, display: 0, element: this.onLoadAnimation.current },
@@ -89,14 +90,14 @@ class LootBox extends React.Component {
 
 			customTween(dots, time, update, this.onLoadAnimation.current);
 		}
-		/**
-		 * starts on first render when lootbox is open
-		 */
-		else if (prevProps.lootBoxVisibility  && this.props.lootBoxVisibility && this.props.funBalance && this.state.odometerValue !== this.props.funBalance) {
-			this.setState({
-				odometerValue: this.props.funBalance
-			});
-		}
+		// /**
+		//  * starts on first render when lootbox is open
+		//  */
+		// else if (prevProps.lootBoxVisibility  && this.props.lootBoxVisibility && this.props.funBalance && this.state.odometerValue !== this.props.funBalance) {
+		// 	this.setState({
+		// 		odometerValue: this.props.funBalance
+		// 	});
+		// }
 	}
 
 	render() {

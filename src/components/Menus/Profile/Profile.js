@@ -27,6 +27,8 @@ import TermsIcon from "../../../images/icons/profileMenu/terms.png";
 
 import classes from "./Profile.less";
 import ProfileMenuItem from "./ProfileMenuItem";
+import history from "../../../modules/history";
+import routes from "../../../constants/routes";
 
 class Profile extends Component {
 	static propTypes = {
@@ -149,7 +151,11 @@ class Profile extends Component {
 				label: "Privacy",
 				icon: PrivicyIcon,
 				isCheckbox: false,
-				isNew: true
+				isNew: true,
+				onClick: () => {
+					this.props.hideMenu();
+					history.push(routes.privacyPage);
+				}
 			},
 
 			{
