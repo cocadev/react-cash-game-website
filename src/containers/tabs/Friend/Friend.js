@@ -7,7 +7,6 @@ import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Avatar from '@material-ui/core/Avatar';
 import Person from '@material-ui/icons/Person';
@@ -98,6 +97,7 @@ class Friend extends React.Component {
 		const { classes } = this.props;
 
 		const { status, id, screen_name, picture } = friend;
+
 		if (status === statusRender) {
 			return (
 				<div className={classes.singleFriendWrapper} key={id}>
@@ -147,7 +147,7 @@ class Friend extends React.Component {
 
 				{ !linkBtnCollapsed &&
 					<div className={classes.inviteWrapper}>
-						<Typography className={classes.linkMargin}>{ linkText }</Typography>
+						<p className={classes.linkMargin}>{ linkText }</p>
 						<Button
 							onClick={this.onCopyBtnClick}
 							className={classes.copyBtn}
@@ -169,7 +169,7 @@ class Friend extends React.Component {
 				<ExpansionPanel>
 					<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 						<div className={classes.column}>
-							<Typography className={classes.heading}>PendingFriends</Typography>
+							<p className={classes.heading}>PendingFriends</p>
 						</div>
 					</ExpansionPanelSummary>
 					<Divider />
@@ -196,7 +196,7 @@ class Friend extends React.Component {
 				<ExpansionPanel>
 					<ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 						<div className={classes.column}>
-							<Typography className={classes.heading}>Friends</Typography>
+							<p className={classes.heading}>Friends</p>
 						</div>
 					</ExpansionPanelSummary>
 					<Divider />

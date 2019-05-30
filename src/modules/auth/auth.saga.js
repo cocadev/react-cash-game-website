@@ -14,44 +14,36 @@ const userSessionId = (state) => state.auth.userSessionId;
 
 function* fetchGoogleData(data) {
 	const { sessionId } = data.payload;
-	try {
-		const result = yield api.auth.v1Player(sessionId);
+	const result = yield api.auth.v1Player(sessionId);
 
-		if (result.data.tos_agreed !== null) {
-			yield put(authAction.setLoginData({
-				userData: result.data,
-				userLoaded: true,
-				userLoginStatus: "success"
-			}));
+	if (result.data.tos_agreed !== null) {
+		yield put(authAction.setLoginData({
+			userData: result.data,
+			userLoaded: true,
+			userLoginStatus: "success"
+		}));
 
-			addToLocalStorage("user", true);
+		addToLocalStorage("user", true);
 
-			yield put(authAction.setCurrentUser());
+		yield put(authAction.setCurrentUser());
 
-			history.push(`/`);
-		} else {
-			yield put(authAction.setLoginData({
-				userData: result.data,
-				userLoaded: true,
-				userLoginStatus: "success"
-			}));
-		}
-	} catch (e) {
-		console.log("fetchGoogleData", e);
+		history.push(`/`);
+	} else {
+		yield put(authAction.setLoginData({
+			userData: result.data,
+			userLoaded: true,
+			userLoginStatus: "success"
+		}));
 	}
 }
 
 function* fetchConfirmUserAge(data) {
-	try {
-		const state = yield select();
-		const { userSessionId } = state.auth;
+	const state = yield select();
+	const { userSessionId } = state.auth;
 
-		const result = yield api.auth.termsOfServiceConfirmAge(userSessionId, data.payload.data);
+	const result = yield api.auth.termsOfServiceConfirmAge(userSessionId, data.payload.data);
 
-		yield put(authAction.confirmAgeSuccess());
-	} catch (e) {
-		console.log("fetchConfirmUserAge", e);
-	}
+	yield put(authAction.confirmAgeSuccess());
 }
 
 
@@ -67,19 +59,15 @@ function* fetchUserData() {
 }
 
 function* fetchUserName(data) {
-	try {
-		const sessionId = yield select(userSessionId);
+	const sessionId = yield select(userSessionId);
 
-		const result = yield api.auth.setUserName(sessionId, data.payload.screen_name);
+	const result = yield api.auth.setUserName(sessionId, data.payload.screen_name);
 
-		addToLocalStorage("user", true);
-		addToLocalStorage("userSessionId", sessionId);
+	addToLocalStorage("user", true);
+	addToLocalStorage("userSessionId", sessionId);
 
-		yield put(authAction.setCurrentUser());
-		history.push(`/`);
-	} catch (e) {
-		console.log("fetchUserName", e);
-	}
+	yield put(authAction.setCurrentUser());
+	history.push(`/`);
 }
 
 function* logoutUser() {

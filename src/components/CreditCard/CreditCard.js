@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { object, func, bool } from "prop-types";
 
 import { withStyles } from '@material-ui/core/styles';
@@ -15,8 +15,13 @@ const styles = () => ({
 		marginTop: "30px"
 	},
 	textField: {
-		margin: "0 5px"
+		width: "140px"
+	},
+	textFieldWrapper: {
+		display: "flex",
+		justifyContent: "space-between"
 	}
+
 });
 
 
@@ -34,13 +39,29 @@ class CreditCard extends React.Component {
 		cvc: '',
 		focused: '',
 		type: '',
-		isValidName: bool,
+		postalCode: '',
+		isValidName: true,
+		numberError: true,
+		nameError: true,
+		expiryError: true,
+		cvcError: true,
+		postalCodeError: true
 	};
 
+	constructor(props) {
+		super(props);
+		this.nameOfCard = React.createRef();
+		this.number = React.createRef();
+		this.expiry = React.createRef();
+		this.cvc = React.createRef();
+		this.postalCode = React.createRef();
+	}
+
 	componentDidMount() {
-		Payment.formatCardNumber(document.querySelector('[name="number"]'));
-		Payment.formatCardExpiry(document.querySelector('[name="expiry"]'));
-		Payment.formatCardCVC(document.querySelector('[name="cvc"]'));
+		Payment.formatCardNumber(this.number.current);
+		Payment.formatCardExpiry(this.expiry.current);
+		Payment.formatCardCVC(this.cvc.current);
+		Payment.restrictNumeric(this.postalCode.current);
 	}
 
 	handleInputFocus = ({ target }) => {
@@ -50,7 +71,18 @@ class CreditCard extends React.Component {
 	};
 
 	checkValidData = () => {
-		if (this.state.expiry !== "" && this.state.cvc !== "" && this.state.number.length >= 16) {
+		this.setState({
+			cvcError: !Payment.fns.validateCardCVC(this.cvc.current.value),
+			expiryError: !Payment.fns.validateCardExpiry(this.expiry.current.value),
+			numberError: !Payment.fns.validateCardNumber(this.number.current.value),
+			postalCodeError: this.postalCode.current.value === "",
+			nameError: this.nameOfCard.current.value === ""
+		});
+
+		if (Payment.fns.validateCardCVC(this.cvc.current.value) &&
+			Payment.fns.validateCardExpiry(this.expiry.current.value) &&
+			Payment.fns.validateCardNumber(this.number.current.value) &&
+			this.postalCode.current.value !== "") {
 			this.props.isAllValueValid(true);
 		} else {
 			this.props.isAllValueValid(false);
@@ -58,37 +90,31 @@ class CreditCard extends React.Component {
 	}
 
 	handleInputChange = ({ target }) => {
+		this.checkValidData();
+
 		if (target.name === 'number') {
 			this.setState({
 				[target.name]: target.value.replace(/ /g, ''),
-			}, this.checkValidData());
+			});
 		} else if (target.name === 'expiry') {
 			this.setState({
 				[target.name]: target.value.replace(/ |\//g, ''),
-			}, this.checkValidData());
+			});
+		} else if (target.name === 'postalCode') {
+			this.setState({
+				[target.name]: target.value.replace(/ /g, ''),
+			});
 		} else {
 			this.setState({
 				[target.name]: target.value,
-			}, this.checkValidData());
+			});
 		}
 	};
-
-	handleCallback = (type, isValid) => {
-		if (isValid === true) {
-			this.setState({
-				isValidName: true
-			});
-		} else {
-			this.setState({
-				isValidName: false
-			});
-		}
-	}
 
 	render() {
 		const { classes, errorShow } = this.props;
 
-		const { name, number, expiry, cvc, focused } = this.state;
+		const { name, number, expiry, cvc, focused, numberError, expiryError, cvcError, postalCodeError, nameError } = this.state;
 
 		return (
 			<div className={classes.root}>
@@ -98,34 +124,34 @@ class CreditCard extends React.Component {
 					expiry={expiry}
 					cvc={cvc}
 					focused={focused}
-					callback={this.handleCallback}
 				/>
 				<form className={classes.root}>
-					<div>
+					<TextField
+						inputRef={this.nameOfCard}
+						fullWidth
+						error={errorShow && nameError}
+						label="Name on card"
+						type="text"
+						name="name"
+						placeholder="Name on card"
+						onKeyUp={this.handleInputChange}
+						onFocus={this.handleInputFocus}
+					/>
+					<TextField
+						fullWidth
+						inputRef={this.number}
+						error={errorShow && numberError}
+						label="Card number"
+						type="tel"
+						name="number"
+						placeholder="Card number"
+						onKeyUp={this.handleInputChange}
+						onFocus={this.handleInputFocus}
+					/>
+					<div className={classes.textFieldWrapper}>
 						<TextField
-							error={errorShow}
-							className={classes.textField}
-							label="Card Number"
-							type="tel"
-							name="number"
-							placeholder="Card Number"
-							onKeyUp={this.handleInputChange}
-							onFocus={this.handleInputFocus}
-						/>
-						<TextField
-							error={errorShow}
-							className={classes.textField}
-							label="Name"
-							type="text"
-							name="name"
-							placeholder="Name"
-							onKeyUp={this.handleInputChange}
-							onFocus={this.handleInputFocus}
-						/>
-					</div>
-					<div>
-						<TextField
-							error={errorShow}
+							inputRef={this.expiry}
+							error={errorShow && expiryError}
 							className={classes.textField}
 							label="Expiry Date"
 							type="tel"
@@ -135,7 +161,8 @@ class CreditCard extends React.Component {
 							onFocus={this.handleInputFocus}
 						/>
 						<TextField
-							error={errorShow}
+							inputRef={this.cvc}
+							error={errorShow && cvcError}
 							className={classes.textField}
 							label="CVC"
 							type="tel"
@@ -145,6 +172,17 @@ class CreditCard extends React.Component {
 							onFocus={this.handleInputFocus}
 						/>
 					</div>
+					<TextField
+						inputRef={this.postalCode}
+						fullWidth
+						error={errorShow && postalCodeError}
+						label="Postal Code"
+						type="tel"
+						name="postalCode"
+						placeholder="Postal Code"
+						onKeyUp={this.handleInputChange}
+						onFocus={this.handleInputFocus}
+					/>
 				</form>
 			</div>
 		);

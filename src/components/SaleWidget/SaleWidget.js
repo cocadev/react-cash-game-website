@@ -7,6 +7,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 
+import PaypalExpressBtn from 'react-paypal-express-checkout';
+
 import CreditCard from "../../components/CreditCard/CreditCard";
 import Tabs from "../../components/Tabs/Tabs";
 import customToastify from "../../helpers/customToastify";
@@ -24,6 +26,15 @@ const styles = () => ({
 	dialogMinSize: {
 		minWidth: "40%",
 		minHeight: "50%"
+	},
+	payPal: {
+		display: "flex",
+		justifyContent: "center",
+		marginTop: "30px",
+		"& .zoid-outlet": {
+			width: "200px !important",
+			height: "300px !important",
+		}
 	}
 });
 
@@ -74,7 +85,12 @@ class SaleWidget extends React.Component {
 
 		switch (tabsValue.name) {
 			case "Paypal":
-				return <h1>Paypal</h1>;
+				const client = {
+					sandbox:    'YOUR-SANDBOX-APP-ID',
+					production: 'YOUR-PRODUCTION-APP-ID',
+				}
+
+				return  <div className={classes.payPal}><PaypalExpressBtn client={client} currency={'USD'} total={1.00} /></div>;
 			case "Credit Card":
 				return (<Fragment>
 					<DialogContent className={classes.content}>

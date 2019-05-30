@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import { bool, func, object } from "prop-types";
+import React from 'react';
+import { func, object } from "prop-types";
 
 import { withStyles } from '@material-ui/core/styles';
 

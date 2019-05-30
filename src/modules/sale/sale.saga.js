@@ -7,13 +7,9 @@ import { takeEvery, put } from "redux-saga/effects";
 export const userSessionId = (state) => state.auth.userSessionId;
 
 function* fetchOffers() {
-	try {
-		const result = yield api.sale.getOffers();
+	const result = yield api.sale.getOffers();
 
-		yield put(saleAction.setOffers({ offers: result.data, offersStatus: "success" }));
-	} catch (e) {
-		console.log("fetchFriends", e);
-	}
+	yield put(saleAction.setOffers({ offers: result.data, offersStatus: "success" }));
 }
 
 export function* watchFetchSale() {

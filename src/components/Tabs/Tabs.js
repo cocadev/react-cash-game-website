@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { func, object, array, bool } from "prop-types";
 
 import Paper from '@material-ui/core/Paper';

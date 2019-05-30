@@ -10,6 +10,7 @@ import Paper from '@material-ui/core/Paper';
 import VideoSDK from "../../../components/VideoSDK/VideoSDK";
 import * as saleActions from "../../../modules/sale/sale.actions";
 import { GoogleSDK } from "../../../helpers/googleSDK";
+import customToastify from "../../../helpers/customToastify";
 
 const styles = () => ({
 	root: {
@@ -37,7 +38,8 @@ class Free extends React.Component {
 		googleSDKObj: null,
 		videoAddStatus: "",
 		contentElement: null,
-		adContainer: null
+		adContainer: null,
+		googleError: false,
 	}
 
 	onAddLoaded = (contentElement, adContainer) => {
@@ -46,16 +48,29 @@ class Free extends React.Component {
 			contentElement,
 			adContainer
 		}, () => {
-			this.state.googleSDKObj.init();
+			try {
+				this.state.googleSDKObj.init();
+			} catch (e) {
+				this.setState({
+					googleError: true
+				});
+				customToastify("Please close AdBlock or uBlock for reward", "error", "TOP_CENTER");
+			}
 		});
 	}
 
 	onBtnPlay = () => {
-		this.state.googleSDKObj.playAds();
+		if (!this.state.googleError) {
+			this.state.googleSDKObj.playAds();
+		} else {
+			customToastify("Please close AdBlock or uBlock for reward", "error", "TOP_CENTER");
+		}
 	}
 
 	onBtnPause = () => {
-		this.state.googleSDKObj.onContentPauseRequested();
+		if (!this.state.googleError) {
+			this.state.googleSDKObj.onContentPauseRequested();
+		}
 	}
 
 	onPolifishBtnClick = (name) => () => {

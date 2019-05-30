@@ -37,5 +37,4 @@ function customSurveyNotAvailable(){
 }
 
 function pollfishReady() {
-	console.log("321123");
 }

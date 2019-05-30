@@ -14,6 +14,9 @@ import App from './App';
 
 
 const theme = createMuiTheme({
+	typography: {
+		useNextVariants: true,
+	},
 });
 
 

@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { Switch, withRouter } from "react-router-dom";
 import { any, func, object } from "prop-types";
 
+import * as Sentry from '@sentry/browser';
+
 import { ToastContainer } from 'react-toastify';
 
 import HomePage from "./containers/HomePage/HomePage";
@@ -22,14 +24,15 @@ import { pollfishConfig } from "./helpers/polifish";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.less";
 
+Sentry.init({ dsn: 'https://87ee4c9092a1425c990ad3cd9d5fb349@sentry.io/1314519' });
+
 
 class App extends Component {
 	static propTypes = {
 		getUserDataSaga: func,
-		newFriendSaga: func,
-		setUserSessionId: func,
+		location: any,
 		user: any,
-		userData: object,
+		userData: object
 	}
 
 	componentWillMount() {
@@ -46,6 +49,15 @@ class App extends Component {
 		if (this.props.location) {
 			parserRedirect(this.props);
 		}
+	}
+
+	componentDidCatch(error, errorInfo) {
+		Sentry.withScope((scope) => {
+			Object.keys(errorInfo).forEach((key) => {
+				scope.setExtra(key, errorInfo[key]);
+			});
+			Sentry.captureException(error);
+		});
 	}
 
 	render() {

@@ -10,6 +10,8 @@ import ConfirmName from "../../components/ConfirmName/ConfirmName";
 import { api } from "../../config";
 import * as authAction from "../../modules/auth/auth.actions";
 
+import googleIcon from '../../images/social/googleIcon.svg.png';
+
 import classes from "./LoginPage.less";
 
 
@@ -64,7 +66,7 @@ class LoginPage extends Component {
 				<div className={`btn white darken-4 col s10 m4 ${classes.loginPageLoginBtn} ${classes.loginPageGoogleBtn}`}>
 					<a href={`${api.urls.auth.googleLogin}${document.location.host}`}>
 						<div className={`left ${classes.loginPageGoogleIcon}`}>
-							<img width="20px" alt="Google &quot;G&quot; Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+							<img width="20px" alt="Google &quot;G&quot; Logo" src={googleIcon} />
 						</div>
 						Sign in with Google
 					</a>

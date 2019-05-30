@@ -24,7 +24,7 @@ export default class FriendApi {
 		return result;
 	}
 
-	async listFriends(sessionId) {
+	async listFriends() {
 		const result = await axios({
 			method: 'GET',
 			url: this.urls.listFriends,

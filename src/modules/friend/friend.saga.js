@@ -10,58 +10,41 @@ export const userSessionId = (state) => state.auth.userSessionId;
 export const user = (state) => state.auth.user;
 
 function* fetchFriends() {
-	try {
-		const sessionId = yield select(userSessionId);
+	const result = yield api.friend.listFriends();
 
-		const result = yield api.friend.listFriends(sessionId);
-
-		yield put(friendAction.setListFriends({ friends: result.data, friendsStatus: "success" }));
-	} catch (e) {
-		console.log("fetchFriends", e);
-	}
+	yield put(friendAction.setListFriends({ friends: result.data, friendsStatus: "success" }));
 }
 
 function* fetchAcceptFriend(data) {
-	try {
-		const friend_uuid = data.payload.friend_uuid;
+	const friend_uuid = data.payload.friend_uuid;
 
-		const result = yield api.friend.acceptFriendRequest(friend_uuid);
+	const result = yield api.friend.acceptFriendRequest(friend_uuid);
 
-		yield put(friendAction.listFriendsSaga());
-	} catch (e) {
-		console.log("fetchAcceptFriendRequest", e);
-	}
+	yield put(friendAction.listFriendsSaga());
 }
 
 function* fetchRemoveFriend(data) {
-	try {
-		const friend_uuid = data.payload.friend_uuid;
+	const friend_uuid = data.payload.friend_uuid;
 
-		const result = yield api.friend.removeFriend(friend_uuid);
-		yield put(friendAction.listFriendsSaga());
-	} catch (e) {
-		console.log("fetchAcceptFriendRequest", e);
-	}
+	const result = yield api.friend.removeFriend(friend_uuid);
+
+	yield put(friendAction.listFriendsSaga());
 }
 
 function* fetchNewFriends(data) {
-	try {
-		const userLogin = yield select(user);
+	const userLogin = yield select(user);
 
-		const sessionId = yield select(userSessionId);
-		const friend_uuid = data.payload.invite_uuid;
+	const sessionId = yield select(userSessionId);
+	const friend_uuid = data.payload.invite_uuid;
 
-		const result = yield api.friend.newFriend(sessionId, friend_uuid);
+	const result = yield api.friend.newFriend(sessionId, friend_uuid);
 
-		if (userLogin) {
-			customToastify("Invite has been sent", "success");
-		}
-
-		yield put(friendAction.listFriendsSaga());
-		history.push("/");
-	} catch (e) {
-		console.log("fetchAcceptFriendRequest", e);
+	if (userLogin) {
+		customToastify("Invite has been sent", "success");
 	}
+
+	yield put(friendAction.listFriendsSaga());
+	history.push("/");
 }
 
 
