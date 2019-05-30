@@ -37,7 +37,6 @@ class App extends Component {
 		user: any,
 		userData: object
 	}
-
 	componentDidMount() {
 		const { user, userData, getUserDataSaga } = this.props;
 

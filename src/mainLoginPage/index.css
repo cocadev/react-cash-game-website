@@ -1,0 +1,116 @@
+@font-face {
+    font-family: Poppins;
+    src: url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+* {
+    font-family: Poppins, sans-serif;
+}
+
+div.social-wrap a {
+    padding-left: 5px;
+    padding-top: 8px;
+    height: 29px;
+    background: none;
+    border: none;
+    display: block;
+    background-size: 35px 35px;
+    background-position: right center;
+    background-repeat: no-repeat;
+    border-radius: 4px;
+    color: white;
+    font-family: "Merriweather Sans", sans-serif;
+    font-size: 14px;
+    margin-bottom: 15px;
+    border-left: 1px solid transparent;
+    border-right: 1px solid transparent;
+    box-shadow: 0 4px 2px -2px gray;
+    text-shadow: rgba(0, 0, 0, 0.5) -1px -1px 0;
+}
+a#facebook {
+    width: 185px;
+    padding-left: 8px;
+    border-radius: 0;
+    border-color: #2d5073;
+    background-color: #3b5998;
+    background-image: url(./facebook-icon.png);
+    cursor: pointer;
+    display: flex;
+    text-decoration: unset;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+}
+
+.login-page--qEwfJ {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+}
+.login-page__login-btn--hnoro {
+    text-transform: none;
+    margin: 0 15px;
+}
+.login-page__buttonWrapper--EEAs2 {
+    display: flex;
+}
+.login-page__googleBtn--2pM02 {
+    text-decoration: none;
+    color: #fff;
+    text-align: center;
+    letter-spacing: 0.5px;
+    -webkit-transition: background-color 0.2s ease-out;
+    transition: background-color 0.2s ease-out;
+    cursor: pointer;
+    border: none;
+    border-radius: 2px;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 16px;
+    text-transform: unset;
+    vertical-align: middle;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    background-color: #fff !important;
+}
+.login-page__googleBtn--2pM02 a {
+    color: #039be5;
+    text-decoration: unset;
+}
+.login-page__googleIcon--3eg8Y {
+    float: left !important;
+    padding-top: 5px;
+    margin-left: -7px;
+    padding-right: 7px;
+}
+.login-page__faceBookBtn--3xArD {
+    text-transform: none;
+    margin: 0 15px;
+}
+@media screen and (max-width: 767px) {
+    .login-page--qEwfJ {
+        display: flex;
+        flex-direction: column;
+        padding: 20px 20px;
+    }
+    .login-page__faceBookBtn--3xArD {
+        display: flex;
+        width: auto;
+    }
+    .login-page__faceBookBtn--3xArD a {
+        width: 100% !important;
+    }
+    .login-page__buttonWrapper--EEAs2 {
+        flex-direction: column;
+    }
+    .login-page__googleBtn--2pM02 {
+        margin-bottom: 20px;
+    }
+}
+
+

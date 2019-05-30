@@ -9,6 +9,8 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ErrorOverlayPlugin = require('error-overlay-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+
 
 module.exports = {
 	devtool: "devtool: 'source-map'",
@@ -92,7 +94,7 @@ module.exports = {
 		},
 	},
 	output: {
-		path: path.resolve(__dirname, 'build'),
+		path: path.resolve(__dirname, 'build/app'),
 		filename: 'bundle.js',
 		publicPath: '/',
 		chunkFilename: '[name].[chunkhash].js'
@@ -134,6 +136,10 @@ module.exports = {
 		}),
 		new CleanWebpackPlugin(path.resolve(__dirname, 'build')),
 		new ImageminPlugin({}),
-		new webpack.HashedModuleIdsPlugin()
+		new webpack.HashedModuleIdsPlugin(),
+
+		new CopyWebpackPlugin([
+			{ from: path.resolve(__dirname, './src/mainLoginPage'), to: path.resolve(__dirname, 'build')}
+		])
 	],
 };

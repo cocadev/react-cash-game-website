@@ -4,6 +4,8 @@ import { func, array, object, any, bool } from "prop-types";
 
 import { connect } from "react-redux";
 
+import { pollfishConfig } from "../../helpers/polifish";
+
 import SwipeableViews from 'react-swipeable-views';
 
 import { withStyles } from "@material-ui/core/styles/index";
@@ -14,16 +16,11 @@ import Tabs from "../../components/Tabs/Tabs";
 import Sale from "../../containers/tabs/Sale/Sale";
 import VideSDKWrapper from "../../components/VideSDKWrapper/VideSDKWrapper";
 
-import { pollfishConfig } from "../../helpers/polifish";
-
 import { loader } from "../../components/Loader/Loader";
-import { FriendPageLoad } from "./HomePage.loader";
 import UserWidget from "../../components/UserWidget/UserWidget";
 import CutCorners from "../../components/CutCorners/CutCorners";
 import LootBox from "../../components/LootBox/LootBox";
 import Menus from "../../containers/Menus/Menus";
-
-// import MenuButton from "../../components/Buttons/MenuButton/MenuButton";
 
 import SaleIcon from "../../images/icons/shop.png";
 import WinnersIcon from "../../images/icons/dollar.png";
@@ -39,6 +36,7 @@ import * as winnersActions from "../../modules/winners/winners.actions";
 import * as menusActions from "../../modules/menus/menus.actions";
 import { cutCorners } from "../../helpers/cutCorners";
 import history from "../../modules/history";
+import { FriendPageLoad } from "./HomePage.loader";
 
 import classes from "./HomePage.less";
 
@@ -58,14 +56,14 @@ class HomePage extends Component {
 		listFriendsSaga: func,
 		logoutStorePending: func,
 		lootBoxVisibility: bool,
+		menuVisibility: bool,
 		offers: array,
 		setTabIndex: func,
 		showLootBox: func,
 		showMenu: func,
 		tabIndex: any,
 		theme: object,
-		userData: object,
-		menuVisibility: bool
+		userData: object
 	}
 
 	state = {
