@@ -23,6 +23,7 @@ const styles = () => ({
 	},
 	content: {
 		display: "flex",
+		justifyContent: 'center'
 	},
 	dialogMinSize: {
 		minWidth: "40%",
@@ -30,6 +31,7 @@ const styles = () => ({
 	},
 	payPal: {
 		display: "flex",
+		justifyContent: "center",
 		marginTop: "30px",
 		"& .zoid-outlet": {
 			width: "200px !important",

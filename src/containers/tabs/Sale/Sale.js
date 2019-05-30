@@ -24,6 +24,13 @@ const styles = () => ({
 		width: "100%",
 		minHeight: "calc(100vh - 112px)",
 		animation: "unset"
+	},
+	mainContent: {
+		display: "flex",
+		justifyContent: "center"
+	},
+	textCenter: {
+		textAlign: "center"
 	}
 });
 
@@ -100,6 +107,7 @@ class Sale extends React.Component {
 			<Fragment>
 				<div className={classes.mainWrapperContent}>
 					<Grid
+						className={classes.mainContent}
 						direction="row"
 						container
 						item
@@ -116,7 +124,7 @@ class Sale extends React.Component {
 						<SaleWidget onClose={this.handlePayTabsClose} />
 						:
 						<>
-							<h1>Free</h1>
+							<h1 className={classes.textCenter}>Free</h1>
 							<Free onVideoPlay={this.props.onVideoPlay} googleVideoErrorStatus={googleVideoErrorStatus} offers={freeProduct} />
 						</>
 					}

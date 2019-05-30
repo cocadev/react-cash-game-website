@@ -27,6 +27,10 @@ const styles = () => ({
 	mainWrapperContent: {
 		width: "100%",
 	},
+	mainContent: {
+		display: "flex",
+		justifyContent: "center"
+	},
 	disable: {
 		backgroundColor: "gray",
 		cursor: "no-drop",
@@ -66,6 +70,7 @@ class Free extends React.Component {
 		return (
 			<div className={classes.mainWrapperContent}>
 				<Grid
+					className={classes.mainContent}
 					direction="row"
 					container
 					item
