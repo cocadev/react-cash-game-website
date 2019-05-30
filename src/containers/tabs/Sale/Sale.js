@@ -12,7 +12,8 @@ import * as saleActions from "../../../modules/sale/sale.actions";
 const styles = () => ({
 	root: {
 		width: '100%',
-		textAlign: "center"
+		textAlign: "center",
+		cursor: "pointer"
 	},
 });
 
@@ -26,8 +27,7 @@ class Sale extends React.Component {
 		const { classes, offers } = this.props;
 
 		return (
-			<div className={classes.root}>
-
+			<div>
 				<Grid
 					direction="row"
 					container

@@ -29,7 +29,7 @@ function customCloseAndNoShow(){
 }
 
 function customSurveyAvailable(data){
-	console.log("pollfish survey is available with revenue: " + data.revenue + " and survey format playful: " + data.playful);
+	console.log(`pollfish survey is available with revenue: ${data.revenue} and survey format playful: ${data.playful}`);
 }
 
 function customSurveyNotAvailable(){

@@ -25,8 +25,8 @@ const styles = () => ({
 class ConfirmName extends React.Component {
 	static propTypes = {
 		classes: object,
-		setLoginName: func,
-		open: bool
+		open: bool,
+		setLoginName: func
 	}
 
 	state = {
@@ -38,7 +38,6 @@ class ConfirmName extends React.Component {
 			userName: event.target.value
 		});
 	}
-
 
 	onSubmitBtnClick = () => {
 		this.props.setLoginName(this.state.userName);

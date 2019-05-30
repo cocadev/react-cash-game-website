@@ -1,0 +1,32 @@
+#mainContainer {
+    position: relative;
+    width: 640px;
+    height: 360px;
+}
+
+#content, #adContainer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 640px;
+    height: 360px;
+}
+
+#contentElement {
+    width: 640px;
+    height: 360px;
+    overflow: hidden;
+}
+
+.videoAdUi {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/*.fullScreen div:first-child {*/
+    /*position: fixed !important;*/
+    /*top: 0 !important;*/
+    /*left: 0 !important;*/
+    /**/
+/*}*/

@@ -3,8 +3,8 @@ import history from "../../modules/history";
 
 import * as  friendAction from "../friend/friend.actions";
 
-import { takeEvery, put, select } from "redux-saga/effects";
 import customToastify from "../../helpers/customToastify";
+import { takeEvery, put, select } from "redux-saga/effects";
 
 export const userSessionId = (state) => state.auth.userSessionId;
 export const user = (state) => state.auth.user;

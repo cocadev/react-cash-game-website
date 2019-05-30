@@ -7,7 +7,7 @@
     "start": "./node_modules/.bin/webpack-dev-server --open --mode=development",
     "build": "./node_modules/.bin/webpack --mode=production",
     "test": "jest",
-    "lint": "./node_modules/.bin/eslint"
+    "lint": "./node_modules/.bin/eslint --fix ./src"
   },
   "devDependencies": {
     "@babel/core": "^7.1.0",

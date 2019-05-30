@@ -13,7 +13,6 @@ import * as authActions from "../../modules/auth/auth.actions";
 import * as saleActions from "../../modules/sale/sale.actions";
 
 
-
 class HomePage extends Component {
 	static propTypes = {
 		getOffersSaga: func,

@@ -6,15 +6,16 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
 
+import VideoSDK from "../../../components/VideoSDK/VideoSDK";
 import * as saleActions from "../../../modules/sale/sale.actions";
+import { GoogleSDK } from "../../../helpers/googleSDK";
 
 const styles = () => ({
 	root: {
 		width: '100%',
-		textAlign: "center"
+		textAlign: "center",
+		cursor: "pointer"
 	},
 	polifishBtn: {
 		cursor: "pointer",
@@ -31,16 +32,45 @@ class Free extends React.Component {
 		classes: object,
 		offers: array
 	}
-	onPolifishBtnClick = () => {
-		Pollfish.showFullSurvey();
+
+	state = {
+		googleSDKObj: null,
+		fullScreen: false
+	}
+
+	componentDidMount() {
+		this.setState({
+			googleSDKObj: new GoogleSDK()
+		}, () => {
+			this.state.googleSDKObj.init();
+		});
+		// Wire UI element references and UI event listeners.
+	}
+
+	onBtnPlay = () => {
+		this.setState({
+			fullScreen: true
+		}),
+		this.state.googleSDKObj.playAds();
+	}
+	onBtnPause = () => {
+		this.state.googleSDKObj.onContentPauseRequested();
+	}
+
+	onPolifishBtnClick = (name) => () => {
+		if (name  === "Survey") {
+			Pollfish.showFullSurvey();
+		}
+		if (name === "Video") {
+			this.onBtnPlay();
+		}
 	}
 
 	render() {
 		const { classes, offers } = this.props;
 
 		return (
-			<div className={classes.root}>
-
+			<div>
 				<Grid
 					direction="row"
 					container
@@ -54,7 +84,7 @@ class Free extends React.Component {
 
 							return (
 								<Grid key={index} lg={2} item xs={12}>
-									<Paper className={classes.root} elevation={1}>
+									<Paper id={name === "Video" && "playButton"} onClick={this.onPolifishBtnClick(name)} className={classes.root} elevation={1}>
 										<h3>{ name }</h3>
 										<p>{ description }</p>
 									</Paper>
@@ -64,9 +94,7 @@ class Free extends React.Component {
 					}
 				</Grid>
 
-				<Button onClick={this.onPolifishBtnClick} variant="fab" color="primary" aria-label="Add" className={classes.polifishBtn}>
-					<AddIcon />
-				</Button>
+				<VideoSDK fullScreen={this.state.fullScreen} />
 			</div>
 		);
 	}

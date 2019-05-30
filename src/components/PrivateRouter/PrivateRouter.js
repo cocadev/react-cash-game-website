@@ -20,7 +20,7 @@ class PrivateRouter extends Component {
 				<Route
 					{...rest}
 					render={(props) => {
-						if (!state) return <Redirect to={to} />;
+						if (!state) {return <Redirect to={to} />;}
 
 						return React.createElement(component, props);
 					}}

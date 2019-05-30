@@ -97,7 +97,7 @@
     "rest-spread-spacing": 2,
     "semi": 2,
     "strict": [2, "never"],
-    "space-before-blocks": 2,
+    "space-before-blocks": "off",
     "space-before-function-paren": [2, { "anonymous": "always", "named": "never" }],
     "space-in-parens": [2, "never"],
     "space-infix-ops": 2,
