@@ -65,7 +65,7 @@ class App extends Component {
 	}
 
 	notFoundRedirect = () => {
-		customToastify("Oops not found", "error");
+		// customToastify("Oops not found", "error");
 
 		if (this.props.user) {
 			return <Redirect to={routes.homePage} />;
