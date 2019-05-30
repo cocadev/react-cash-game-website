@@ -35,24 +35,25 @@ class Free extends React.Component {
 
 	state = {
 		googleSDKObj: null,
-		fullScreen: false
+		videoAddStatus: "",
+		contentElement: null,
+		adContainer: null
 	}
 
-	componentDidMount() {
+	onAddLoaded = (contentElement, adContainer) => {
 		this.setState({
-			googleSDKObj: new GoogleSDK()
+			googleSDKObj: new GoogleSDK(this.onVideoEnd, this.onVideoStart, contentElement.current, adContainer.current),
+			contentElement,
+			adContainer
 		}, () => {
 			this.state.googleSDKObj.init();
 		});
-		// Wire UI element references and UI event listeners.
 	}
 
 	onBtnPlay = () => {
-		this.setState({
-			fullScreen: true
-		}),
 		this.state.googleSDKObj.playAds();
 	}
+
 	onBtnPause = () => {
 		this.state.googleSDKObj.onContentPauseRequested();
 	}
@@ -64,6 +65,20 @@ class Free extends React.Component {
 		if (name === "Video") {
 			this.onBtnPlay();
 		}
+	}
+
+	onVideoStart = () => {
+		this.setState({
+			videoAddStatus: "play",
+		});
+	}
+
+	onVideoEnd = () => {
+		this.setState({
+			videoAddStatus: "end"
+		});
+
+		this.state.googleSDKObj.init();
 	}
 
 	render() {
@@ -84,7 +99,7 @@ class Free extends React.Component {
 
 							return (
 								<Grid key={index} lg={2} item xs={12}>
-									<Paper id={name === "Video" && "playButton"} onClick={this.onPolifishBtnClick(name)} className={classes.root} elevation={1}>
+									<Paper onClick={this.onPolifishBtnClick(name)} className={classes.root} elevation={1}>
 										<h3>{ name }</h3>
 										<p>{ description }</p>
 									</Paper>
@@ -94,7 +109,7 @@ class Free extends React.Component {
 					}
 				</Grid>
 
-				<VideoSDK fullScreen={this.state.fullScreen} />
+				<VideoSDK onAddLoaded={this.onAddLoaded} fullScreen={this.state.videoAddStatus === "play"} />
 			</div>
 		);
 	}

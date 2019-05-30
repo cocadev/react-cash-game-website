@@ -9,6 +9,8 @@ import Paper from '@material-ui/core/Paper';
 
 import * as saleActions from "../../../modules/sale/sale.actions";
 
+import SaleWidget from "../../../components/SaleWidget/SaleWidget";
+
 const styles = () => ({
 	root: {
 		width: '100%',
@@ -23,8 +25,22 @@ class Sale extends React.Component {
 		offers: array
 	}
 
+	state = {
+		modalVisibility: false,
+	}
+
+	handleModalClose = () => {
+		this.setState({ modalVisibility: false });
+	};
+
+	handleModalOpen = () => {
+		this.setState({ modalVisibility: true });
+	}
+
 	render() {
 		const { classes, offers } = this.props;
+
+		const { modalVisibility } = this.state;
 
 		return (
 			<div>
@@ -41,7 +57,7 @@ class Sale extends React.Component {
 
 							return (
 								<Grid key={index} lg={2} item xs={12}>
-									<Paper className={classes.root} elevation={1}>
+									<Paper onClick={this.handleModalOpen} className={classes.root} elevation={1}>
 										<h3>{ name }</h3>
 										<p>{ description }</p>
 										<p>{ price }</p>
@@ -51,6 +67,8 @@ class Sale extends React.Component {
 						})
 					}
 				</Grid>
+
+				<SaleWidget open={modalVisibility} onClose={this.handleModalClose} />
 			</div>
 		);
 	}

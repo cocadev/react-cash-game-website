@@ -63,9 +63,9 @@ module.exports = {
 		historyApiFallback: true,
 		https: true,
 		port: "443",
-		// allowedHosts: [
-		// 	'test.com'
-		// ]
+		allowedHosts: [
+			'test.com'
+		]
 	},
 	plugins: [
 		new HtmlWebpackPlugin({

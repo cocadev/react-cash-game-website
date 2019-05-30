@@ -1,19 +1,21 @@
 export class GoogleSDK {
-	constructor(height, width) {
-		this.height = height;
-		this.width = width;
-
+	constructor(videoAddEndCallback, videoAddStartCallback, contentElement, adContainer) {
 		this.adsManager = "";
 		this.adsLoader = "";
 		this.adDisplayContainer = "";
 		this.intervalTimer = '"';
 		this.playButton = "";
-		this.videoContent = "";
+		this.videoContent = contentElement;
+
+		this.iSAddVideoEnd = videoAddEndCallback;
+		this.iSAddVideostart = videoAddStartCallback;
+		this.isaddVideoInit = false;
+
+		this.adContainer = adContainer;
 	}
 
 	init() {
-		this.videoContent = document.getElementById('contentElement');
-		this.playButton = document.getElementById('playButton');
+		//this.videoContent = document.getElementById('contentElement');
 		this.setUpIMA();
 	}
 
@@ -59,7 +61,7 @@ export class GoogleSDK {
 		// We assume the adContainer is the DOM id of the element that will house
 		// the ads.
 		this.adDisplayContainer = new google.ima.AdDisplayContainer(
-			document.getElementById('adContainer'), this.videoContent);
+			this.adContainer, this.videoContent);
 	}
 
 	playAds() {
@@ -70,8 +72,10 @@ export class GoogleSDK {
 		try {
 			// Initialize the ads manager. Ad rules playlist will start at this time.
 			this.adsManager.init(screen.width, screen.height, google.ima.ViewMode.FULLSCREEN);
+			this.adsManager.resize(screen.width,  screen.height, google.ima.ViewMode.FULLSCREEN);
 			// Call play to start showing the ad. Single video and overlay ads will
 			// start at this time; the call will be ignored for ad rules.
+			this.iSAddVideostart();
 			this.adsManager.start();
 		} catch (adError) {
 			// An error may be thrown if there was a problem with the VAST response.
@@ -143,6 +147,7 @@ export class GoogleSDK {
 				}
 				break;
 			case google.ima.AdEvent.Type.COMPLETE:
+				this.iSAddVideoEnd();
 				// This event indicates the ad has finished - the video player
 				// can perform appropriate UI actions, such as removing the timer for
 				// remaining time detection.
