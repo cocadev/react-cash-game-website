@@ -21,7 +21,6 @@ import CutCorners from "../../components/CutCorners/CutCorners";
 import LootBox from "../../components/LootBox/LootBox";
 import Menus from "../../containers/Menus/Menus";
 
-import LogoutButton from "../../components/Buttons/LogoutButton/LogoutButton";
 import MenuButton from "../../components/Buttons/MenuButton/MenuButton";
 
 import SaleIcon from "../../images/icons/shop.png";
@@ -176,10 +175,6 @@ class HomePage extends Component {
 	changeScrollTabHeight = () => {
 		if (this.swipeableActions) {
 			this.swipeableActions.updateHeight();
-
-			//console.dir(this.myRef.current);
-			// console.dir(this.myRef.current.containerNode.clientHeight);
-			//this.myRef.current.containerNode.style.height = `${this.myRef.current.containerNode.clientHeight + 5}px`;
 		}
 	}
 

@@ -10,6 +10,10 @@ import MainMenu from "../../components/Menus/MainMenu/MainMenu";
 
 import Profile from "../../components/Menus/Profile/Profile";
 
+import ProfileBackground from "../../images/backgrounds/menubackground.png";
+
+import Notification from "../../components/Menus/SubMenu/Notification/Notification";
+
 import * as menusActions from "../../modules/menus/menus.actions";
 import * as authActions from "../../modules/auth/auth.actions";
 
@@ -19,6 +23,8 @@ class Menus extends Component {
 		hideMenu: func,
 		menuName: string,
 		menuVisibility: bool,
+		nextMenuScreen: func,
+		nextMenu: string,
 		userData: object
 	}
 
@@ -26,7 +32,7 @@ class Menus extends Component {
 		this.props.hideMenu();
 	}
 
-	setClass = () => {
+	getClass = () => {
 		const { menuName } = this.props;
 
 		if (menuName === "profile" && screen.width > 756) {
@@ -36,7 +42,7 @@ class Menus extends Component {
 		return "fade";
 	}
 
-	setMenuWidth = () => {
+	getMenuWidth = () => {
 		const { menuName } = this.props;
 
 		if (menuName === "profile" && screen.width > 756) {
@@ -46,19 +52,28 @@ class Menus extends Component {
 		return "100%";
 	}
 
+	getBackground = () => {
+		return ProfileBackground;
+	}
+
 
 	render() {
 		const { menuVisibility, menuName } = this.props;
 		const menuSettings = {
-			classes: this.setClass(),
-			width: this.setMenuWidth(),
+			classes: this.getClass(),
+			width: this.getMenuWidth(),
+			background: this.getBackground()
 		};
 
 		return (
 			<MobileMenu
 				closeMenu={this.onCloseMenuClick}
+				nextMenu={this.props.nextMenu}
+				nextMenuScreen={this.props.nextMenuScreen}
 				isMobileMenuOpen={menuVisibility}
 				menuSettings={menuSettings}
+				showMenu={this.props.showMenu}
+				hideMenu={this.props.hideMenu}
 			>
 				{ menuName === "main" &&
 					<MainMenu {...this.props} />
@@ -66,6 +81,10 @@ class Menus extends Component {
 
 				{ menuName === "profile" &&
 					<Profile {...this.props} />
+				}
+
+				{ menuName === "notification" &&
+					<Notification />
 				}
 			</MobileMenu>
 		);
@@ -75,6 +94,7 @@ class Menus extends Component {
 function mapStateToProps({ menus, auth }) {
 	return {
 		menuVisibility: menus.menuVisibility,
+		nextMenu: menus.nextMenuScreen,
 		menuName: menus.menuName,
 		userData: auth.userData,
 	};

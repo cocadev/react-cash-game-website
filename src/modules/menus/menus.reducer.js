@@ -6,6 +6,7 @@ const initialState = {
 	menuName: "",
 	tabIndex: false,
 	lootBoxVisibility: true,
+	nextMenuScreen: "",
 };
 
 const reducer = {
@@ -34,6 +35,10 @@ const reducer = {
 	[actions.hideLootBox]: (state) => ({
 		...state,
 		lootBoxVisibility: false
+	}),
+	[actions.nextMenuScreen]: (state, nextMenuScreen) => ({
+		...state,
+		nextMenuScreen
 	})
 };
 

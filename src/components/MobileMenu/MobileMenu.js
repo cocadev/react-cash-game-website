@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { bool, func, object } from "prop-types";
+import { bool, func, object, string } from "prop-types";
 
 import { CSSTransition } from 'react-transition-group';
 
@@ -14,8 +14,12 @@ export default class MobileMenu extends React.Component {
 	static propTypes = {
 		closeMenu: func,
 		handleItemMenuClick: func,
+		hideMenu: func,
 		isMobileMenuOpen: bool,
-		menuSettings: object
+		menuSettings: object,
+		nextMenu: string,
+		nextMenuScreen: func,
+		showMenu: func
 	}
 
 	state = {
@@ -27,6 +31,20 @@ export default class MobileMenu extends React.Component {
 		this.setState({
 			menuSettings: this.props.menuSettings
 		});
+	}
+
+	componentDidUpdate() {
+		/**
+		 * changes menu with animations worked only when menu was set from nexMenuSet
+		 */
+		if (this.props.nextMenu !== "") {
+			this.props.hideMenu();
+		}
+
+		if (!this.state.onExitingAnimation && this.props.nextMenu !== "") {
+			this.props.showMenu(this.props.nextMenu);
+			this.props.nextMenuScreen("");
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -50,6 +68,7 @@ export default class MobileMenu extends React.Component {
 			[classes.mobileMenuHide]: !onExitingAnimation
 		});
 
+
 		return (
 			<div
 				className={showMenuClasses}
@@ -71,7 +90,11 @@ export default class MobileMenu extends React.Component {
 				>
 					<div
 						className={classes.mobileMenuWrapper}
-						style={{ width: menuSettings.width }}
+						style={{
+							width: menuSettings.width,
+							backgroundImage: `url(${menuSettings.background})`,
+							backgroundSize: "cover"
+						}}
 						onClick={this.handleItemClick}
 					>
 						<MenuButton onClick={this.props.closeMenu} isMobileMenuOpen />

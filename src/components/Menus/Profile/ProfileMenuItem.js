@@ -14,14 +14,13 @@ class ProfileMenuItem extends Component {
 	render() {
 		const { menuItem } = this.props;
 
-
 		return (
-			<div className={classes.profileMenuItemContent} >
+			<div className={classes.profileMenuItemContent}>
 				<img src={menuItem.icon} className={classes.profileMenuItemContentIcon} alt="" />
-				<p className={classes.profileMenuItemContentText}> {menuItem.label} </p>
+				<p onClick={menuItem.onClick && menuItem.onClick}  className={classes.profileMenuItemContentText}> {menuItem.label} </p>
 				{ menuItem.isNew &&
 					<div className={classes.profileMenuItemContentNewWrapper}>
-						<p className={classes.profileMenuItemContentNewText}>new</p>
+						<p  className={classes.profileMenuItemContentNewText}>new</p>
 					</div>
 				}
 

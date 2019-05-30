@@ -33,9 +33,11 @@ class Profile extends Component {
 		changeLoginNameSaga: func,
 		hideLootBox: func,
 		hideMenu: func,
+		logoutStorePending: func,
 		setTabIndex: func,
-		userData: object,
-		logoutStorePending:func
+		nextMenuScreen: func,
+		showMenu: func,
+		userData: object
 	}
 
 	constructor(props) {
@@ -191,7 +193,14 @@ class Profile extends Component {
 				label: "notification",
 				icon: Notification,
 				isCheckbox: true,
-				isNew: false
+				isNew: false,
+				onClick: () => {
+					this.props.nextMenuScreen("notification");
+					// this.props.hideMenu();
+					// setTimeout(() => {
+					// 	this.props.showMenu("notification");
+					// }, 200);
+				}
 			},
 		];
 
@@ -247,7 +256,7 @@ class Profile extends Component {
 						{ this.renderMenuItems() }
 					</div>
 
-					<img onClick={this.props.logoutStorePending} className={classes.profileLogout} src={ExitIcon} alt="exit"/>
+					<img onClick={this.props.logoutStorePending} className={classes.profileLogout} src={ExitIcon} alt="exit" />
 				</div>
 			</div>
 
