@@ -4,8 +4,10 @@ import history from "../../modules/history";
 import * as  friendAction from "../friend/friend.actions";
 
 import { takeEvery, put, select } from "redux-saga/effects";
+import customToastify from "../../helpers/customToastify";
 
 export const userSessionId = (state) => state.auth.userSessionId;
+export const user = (state) => state.auth.user;
 
 function* fetchFriends() {
 	try {
@@ -44,10 +46,16 @@ function* fetchRemoveFriend(data) {
 
 function* fetchNewFriends(data) {
 	try {
+		const userLogin = yield select(user);
+
 		const sessionId = yield select(userSessionId);
 		const friend_uuid = data.payload.invite_uuid;
 
 		const result = yield api.friend.newFriend(sessionId, friend_uuid);
+
+		if (userLogin) {
+			customToastify("Invite has been sent", "success");
+		}
 
 		yield put(friendAction.listFriendsSaga());
 		history.push("/");

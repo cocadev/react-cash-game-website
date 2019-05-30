@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { connect } from "react-redux";
 import { object, array, func } from "prop-types";
 
+
 import { withStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -12,6 +13,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Person from '@material-ui/icons/Person';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+import customToastify from "../../../helpers/customToastify";
 
 import * as authActions from "../../../modules/auth/auth.actions";
 import * as friendActions from "../../../modules/friend/friend.actions";
@@ -25,23 +27,40 @@ const styles = () => ({
 		marginTop: '30px',
 	},
 	linkMargin: {
-		marginTop: '20px',
 		marginLeft: '20px',
 	},
 	singleFriendWrapper: {
 		display: "flex",
 		padding: "10px",
 		alignItems: "center"
+	},
+	inviteWrapper: {
+		display: "flex",
+		alignItems: "center",
+	},
+	copyBtn: {
+		marginLeft: "15px"
 	}
 });
+
+function copyStringToClipboard(str) {
+	const el = document.createElement('textarea');
+	el.value = str;
+
+	document.body.appendChild(el);
+	el.select();
+
+	document.execCommand('copy');
+	document.body.removeChild(el);
+}
 
 class Friend extends React.Component {
 	static propTypes = {
 		acceptFriendSaga: func,
-		removeFriendSaga: func,
 		classes: object,
 		friends: array,
 		listFriendsSaga: func,
+		removeFriendSaga: func,
 		userData: object
 	}
 
@@ -53,6 +72,15 @@ class Friend extends React.Component {
 		this.setState({
 			linkBtnCollapsed: !this.state.linkBtnCollapsed
 		});
+	}
+
+	onCopyBtnClick = () => {
+		const { userData } = this.props;
+
+		const linkText = `${document.location.href}#i=${userData.invite_code}`;
+
+		copyStringToClipboard(linkText);
+		customToastify("Add to clipboard", "success");
 	}
 
 	onAddToFriendBtnClick = (id) => (event) => {
@@ -114,16 +142,20 @@ class Friend extends React.Component {
 					color={linkBtnCollapsed ? "primary" : "secondary"}
 					className={classes.buttonMargin}
 				>
-					<Fragment>
-						{ linkBtnCollapsed ?
-							<span>Show Link</span> :
-							<span>Hide Link</span>
-						}
-					</Fragment>
+					<span>Invite</span>
 				</Button>
 
 				{ !linkBtnCollapsed &&
-					<Typography className={classes.linkMargin}>{ linkText }</Typography>
+					<div className={classes.inviteWrapper}>
+						<Typography className={classes.linkMargin}>{ linkText }</Typography>
+						<Button
+							onClick={this.onCopyBtnClick}
+							className={classes.copyBtn}
+							variant="contained"
+						>
+							<span>Copy link</span>
+						</Button>
+					</div>
 				}
 			</Fragment>
 		);

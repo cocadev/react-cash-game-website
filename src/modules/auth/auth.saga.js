@@ -3,7 +3,7 @@ import store from "store";
 import history from "../../modules/history";
 import api from "../../api";
 
-import { addToLocalStorage } from "../../helpers/store";
+import { addToLocalStorage, removeFromLocalStorage } from "../../helpers/store";
 
 import * as  authAction from "../auth/auth.actions";
 
@@ -82,6 +82,12 @@ function* fetchUserName(data) {
 	}
 }
 
+function* logoutUser() {
+	removeFromLocalStorage("user");
+	removeFromLocalStorage("userSessionId");
+	history.push(`/`);
+}
+
 function *initialize() {
 	const user = store.get("user");
 	if (user) {
@@ -97,6 +103,7 @@ export function* watchFetchUser() {
 	yield takeEvery(authAction.getUserDataSaga, fetchUserData);
 	yield takeEvery(authAction.initializeSaga, initialize);
 	yield takeEvery(authAction.setLoginNameSaga, fetchUserName);
+	yield takeEvery(authAction.logoutStore, logoutUser);
 }
 
 

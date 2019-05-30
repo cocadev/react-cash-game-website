@@ -56,7 +56,7 @@ class ConfirmName extends React.Component {
 					scroll="paper"
 					aria-labelledby="scroll-dialog-title"
 				>
-					<DialogTitle id="scroll-dialog-title">Confirm UserName</DialogTitle>
+					<DialogTitle id="scroll-dialog-title">Confirm User Name</DialogTitle>
 					<DialogActions className={classes.dialogAction}>
 						<div>
 							<TextField
@@ -69,8 +69,8 @@ class ConfirmName extends React.Component {
 							/>
 						</div>
 						<div className={classes.buttonWrapper}>
-							<Button disabled={userName.length < 5} onClick={this.onSubmitBtnClick} color="primary">
-									Subscribe
+							<Button disabled={userName.length <= 3} onClick={this.onSubmitBtnClick} color="primary">
+								Ok
 							</Button>
 						</div>
 					</DialogActions>

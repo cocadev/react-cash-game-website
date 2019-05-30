@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { Switch, withRouter } from "react-router-dom";
 import { any, func, object } from "prop-types";
 
+import { ToastContainer } from 'react-toastify';
+
 import HomePage from "./containers/HomePage/HomePage";
 import LoginPage from "./containers/LoginPage/LoginPage";
 
@@ -15,6 +17,7 @@ import parserRedirect from "./helpers/parcerRedirect";
 import * as authActions from "./modules/auth/auth.actions";
 import * as friendActions from "./modules/friend/friend.actions";
 
+import "react-toastify/dist/ReactToastify.css";
 import "./App.less";
 
 
@@ -41,23 +44,26 @@ class App extends Component {
 
 	render() {
 		return (
-			<Switch>
-				<PrivateRoute
-					exact
-					path={routes.homePage}
-					state={this.props.user}
-					to={routes.login}
-					component={HomePage}
-				/>
+			<div>
+				<ToastContainer />
+				<Switch>
+					<PrivateRoute
+						exact
+						path={routes.homePage}
+						state={this.props.user}
+						to={routes.login}
+						component={HomePage}
+					/>
 
-				<PrivateRoute
-					exact
-					path={routes.login}
-					state={!this.props.user}
-					to={routes.homePage}
-					component={LoginPage}
-				/>
-			</Switch>
+					<PrivateRoute
+						exact
+						path={routes.login}
+						state={!this.props.user}
+						to={routes.homePage}
+						component={LoginPage}
+					/>
+				</Switch>
+			</div>
 		);
 	}
 }

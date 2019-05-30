@@ -9,9 +9,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
 
 import Checkbox from '@material-ui/core/Checkbox';
+
+import DOBPicker from "../../components/DOBPicker/DOBPicker";
 
 function diff_years(dt2, dt1) {
 	let diff = (dt2.getTime() - dt1) / 1000;
@@ -20,19 +21,23 @@ function diff_years(dt2, dt1) {
 }
 
 
-const styles = (theme) => ({
+const styles = () => ({
 	dialogAction: {
 		display: "block",
 		paddingLeft: "10px"
 	},
 	errorLabel: {
-		margin: "0 0 0 10px",
+		margin: "10px 0",
 		color: "#F54B55"
 	},
 	dataPicker: {
 		display: 'flex',
 		width: "100%",
 		alignItems: "flex-end"
+	},
+	dataPickerWrapper: {
+		display: "flex",
+		flexDirection: "column"
 	},
 	buttonWrapper: {
 		display: 'flex',
@@ -51,6 +56,7 @@ class ScrollDialog extends React.Component {
 
 	state = {
 		confirmChecked: false,
+		data: "",
 		datePickerVerify: false,
 		dataPrickerErrorShow: false
 	}
@@ -59,15 +65,17 @@ class ScrollDialog extends React.Component {
 		this.setState({ confirmChecked: !this.state.confirmChecked });
 	}
 
-	onDataPickerChange = (event) => {
-		let pickedData = event.target.valueAsDate;
+	onDataPickerChange = (data) => {
+		if (data) {
+			let pickedData = data;
 
-		if (diff_years(pickedData, Date.now()) >= 18) {
-			pickedData = `${pickedData.getDate()}/${pickedData.getMonth() + 1}/${pickedData.getFullYear()}`;
+			if (diff_years(pickedData, Date.now()) >= 18) {
+				pickedData = `${pickedData.getDate()}/${pickedData.getMonth() + 1}/${pickedData.getFullYear()}`;
 
-			this.setState({
-				datePickerVerify: pickedData
-			});
+				this.setState({
+					datePickerVerify: pickedData
+				});
+			}
 		}
 	}
 
@@ -86,20 +94,13 @@ class ScrollDialog extends React.Component {
 
 		return (
 			<Fragment>
-				<TextField
-					id="date"
-					label="Birthday"
-					type="date"
-					onChange={this.onDataPickerChange}
-					defaultValue="2017-05-24"
-					InputLabelProps={{
-						shrink: true,
-					}}
-				/>
+				<div className={classes.flexDirection}>
+					<DOBPicker onDataPickerChange={this.onDataPickerChange}  />
 
-				{ this.state.dataPrickerErrorShow &&
-					<p className={classes.errorLabel}> You have to be at least 18 years old </p>
-				}
+					{ this.state.dataPrickerErrorShow &&
+						<p className={classes.errorLabel}> You have to be at least 18 years old </p>
+					}
+				</div>
 			</Fragment>
 		);
 	}
@@ -117,7 +118,7 @@ class ScrollDialog extends React.Component {
 					scroll="paper"
 					aria-labelledby="scroll-dialog-title"
 				>
-					<DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle>
+					<DialogTitle id="scroll-dialog-title">Agreement</DialogTitle>
 					<DialogContent>
 						<DialogContentText>
 							Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab accusantium aut corporis eaque eius enim
@@ -173,7 +174,7 @@ class ScrollDialog extends React.Component {
 										Cancel
 								</Button>
 								<Button disabled={!confirmChecked} onClick={this.onSubmitBtnClick} color="primary">
-										Subscribe
+									Agree
 								</Button>
 							</div>
 						</div>

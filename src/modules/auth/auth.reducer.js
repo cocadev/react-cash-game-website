@@ -46,6 +46,15 @@ const reducer = {
 		...state,
 		confirmAge: "success"
 	}),
+	[actions.logoutStore]: (state) => ({
+		...state,
+		user: null,
+		userSessionId: "",
+		userLoaded: false,
+		userLoginStatus: "",
+		confirmAge: "",
+		userData: {},
+	}),
 
 };
 

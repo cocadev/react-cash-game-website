@@ -15,6 +15,7 @@ class HomePage extends Component {
 	static propTypes = {
 		getOffersSaga: func,
 		listFriendsSaga: func,
+		logoutStore: func
 	}
 
 	state = {
@@ -45,6 +46,8 @@ class HomePage extends Component {
 			return (
 				<Sale />
 			);
+		} else if (tabsValue.name === "Logout") {
+			this.props.logoutStore();
 		}
 	}
 
@@ -52,7 +55,7 @@ class HomePage extends Component {
 	render() {
 		const { tabsValue } = this.state;
 
-		const labels = [{ name: "Friends" }, { name: "Sale" }, { name: "Free" }];
+		const labels = [{ name: "Friends" }, { name: "Sale" }, { name: "Free" }, { name: "Logout" }];
 
 		return (
 			<div>
