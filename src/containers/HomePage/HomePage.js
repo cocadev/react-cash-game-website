@@ -1,17 +1,33 @@
 import React, { Component } from 'react';
 
+import { func } from "prop-types";
+
+import { connect } from "react-redux";
 import Tabs from "../../components/Tabs/Tabs";
 import Friend from "../../containers/tabs/Friend/Friend";
 import Sale from "../../containers/tabs/Sale/Sale";
+import * as friendActions from "../../modules/friend/friend.actions";
+import * as authActions from "../../modules/auth/auth.actions";
+import * as saleActions from "../../modules/sale/sale.actions";
 
 
 class HomePage extends Component {
+	static propTypes = {
+		getOffersSaga: func,
+		listFriendsSaga: func,
+	}
+
 	state = {
 		tabsValue: {
 			index: false,
 			name: ""
 		}
 	};
+
+	componentDidMount() {
+		this.props.getOffersSaga();
+		this.props.listFriendsSaga();
+	}
 
 	mainTabChange = (value) => {
 		this.setState({
@@ -36,7 +52,7 @@ class HomePage extends Component {
 	render() {
 		const { tabsValue } = this.state;
 
-		const labels = [{ name: "Friends" }, { name: "Sale" }];
+		const labels = [{ name: "Friends" }, { name: "Sale" }, { name: "Free" }];
 
 		return (
 			<div>
@@ -48,4 +64,4 @@ class HomePage extends Component {
 	}
 }
 
-export default HomePage;
+export default connect(null, { ...authActions, ...friendActions, ...saleActions })((HomePage));

@@ -30,10 +30,6 @@ class Sale extends React.Component {
 		}
 	};
 
-	componentDidMount() {
-		this.props.getOffersSaga();
-	}
-
 	mainTabChange = (value) => {
 		this.setState({
 			tabsValue: value
@@ -49,7 +45,7 @@ class Sale extends React.Component {
 
 		return (
 			<div className={classes.root}>
-				<Tabs value={tabsValue} mainTabChange={this.mainTabChange} labels={labels} />
+				{/*<Tabs value={tabsValue} mainTabChange={this.mainTabChange} labels={labels} />*/}
 			</div>
 		);
 	}

@@ -18,10 +18,10 @@ class LoginPage extends Component {
 		confirmAge: string,
 		confirmAgeSaga: func,
 		googleLoginUserSaga: func,
+		setLoginNameSaga: func,
 		userData: object,
 		userLoaded: bool,
 		userLoginStatus: string,
-		setLoginNameSaga: func,
 		userSessionId: string
 	}
 
@@ -60,21 +60,19 @@ class LoginPage extends Component {
 
 		return (
 			<div className={classes.loginPage}>
-				<a
-					name="google"
-					className={classes.loginPageGoogleLoginBtn}
-					href={api.urls.auth.googleLogin}
-				>
-					Google Login
-				</a>
 
-				<a
-					name="facebook"
-					className={classes.loginPageGoogleLoginBtn}
-					href="#"
-				>
-					FaceBook Login (not work yet)
-				</a>
+				<div className={`btn white darken-4 col s10 m4 ${classes.loginPageLoginBtn} ${classes.loginPageGoogleBtn}`}>
+					<a href={`${api.urls.auth.googleLogin}${document.location.host}`}>
+						<div className={`left ${classes.loginPageGoogleIcon}`}>
+							<img width="20px" alt="Google &quot;G&quot; Logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+						</div>
+						Sign in with Google
+					</a>
+				</div>
+
+				<div className={`social-wrap a ${classes.loginPageLoginBtn}`}>
+					<a id="facebook" href={`${api.urls.auth.faceBookLogin}${document.location.host}`}>Sign in with Facebook</a>
+				</div>
 
 				<ScrollDialog
 					handleConfirmAge={this.handleConfirmAge}

@@ -13,8 +13,6 @@ import Person from '@material-ui/icons/Person';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 
-import { api } from "../../../config";
-
 import * as authActions from "../../../modules/auth/auth.actions";
 import * as friendActions from "../../../modules/friend/friend.actions";
 
@@ -49,10 +47,6 @@ class Friend extends React.Component {
 
 	state = {
 		linkBtnCollapsed: true
-	}
-
-	componentDidMount() {
-		this.props.listFriendsSaga();
 	}
 
 	onLinkBtnClick = () => {
@@ -111,7 +105,7 @@ class Friend extends React.Component {
 
 		const { linkBtnCollapsed } = this.state;
 
-		const linkText = `${api.urls.currentPath}#i=${userData.invite_code}`;
+		const linkText = `${document.location.href}#i=${userData.invite_code}`;
 
 		return (
 			<Fragment>
@@ -200,6 +194,7 @@ class Friend extends React.Component {
 		);
 	}
 }
+
 function mapStateToProps({ auth, friend }) {
 	return {
 		userData: auth.userData,

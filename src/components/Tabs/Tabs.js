@@ -35,7 +35,7 @@ class Tabs extends React.Component {
 				>
 					{
 						labels.map((label) => {
-						return <Tab key={label.name} label={label.name} />;
+							return <Tab key={label.name} label={label.name} />;
 						})
 					}
 				</TabsMaterial>

@@ -1,8 +1,47 @@
+
+
 .app {
 }
 
 :global {
     * {
         font-family: "Roboto";
+    }
+
+    div.social-wrap a {
+
+        padding-left: 5px;
+        padding-top: 8px;
+        height: 29px;
+        background: none;
+        border: none;
+        display: block;
+        background-size: 35px 35px;
+        background-position: right center;
+        background-repeat: no-repeat;
+        border-radius: 4px;
+        color: white;
+        font-family:"Merriweather Sans", sans-serif;
+        font-size: 14px;
+        margin-bottom: 15px;
+        border-left: 1px solid transparent;
+        border-right: 1px solid transparent;
+        box-shadow: 0 4px 2px -2px gray;
+        text-shadow: rgba(0, 0, 0, .5) -1px -1px 0;
+    }
+
+    a#facebook {
+        width: 185px;
+        padding-left: 8px;
+        border-radius: 0;
+        border-color: #2d5073;
+        background-color: #3b5998;
+        background-image: url(http://icons.iconarchive.com/icons/danleech/simple/512/facebook-icon.png);
+        cursor: pointer;
+        display: flex;
+
+        text-decoration: unset;
+
+        -webkit-box-shadow : 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
     }
 }
