@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux";
-import { object, array } from "prop-types";
+import { object, array, bool } from "prop-types";
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -11,6 +11,7 @@ import VideoSDK from "../../../components/VideoSDK/VideoSDK";
 import * as saleActions from "../../../modules/sale/sale.actions";
 import { GoogleSDK } from "../../../helpers/googleSDK";
 import customToastify from "../../../helpers/customToastify";
+import customTween from "../../../helpers/cutstomTween";
 
 import withAnimation from "../../../hoc/animation";
 
@@ -29,7 +30,6 @@ const styles = () => ({
 		right: "0px",
 	},
 	mainWrapperContent: {
-		backgroundColor: "#ffffff",
 		margin: "20px 0 0 0",
 		width: "100%",
 		minHeight: "calc(100vh - 112px)",
@@ -40,7 +40,8 @@ const styles = () => ({
 class Free extends React.Component {
 	static propTypes = {
 		classes: object,
-		offers: array
+		offers: array,
+		showAddBlockNotification: bool
 	}
 	constructor(props) {
 		super(props);
@@ -56,20 +57,28 @@ class Free extends React.Component {
 	}
 
 	componentDidMount(){
-		const dots = [
-			{ y: 100, width: 10, x: 0 },
-			{ y: 80, width: 100, x: 0 },
-			{ y: 0, width: 100, x: 0 }
-		];
+		// const dots = [
+		// 	{ y: 100, width: 10, x: 0, element: this.onLoadAnimation.current },
+		// 	{ y: 80, width: 100, x: 0, element: this.onLoadAnimation.current },
+		// 	{ y: 0, width: 100, x: 0, element: this.onLoadAnimation.current }
+		// ];
+		//
+		// const time = 600;
+		//
+		// const update = ({ y, width, x, element }) => {
+		// 	element.style.transform = `translateY(${y}%) translateX(${x}%)`;
+		// 	element.style.width = `${width}%`;
+		// };
+		//
+		// customTween(dots, time, update, this.onLoadAnimation.current);
+	}
 
-		const time = 600;
-
-		const update = ({ y, width, x }) => {
-			this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
-			this.onLoadAnimation.current.style.width = `${width}%`;
-		};
-
-		this.props.setAnimationElement(this.onLoadAnimation, dots, time, update);
+	componentDidUpdate(prevProps){
+		if (this.props.showAddBlockNotification && !prevProps.showAddBlockNotification) {
+			if (this.state.googleError) {
+				customToastify("Please close AdBlock or uBlock for reward", "error", "TOP_CENTER");
+			}
+		}
 	}
 
 	onAddLoaded = (contentElement, adContainer) => {
@@ -84,7 +93,9 @@ class Free extends React.Component {
 				this.setState({
 					googleError: true
 				});
-				customToastify("Please close AdBlock or uBlock for reward", "error", "TOP_CENTER");
+				if (this.props.showAddBlockNotification) {
+					customToastify("Please close AdBlock or uBlock for reward", "error", "TOP_CENTER");
+				}
 			}
 		});
 	}
@@ -130,7 +141,7 @@ class Free extends React.Component {
 		const { classes, offers } = this.props;
 
 		return (
-			<div ref={this.onLoadAnimation} hidden className={classes.mainWrapperContent}>
+			<div className={classes.mainWrapperContent}>
 				<Grid
 					direction="row"
 					container
@@ -160,5 +171,5 @@ class Free extends React.Component {
 	}
 }
 
-export default withAnimation(connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Free))));
+export default connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Free)));
 

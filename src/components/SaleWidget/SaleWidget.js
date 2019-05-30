@@ -7,14 +7,13 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 
-import CutCorners from "../../components/CutCorners/CutCorners";
-
 import PaypalExpressBtn from 'react-paypal-express-checkout';
+import SwipeableViews from 'react-swipeable-views';
 
 import CreditCard from "../../components/CreditCard/CreditCard";
 import Tabs from "../../components/Tabs/Tabs";
 import customToastify from "../../helpers/customToastify";
-import {cutCorners} from "../../helpers/cutCorners";
+
 
 const styles = () => ({
 	buttonWrapper: {
@@ -47,13 +46,11 @@ class SaleWidget extends React.Component {
 		classes: object,
 		onClose: func,
 		open: bool,
+		theme: object
 	}
 
 	state = {
-		tabsValue: {
-			index: 0,
-			name: "Paypal"
-		},
+		value: 0,
 		validData: false,
 		errorShow: false
 	};
@@ -62,6 +59,14 @@ class SaleWidget extends React.Component {
 		this.setState({
 			tabsValue: value
 		});
+	};
+
+	handleChange = (event, value) => {
+		this.setState({ value });
+	};
+
+	handleChangeIndex = (index) => {
+		this.setState({ value: index });
 	};
 
 	onBuyBtnClick = () => {
@@ -81,47 +86,17 @@ class SaleWidget extends React.Component {
 		});
 	}
 
-	renderTabsContent = () => {
-		const { classes, onClose } = this.props;
-
-		const { tabsValue, errorShow } = this.state;
-
-		switch (tabsValue.name) {
-			case "Paypal":
-				const client = {
-					sandbox:    'YOUR-SANDBOX-APP-ID',
-					production: 'YOUR-PRODUCTION-APP-ID',
-				}
-
-				return  <div className={classes.payPal}><PaypalExpressBtn client={client} currency={'USD'} total={1.00} /></div>;
-			case "Credit Card":
-				return (<Fragment>
-					<DialogContent className={classes.content}>
-						<CreditCard isAllValueValid={this.onValueValid} errorShow={errorShow}  />
-					</DialogContent>
-					<DialogActions >
-
-						<div className={classes.buttonWrapper}>
-							<Button onClick={onClose} color="primary">
-								Cancel
-							</Button>
-							<Button onClick={this.onBuyBtnClick} color="primary">
-								Buy
-							</Button>
-						</div>
-					</DialogActions>
-				</Fragment>);
-			case "Gold Coins":
-				return <h1>Gold Coins</h1>;
-		}
-	}
-
 	render() {
-		const { classes, open } = this.props;
+		const { classes, open, theme } = this.props;
 
-		const { tabsValue } = this.state;
+		const { value, errorShow } = this.state;
 
 		const labels = [{ name: "Paypal" }, { name: "Credit Card" }, { name: "Gold Coins" }];
+
+		const client = {
+			sandbox: 'YOUR-SANDBOX-APP-ID',
+			production: 'YOUR-PRODUCTION-APP-ID',
+		};
 
 		return (
 			<div>
@@ -131,21 +106,42 @@ class SaleWidget extends React.Component {
 					open={open}
 					scroll={"body"}
 				>
+					<Tabs
+						value={value}
+						mainTabChange={this.handleChange}
+						labels={labels}
+					/>
+					<div className={classes.tabContentWrapper}>
+						<SwipeableViews
+							axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+							index={value}
+							onChangeIndex={this.handleChangeIndex}
+						>
+							<div className={classes.payPal}><PaypalExpressBtn client={client} currency={'USD'} total={1.00} /></div>
+							<Fragment>
+								<DialogContent className={classes.content}>
+									<CreditCard isAllValueValid={this.onValueValid} errorShow={errorShow}  />
+								</DialogContent>
+								<DialogActions >
 
-					<CutCorners clipStyle={cutCorners(1, 15)} >
-						<Tabs
-							value={tabsValue}
-							mainTabChange={this.mainTabChange}
-							labels={labels}
-							fullWidth
-							customStyle={cutCorners(1, 15)}
-						/>
-					</CutCorners>
-					{ this.renderTabsContent() }
+									<div className={classes.buttonWrapper}>
+										<Button onClick={this.props.onClose} color="primary">
+												Cancel
+										</Button>
+										<Button onClick={this.onBuyBtnClick} color="primary">
+												Buy
+										</Button>
+									</div>
+								</DialogActions>
+							</Fragment>
+
+							<h1>Gold Coins</h1>
+						</SwipeableViews>
+					</div>
 				</Dialog>
 			</div>
 		);
 	}
 }
 
-export default withStyles(styles)(SaleWidget);
+export default withStyles(styles,  { withTheme: true })(SaleWidget);

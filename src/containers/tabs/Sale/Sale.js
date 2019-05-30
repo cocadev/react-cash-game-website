@@ -11,6 +11,7 @@ import * as saleActions from "../../../modules/sale/sale.actions";
 
 import SaleWidget from "../../../components/SaleWidget/SaleWidget";
 import withAnimation from "../../../hoc/animation";
+import customTween from "../../../helpers/cutstomTween";
 
 const styles = () => ({
 	root: {
@@ -19,7 +20,6 @@ const styles = () => ({
 		cursor: "pointer"
 	},
 	mainWrapperContent: {
-		backgroundColor: "#ffffff",
 		margin: "20px 0 0 0",
 		width: "100%",
 		minHeight: "calc(100vh - 112px)",
@@ -44,20 +44,20 @@ class Sale extends React.Component {
 	}
 
 	componentDidMount(){
-		const dots = [
-			{ y: 100, width: 10, x: 0 },
-			{ y: 80, width: 100, x: 0},
-			{ y: 0, width: 100, x: 0 }
-		];
-
-		const time = 600;
-
-		const update = ({ y, width, x}) => {
-			this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
-			this.onLoadAnimation.current.style.width = `${width}%`;
-		};
-
-		this.props.setAnimationElement(this.onLoadAnimation, dots, time, update);
+		// const dots = [
+		// 	{ y: 100, width: 10, x: 0, element: this.onLoadAnimation.current },
+		// 	{ y: 80, width: 100, x: 0, element: this.onLoadAnimation.current },
+		// 	{ y: 0, width: 100, x: 0, element: this.onLoadAnimation.current }
+		// ];
+		//
+		// const time = 600;
+		//
+		// const update = ({ y, width, x, element }) => {
+		// 	element.style.transform = `translateY(${y}%) translateX(${x}%)`;
+		// 	element.style.width = `${width}%`;
+		// };
+		//
+		// customTween(dots, time, update, this.onLoadAnimation.current);
 	}
 
 	handleModalClose = () => {
@@ -75,7 +75,7 @@ class Sale extends React.Component {
 
 		return (
 			<Fragment>
-				<div ref={this.onLoadAnimation} hidden className={classes.mainWrapperContent}>
+				<div className={classes.mainWrapperContent}>
 					<Grid
 						direction="row"
 						container
@@ -108,5 +108,5 @@ class Sale extends React.Component {
 	}
 }
 
-export default withAnimation(connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Sale))));
+export default connect(null, { ...saleActions })((withStyles(styles,  { withTheme: true })(Sale)));
 

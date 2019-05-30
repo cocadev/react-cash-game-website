@@ -8,6 +8,7 @@ import * as Sentry from '@sentry/browser';
 
 import { ToastContainer } from 'react-toastify';
 
+import { LoaderContainer, loader } from "./components/Loader/Loader";
 import HomePage from "./containers/HomePage/HomePage";
 import LoginPage from "./containers/LoginPage/LoginPage";
 
@@ -64,6 +65,7 @@ class App extends Component {
 		return (
 			<div>
 				<ToastContainer />
+				<LoaderContainer />
 				<Switch>
 					<PrivateRoute
 						exact

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { func, string, object, bool } from "prop-types";
 
+import { loader } from "../../components/Loader/Loader";
+
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
@@ -54,6 +56,10 @@ class LoginPage extends Component {
 		this.props.confirmAgeSaga(data);
 	}
 
+	loginBtnClick = () => {
+		loader.show();
+	}
+
 
 	render() {
 		const { confirmAge } = this.props;
@@ -64,7 +70,7 @@ class LoginPage extends Component {
 			<div className={classes.loginPage}>
 
 				<div className={`btn white darken-4 col s10 m4 ${classes.loginPageLoginBtn} ${classes.loginPageGoogleBtn}`}>
-					<a href={`${api.urls.auth.googleLogin}${document.location.host}`}>
+					<a onClick={this.loginBtnClick} href={`${api.urls.auth.googleLogin}${document.location.host}`}>
 						<div className={`left ${classes.loginPageGoogleIcon}`}>
 							<img width="20px" alt="Google &quot;G&quot; Logo" src={googleIcon} />
 						</div>
@@ -73,7 +79,7 @@ class LoginPage extends Component {
 				</div>
 
 				<div className={`social-wrap a ${classes.loginPageLoginBtn}`}>
-					<a id="facebook" href={`${api.urls.auth.faceBookLogin}${document.location.host}`}>Sign in with Facebook</a>
+					<a onClick={this.loginBtnClick} id="facebook" href={`${api.urls.auth.faceBookLogin}${document.location.host}`}>Sign in with Facebook</a>
 				</div>
 
 				<ScrollDialog

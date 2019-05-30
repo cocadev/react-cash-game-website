@@ -7,6 +7,7 @@ import { addToLocalStorage, removeFromLocalStorage } from "../../helpers/store";
 
 import * as  authAction from "../auth/auth.actions";
 
+import { loader } from "../../components/Loader/Loader";
 import { takeEvery, put, select } from "redux-saga/effects";
 
 const userSessionId = (state) => state.auth.userSessionId;
@@ -15,6 +16,8 @@ const userSessionId = (state) => state.auth.userSessionId;
 function* fetchGoogleData(data) {
 	const { sessionId } = data.payload;
 	const result = yield api.auth.v1Player(sessionId);
+
+	loader.show();
 
 	if (result.data.tos_agreed !== null) {
 		yield put(authAction.setLoginData({
@@ -27,6 +30,7 @@ function* fetchGoogleData(data) {
 
 		yield put(authAction.setCurrentUser());
 
+		loader.hide();
 		history.push(`/`);
 	} else {
 		yield put(authAction.setLoginData({
@@ -34,6 +38,8 @@ function* fetchGoogleData(data) {
 			userLoaded: true,
 			userLoginStatus: "success"
 		}));
+
+		loader.hide();
 	}
 }
 
@@ -48,14 +54,25 @@ function* fetchConfirmUserAge(data) {
 
 
 function* fetchUserData() {
-	const sessionId = yield select(userSessionId);
-	const result = yield api.auth.v1Player(sessionId);
+	loader.show();
 
-	yield put(authAction.setLoginData({
-		userData: result.data,
-		userLoaded: true,
-		userLoginStatus: "success"
-	}));
+	const sessionId = yield select(userSessionId);
+
+	try {
+		const result = yield api.auth.v1Player(sessionId);
+
+		yield put(authAction.setLoginData({
+			userData: result.data,
+			userLoaded: true,
+			userLoginStatus: "success"
+		}));
+
+		loader.hide();
+	} catch (e) {
+		loader.hide();
+
+		yield put(authAction.logoutStore());
+	}
 }
 
 function* fetchUserName(data) {
@@ -81,6 +98,8 @@ function *initialize() {
 	if (user) {
 		yield put(authAction.setCurrentUser());
 		yield put(authAction.setUserSessionId(store.get("userSessionId")));
+
+		loader.hide();
 	}
 }
 

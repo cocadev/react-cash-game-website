@@ -1,8 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 
 import { func, array, object } from "prop-types";
 
 import { connect } from "react-redux";
+
+import SwipeableViews from 'react-swipeable-views';
 
 import { withStyles } from "@material-ui/core/styles/index";
 import Tabs from "../../components/Tabs/Tabs";
@@ -10,8 +12,7 @@ import Friend from "../../containers/tabs/Friend/Friend";
 import Sale from "../../containers/tabs/Sale/Sale";
 import Free from "../../containers/tabs/Free/Free";
 
-import CutCorners from "../../components/CutCorners/CutCorners";
-import { cutCorners } from "../../helpers/cutCorners";
+import { loader } from "../../components/Loader/Loader";
 
 import * as friendActions from "../../modules/friend/friend.actions";
 import * as authActions from "../../modules/auth/auth.actions";
@@ -22,8 +23,6 @@ const styles = () => ({
 		margin: "0 5px"
 	},
 	tabContentWrapper: {
-		display: "flex",
-		justifyContent: "flex-end",
 	}
 });
 
@@ -34,20 +33,34 @@ class HomePage extends Component {
 		getOffersSaga: func,
 		listFriendsSaga: func,
 		logoutStore: func,
-		offers: array
+		offers: array,
+		theme: object
 	}
 
 	state = {
-		tabsValue: {
-			index: false,
-			name: ""
-		}
+		value: 0,
 	};
 
 	componentDidMount() {
 		this.props.getOffersSaga();
 		this.props.listFriendsSaga();
+
+		loader.hide();
 	}
+
+	handleChange = (event, value) => {
+		this.setState({ value });
+
+		if (value === 3) {
+
+			this.props.logoutStore();
+		}
+	};
+
+	handleChangeIndex = (index) => {
+		this.setState({ value: index });
+	};
+
 
 	mainTabChange = (value) => {
 		this.setState({
@@ -55,10 +68,13 @@ class HomePage extends Component {
 		});
 	};
 
-	renderTabsContent = () => {
-		const { offers } = this.props;
+	render() {
+		const { classes, theme, offers } = this.props;
 
-		const { tabsValue } = this.state;
+		const { value } = this.state;
+
+		const labels = [{ name: "Friends" }, { name: "Sale" }, { name: "Free" }, { name: "Logout" }];
+
 		const saleProduct = [];
 		const freeProduct = [];
 
@@ -66,40 +82,25 @@ class HomePage extends Component {
 			offer.price === 0 ? freeProduct.push(offer) : saleProduct.push(offer);
 		});
 
-		switch (tabsValue.name) {
-			case "Friends":
-				return (<Friend />);
-			case "Sale":
-				return (<Sale offers={saleProduct} />);
-			case "Free":
-				return (<Free offers={freeProduct} />);
-			case "Logout":
-				this.props.logoutStore();
-		}
-	}
-
-
-	render() {
-		const { classes } = this.props;
-
-		const { tabsValue } = this.state;
-
-		const labels = [{ name: "Friends" }, { name: "Sale" }, { name: "Free" }, { name: "Logout" }];
-
 		return (
 			<div>
 				<div className={classes.tabWrapper}>
-					<CutCorners clipStyle={cutCorners(1, 15)}>
-						<Tabs
-							customStyle={cutCorners(1, 15)}
-							value={tabsValue}
-							mainTabChange={this.mainTabChange}
-							labels={labels}
-						/>
-					</CutCorners>
-				</div>
-				<div className={classes.tabContentWrapper}>
-					{ this.renderTabsContent() }
+					<Tabs
+						value={value}
+						mainTabChange={this.handleChange}
+						labels={labels}
+					/>
+					<div className={classes.tabContentWrapper}>
+						<SwipeableViews
+							axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+							index={value}
+							onChangeIndex={this.handleChangeIndex}
+						>
+							<Friend />
+							<Sale offers={saleProduct} />
+							<Free offers={freeProduct} showAddBlockNotification={value === 2} />
+						</SwipeableViews>
+					</div>
 				</div>
 			</div>
 		);

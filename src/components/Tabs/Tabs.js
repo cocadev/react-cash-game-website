@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { func, object, array, bool } from "prop-types";
+import { func, object, array, bool, number } from "prop-types";
 
 import Paper from '@material-ui/core/Paper';
 import TabsMaterial from '@material-ui/core/Tabs';
@@ -12,34 +12,25 @@ class Tabs extends React.Component {
 		fullWidth: bool,
 		labels: array,
 		mainTabChange: func,
-		value: object
+		value: number
 	}
 
 	static defaultProps = {
 		fullWidth: false
 	}
-
-	handleChange = (event, value) => {
-		const index = { value };
-
-		this.props.mainTabChange({
-			index: index.value,
-			name: event.target.textContent
-		});
-	};
-
 	render() {
 		const { labels, fullWidth, customStyle } = this.props;
+
 		return (
 			<Fragment>
 				<TabsMaterial
 					className={"mainColor"}
 					style={customStyle}
 					fullWidth={fullWidth}
-					value={this.props.value.index}
+					value={this.props.value}
 					indicatorColor="primary"
 					textColor="primary"
-					onChange={this.handleChange}
+					onChange={this.props.mainTabChange}
 				>
 					{
 						labels.map((label) => {

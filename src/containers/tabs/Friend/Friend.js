@@ -19,6 +19,7 @@ import * as authActions from "../../../modules/auth/auth.actions";
 import * as friendActions from "../../../modules/friend/friend.actions";
 import { cutCorners } from "../../../helpers/cutCorners";
 import withAnimation from "../../../hoc/animation";
+import customTween from "../../../helpers/cutstomTween";
 
 const styles = () => ({
 	root: {
@@ -45,7 +46,6 @@ const styles = () => ({
 		position: "relative"
 	},
 	mainWrapperContent: {
-		backgroundColor: "#ffffff",
 		margin: "20px 0 0 0",
 		minHeight: "calc(100vh - 112px)",
 		animation: "unset",
@@ -85,20 +85,20 @@ class Friend extends React.Component {
 	}
 
 	componentDidMount(){
-		const dots = [
-			{ y: 100, width: 10, x: 0 },
-			{ y: 80, width: 100, x: 0},
-			{ y: 0, width: 100, x: 0 }
-		];
-
-		const time = 600;
-
-		const update = ({ y, width, x}) => {
-			this.onLoadAnimation.current.style.transform = `translateY(${y}%) translateX(${x}%)`;
-			this.onLoadAnimation.current.style.width = `${width}%`;
-		};
-
-		this.props.setAnimationElement(this.onLoadAnimation, dots, time, update);
+		// const dots = [
+		// 	{ y: 100, width: 10, x: 0, element: this.onLoadAnimation.current },
+		// 	{ y: 80, width: 100, x: 0, element: this.onLoadAnimation.current },
+		// 	{ y: 0, width: 100, x: 0, element: this.onLoadAnimation.current }
+		// ];
+		//
+		// const time = 600;
+		//
+		// const update = ({ y, width, x, element }) => {
+		// 	element.style.transform = `translateY(${y}%) translateX(${x}%)`;
+		// 	element.style.width = `${width}%`;
+		// };
+		//
+		// customTween(dots, time, update, this.onLoadAnimation.current);
 	}
 
 	onLinkBtnClick = () => {
@@ -274,5 +274,5 @@ function mapStateToProps({ auth, friend }) {
 	};
 }
 
-export default withAnimation(connect(mapStateToProps, { ...authActions, ...friendActions })((withStyles(styles,  { withTheme: true })(Friend))));
+export default connect(mapStateToProps, { ...authActions, ...friendActions })((withStyles(styles,  { withTheme: true })(Friend)));
 
