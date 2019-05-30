@@ -66,8 +66,7 @@ class LootBox extends React.Component {
 			});
 
 			customTween(dots, time, update, this.onLoadAnimation.current);
-		}
-		else if (!this.props.lootBoxVisibility && this.state.odometerValue !== 0 && this.props.funBalance) {
+		} else if (!this.props.lootBoxVisibility && this.state.odometerValue !== 0 && this.props.funBalance) {
 			//down
 			const dots = [
 				{ y: 0, width: 100, x: 0, display: 0, element: this.onLoadAnimation.current },
@@ -121,16 +120,16 @@ class LootBox extends React.Component {
 								open Loot Box
 							</a>
 						</div>
-						<div className={classes.lootBoxCounterWrapper}>
-							<p>You Have </p>
-							{/*<img src={CounterExample} className={classes.lootBoxCounterImage} alt=""/>*/}
-							<Odometer
-								value={odometerValue}
-								format="(,ddd)"
-								classes={classes.lootBoxOdometerStyle}
-							/>
-							<p> Loot Boxes </p>
-						</div>
+						{/*<div className={classes.lootBoxCounterWrapper}>*/}
+						{/*<p>You Have </p>*/}
+						{/*/!*<img src={CounterExample} className={classes.lootBoxCounterImage} alt=""/>*!/*/}
+						{/*<Odometer*/}
+						{/*value={odometerValue}*/}
+						{/*format="(,ddd)"*/}
+						{/*classes={classes.lootBoxOdometerStyle}*/}
+						{/*/>*/}
+						{/*<p> Loot Boxes </p>*/}
+						{/*</div>*/}
 					</div>
 				</div>
 			</div>

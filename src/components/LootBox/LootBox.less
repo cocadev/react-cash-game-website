@@ -20,7 +20,8 @@
 
     &__image {
         //position: absolute;
-        width: calc(100vh - 150px);
+        //width: calc(100vh - 150px);
+        width: 100vh;
     }
 
     &__open-lootBox {
@@ -74,46 +75,46 @@
         }
     }
 
-    &__counter-wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 42px;
-        position: relative;
-
-        &:before {
-            position: absolute;
-            width: 28px;
-            height: 31px;
-            left:-35px;
-            content: "";
-            background-image: url("../../images/textEffects/leftStrings.png");
-        }
-
-        &:after {
-            position: absolute;
-            width: 27px;
-            height: 25px;
-            right:-35px;
-            content: "";
-            background-image: url("../../images/textEffects/rightStrings.png");
-        }
-
-        p {
-            position: relative;
-            color:  #ffffff;
-            font-size: 35px;
-            font-weight: 500;
-            text-align: center;
-            text-shadow: 0px 9px 8px rgba(0, 0, 0, 0.24);
-            width: max-content;
-            margin: 0 auto;
-        }
-    }
-
-    &__counter-image {
-        margin: 0 10px;
-    }
+    //&__counter-wrapper {
+    //    display: flex;
+    //    justify-content: center;
+    //    align-items: center;
+    //    padding-top: 42px;
+    //    position: relative;
+    //
+    //    &:before {
+    //        position: absolute;
+    //        width: 28px;
+    //        height: 31px;
+    //        left:-35px;
+    //        content: "";
+    //        background-image: url("../../images/textEffects/leftStrings.png");
+    //    }
+    //
+    //    &:after {
+    //        position: absolute;
+    //        width: 27px;
+    //        height: 25px;
+    //        right:-35px;
+    //        content: "";
+    //        background-image: url("../../images/textEffects/rightStrings.png");
+    //    }
+    //
+    //    p {
+    //        position: relative;
+    //        color:  #ffffff;
+    //        font-size: 35px;
+    //        font-weight: 500;
+    //        text-align: center;
+    //        text-shadow: 0px 9px 8px rgba(0, 0, 0, 0.24);
+    //        width: max-content;
+    //        margin: 0 auto;
+    //    }
+    //}
+    //
+    //&__counter-image {
+    //    margin: 0 10px;
+    //}
 
     &__footer {
         flex-shrink: 0;
@@ -126,54 +127,54 @@
         flex-direction: column;
     }
 
-    &__odometer-style {
-        //font-family: Arial ;
-        color:  #ffffff !important;
-        font-size: 46.92px !important;
-        font-weight: 700 !important;
-        line-height: 39.997px !important;
-        background-color:  #600d0b !important;
-        border-radius: 0 !important;
-        padding: 5px !important;
-        margin: 0 10px !important;
-
-        :global {
-            .odometer-inside {
-                .odometer-digit {
-                    border-style: solid !important;
-                    border-width: 1px !important;
-                    border-color:  #510907 !important;
-                    box-sizing: border-box !important;
-                    background: -webkit-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
-                    background: -moz-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
-                    background: -o-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
-                    background: -ms-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
-                    background: linear-gradient(0deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
-
-
-                    border-radius: 5px!important;
-
-                    padding-top: 15px !important;
-                    padding-bottom: 15px !important;
-                    margin: 0 3px !important;
-                }
-            }
-
-            .odometer-ribbon {
-                color: #fff !important;
-            }
-
-            .odometer-digit-inner {
-                //display: flex !important;
-                //align-items: center !important;
-
-                //transition: all 800ms ease-out !important;
-
-                top: 15px !important;
-            }
-
-        }
-    }
+    //&__odometer-style {
+    //    //font-family: Arial ;
+    //    color:  #ffffff !important;
+    //    font-size: 46.92px !important;
+    //    font-weight: 700 !important;
+    //    line-height: 39.997px !important;
+    //    background-color:  #600d0b !important;
+    //    border-radius: 0 !important;
+    //    padding: 5px !important;
+    //    margin: 0 10px !important;
+    //
+    //    :global {
+    //        .odometer-inside {
+    //            .odometer-digit {
+    //                border-style: solid !important;
+    //                border-width: 1px !important;
+    //                border-color:  #510907 !important;
+    //                box-sizing: border-box !important;
+    //                background: -webkit-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+    //                background: -moz-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+    //                background: -o-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+    //                background: -ms-linear-gradient(90deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+    //                background: linear-gradient(0deg, #7c1513 0%, #c92c2a 50%, #7d1513 100%) !important;
+    //
+    //
+    //                border-radius: 5px!important;
+    //
+    //                padding-top: 15px !important;
+    //                padding-bottom: 15px !important;
+    //                margin: 0 3px !important;
+    //            }
+    //        }
+    //
+    //        .odometer-ribbon {
+    //            color: #fff !important;
+    //        }
+    //
+    //        .odometer-digit-inner {
+    //            //display: flex !important;
+    //            //align-items: center !important;
+    //
+    //            //transition: all 800ms ease-out !important;
+    //
+    //            top: 15px !important;
+    //        }
+    //
+    //    }
+    //}
 }
 
 @import "./LootBox.mobile.less";
