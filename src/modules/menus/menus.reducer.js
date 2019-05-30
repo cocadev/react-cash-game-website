@@ -5,7 +5,7 @@ const initialState = {
 	menuVisibility: false,
 	menuName: "",
 	tabIndex: false,
-	lootBoxVisibility: true
+	lootBoxVisibility: true,
 };
 
 const reducer = {
@@ -34,7 +34,7 @@ const reducer = {
 	[actions.hideLootBox]: (state) => ({
 		...state,
 		lootBoxVisibility: false
-	}),
+	})
 };
 
 
