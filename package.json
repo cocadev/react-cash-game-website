@@ -84,12 +84,5 @@
     "redux-act": "^1.7.4",
     "redux-saga": "^0.16.1",
     "store": "^2.0.12"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://flarevictor@bitbucket.org/fangames/lootboxcash.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "homepage": "https://bitbucket.org/fangames/lootboxcash#readme"
+  }
 }
