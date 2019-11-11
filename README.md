@@ -1,6 +1,5 @@
 # README #
 
-<img src="screenshots/demoImage.png" width="100%" />
 
 
 This README would normally document whatever steps are necessary to get your application up and running.
@@ -48,7 +47,7 @@ This README would normally document whatever steps are necessary to get your app
 *    "redux": "^4.0.0",
 *    "redux-act": "^1.7.4",
 *    "redux-saga": "^0.16.1",
-*   "store": "^2.0.12"
+*    "store": "^2.0.12"
 
 ### How do I get set up? ###
 
